@@ -89,6 +89,30 @@ app.get('/profile/:rollNo', async (req, res) => {
     }
 });
 
+
+// Update profile by roll number
+app.put('/profile/:rollNo', async (req, res) => {
+    const { rollNo } = req.params;
+    const updateData = req.body;
+
+    try {
+        const updatedProfile = await Profile.findOneAndUpdate(
+            { rollNo },
+            updateData,
+            { new: true, runValidators: true }
+        );
+
+        if (updatedProfile) {
+            res.status(200).json({ profile: updatedProfile });
+        } else {
+            res.status(404).json({ message: 'Profile not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: 'An error occurred', error: err.message });
+    }
+});
+
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

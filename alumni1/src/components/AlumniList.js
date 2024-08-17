@@ -1,6 +1,7 @@
 // AlumniList.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './AlumniList.css';
 
 function AlumniList() {
     const [profiles, setProfiles] = useState([]);

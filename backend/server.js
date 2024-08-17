@@ -6,10 +6,8 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 5050;
 
-
 app.use(express.json());
 app.use(cors()); 
-
 
 const dbURI = process.env.MONGODB_URI;
 
@@ -37,38 +35,34 @@ const User = mongoose.model('User', userSchema);
 const Admin = mongoose.model('Admin', adminSchema);
 const Profile = mongoose.model('Profile', profileSchema);
 
-
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB successfully.'))
     .catch((err) => console.error('Error connecting to MongoDB:', err.message));
 
-
+// Login route
 app.post('/login', async (req, res) => {
     const { rollNo, password } = req.body;
 
     try {
-       
         let user = await User.findOne({ rollNo, password });
 
         if (user) {
-            return res.status(200).json({ message: 'Login successful' });
+            return res.status(200).json({ message: 'Login successful', rollNo });
         }
 
-        
         let admin = await Admin.findOne({ rollNo, password });
 
         if (admin) {
-            return res.status(200).json({ message: 'Admin login successful' });
+            return res.status(200).json({ message: 'Admin login successful', rollNo });
         }
 
-        
         res.status(401).json({ message: 'Invalid roll number or password' });
     } catch (err) {
         res.status(500).json({ message: 'An error occurred', error: err.message });
     }
 });
 
-
+// Fetch alumni profiles
 app.get('/alumni_list', async (req, res) => {
     try {
         const profiles = await Profile.find({});
@@ -78,6 +72,22 @@ app.get('/alumni_list', async (req, res) => {
     }
 });
 
+// Fetch user profile by roll number
+app.get('/profile/:rollNo', async (req, res) => {
+    const { rollNo } = req.params;
+
+    try {
+        const profile = await Profile.findOne({ rollNo });
+
+        if (profile) {
+            res.status(200).json({ profile });
+        } else {
+            res.status(404).json({ message: 'Profile not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: 'An error occurred', error: err.message });
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

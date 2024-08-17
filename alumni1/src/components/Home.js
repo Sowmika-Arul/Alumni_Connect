@@ -15,7 +15,6 @@ const Header = () => {
           <i className="fa-solid fa-envelope"></i>
           <i className="fa-solid fa-location-dot"></i>
           <i className="fa-solid fa-phone"></i>
-          {/* Add more social media icons as needed */}
         </div>
       </div>
     </header>
@@ -27,11 +26,10 @@ const Navbar = () => {
     <nav className="navbar">
       <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/alumni">Our Alumni</a></li>
+        <li><a href="/alumni_list">Our Alumni</a></li>
         <li><a href="/team">Events</a></li>
         <li><a href="/contact">Donation</a></li>
-        <li><a href="/contact">Chat</a></li>
-        {/* Add other menu items */}
+        <li><a href="/profile">Profile</a></li>
       </ul>
     </nav>
   );

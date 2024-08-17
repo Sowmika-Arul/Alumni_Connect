@@ -1,0 +1,69 @@
+/* AlumniList.css */
+.alumni-list-container {
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    min-height: 100vh;
+}
+
+.alumni-list-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.logout-button {
+    display: block;
+    margin: 0 auto 20px auto;
+    padding: 10px 20px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+    background-color: #c0392b;
+}
+
+.error-message {
+    color: #e74c3c;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.profile-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.profile-list li {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-list li p {
+    margin: 5px 0;
+    color: #333;
+}
+
+.profile-list li strong {
+    color: #333;
+}
+
+.profile-list li hr {
+    border: 0;
+    border-top: 1px solid #ddd;
+    margin: 10px 0;
+}

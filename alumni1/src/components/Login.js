@@ -22,6 +22,9 @@ function Login() {
             const data = await response.json();
 
             if (response.ok) {
+                
+                localStorage.setItem('rollNo', rollNo);
+
                 if (data.message === 'Login successful') {
                     // navigate('/alumni_list');
                     navigate('/home');

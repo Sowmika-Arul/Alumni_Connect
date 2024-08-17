@@ -24,8 +24,19 @@ const adminSchema = new mongoose.Schema({
     password: { type: String, required: true }
 }, { collection: 'Admin_Login' });
 
+const profileSchema = new mongoose.Schema({
+    rollNo: { type: String, required: true, unique: true },
+    name: { type: String },
+    batch: { type: String },
+    department: { type: String },
+    specialization: { type: String },
+    location: { type: String },
+    industry: { type: String }
+}, { collection: 'Alumni_Profile' });
+
 const User = mongoose.model('User', userSchema);
 const Admin = mongoose.model('Admin', adminSchema);
+const Profile = mongoose.model('Profile', profileSchema);
 
 // Connect to MongoDB
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -41,20 +52,30 @@ app.post('/login', async (req, res) => {
         let user = await User.findOne({ rollNo, password });
 
         if (user) {
-            return res.status(200).send({ message: 'Login successful' });
+            return res.status(200).json({ message: 'Login successful' });
         }
 
         // If not found, check in the 'Admin_Login' collection
         let admin = await Admin.findOne({ rollNo, password });
 
         if (admin) {
-            return res.status(200).send({ message: 'Admin login successful' });
+            return res.status(200).json({ message: 'Admin login successful' });
         }
 
         // If neither is found
-        res.status(401).send({ message: 'Invalid roll number or password' });
+        res.status(401).json({ message: 'Invalid roll number or password' });
     } catch (err) {
-        res.status(500).send({ message: 'An error occurred', error: err.message });
+        res.status(500).json({ message: 'An error occurred', error: err.message });
+    }
+});
+
+// Route to fetch all alumni profiles
+app.get('/alumni_list', async (req, res) => {
+    try {
+        const profiles = await Profile.find({});
+        res.status(200).json({ profiles });
+    } catch (err) {
+        res.status(500).json({ message: 'An error occurred', error: err.message });
     }
 });
 

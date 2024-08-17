@@ -23,7 +23,8 @@ function Login() {
 
             if (response.ok) {
                 if (data.message === 'Login successful') {
-                    navigate('/alumni_list');
+                    // navigate('/alumni_list');
+                    navigate('/home');
                 }
             } else {
                 setError(data.message);

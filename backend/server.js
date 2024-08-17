@@ -1,19 +1,18 @@
-require('dotenv').config(); // Load environment variables
+require('dotenv').config(); 
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors'); // Import CORS middleware
+const cors = require('cors'); 
 
 const app = express();
 const PORT = process.env.PORT || 5050;
 
-// Middleware to parse JSON bodies
-app.use(express.json());
-app.use(cors()); // Enable CORS for all routes
 
-// MongoDB connection string from .env file
+app.use(express.json());
+app.use(cors()); 
+
+
 const dbURI = process.env.MONGODB_URI;
 
-// Define Mongoose schemas and models for the collections
 const userSchema = new mongoose.Schema({
     rollNo: { type: String, required: true, unique: true },
     password: { type: String, required: true }
@@ -38,38 +37,38 @@ const User = mongoose.model('User', userSchema);
 const Admin = mongoose.model('Admin', adminSchema);
 const Profile = mongoose.model('Profile', profileSchema);
 
-// Connect to MongoDB
+
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB successfully.'))
     .catch((err) => console.error('Error connecting to MongoDB:', err.message));
 
-// Login route
+
 app.post('/login', async (req, res) => {
     const { rollNo, password } = req.body;
 
     try {
-        // First, check in the 'login' collection
+       
         let user = await User.findOne({ rollNo, password });
 
         if (user) {
             return res.status(200).json({ message: 'Login successful' });
         }
 
-        // If not found, check in the 'Admin_Login' collection
+        
         let admin = await Admin.findOne({ rollNo, password });
 
         if (admin) {
             return res.status(200).json({ message: 'Admin login successful' });
         }
 
-        // If neither is found
+        
         res.status(401).json({ message: 'Invalid roll number or password' });
     } catch (err) {
         res.status(500).json({ message: 'An error occurred', error: err.message });
     }
 });
 
-// Route to fetch all alumni profiles
+
 app.get('/alumni_list', async (req, res) => {
     try {
         const profiles = await Profile.find({});
@@ -79,7 +78,7 @@ app.get('/alumni_list', async (req, res) => {
     }
 });
 
-// Start the server
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

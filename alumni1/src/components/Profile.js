@@ -45,6 +45,10 @@ const Profile = () => {
         setIsEditing(true);
     };
 
+    const handleAddInformationClick = () => {
+        navigate('/add_information'); // Route to add information page
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -83,6 +87,13 @@ const Profile = () => {
             {error && <p>{error}</p>}
             {profile ? (
                 <div className="profile-details">
+                    <div>
+                        <img 
+                            src={profile.photo || '/default-profile.jpg'} // Display photo URL from the database
+                            alt="Profile" 
+                            style={{ width: '150px', height: '150px', borderRadius: '50%' }} // Styling the image
+                        />
+                    </div>
                     {isEditing ? (
                         <form onSubmit={handleSubmit}>
                             <div>
@@ -149,6 +160,24 @@ const Profile = () => {
                                     onChange={handleChange}
                                 />
                             </div>
+                            <div>
+                                <label>Email:</label>
+                                <input
+                                    type="text"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div>
+                                <label>Photo URL:</label>
+                                <input
+                                    type="text"
+                                    name="photoUrl"
+                                    value={formData.photoUrl}
+                                    onChange={handleChange}
+                                />
+                            </div>
                             <button type="submit">Save</button>
                             <button type="button" onClick={() => setIsEditing(false)}>Cancel</button>
                         </form>
@@ -161,7 +190,9 @@ const Profile = () => {
                             <p><strong>Specialization:</strong> {profile.specialization}</p>
                             <p><strong>Location:</strong> {profile.location}</p>
                             <p><strong>Industry:</strong> {profile.industry}</p>
+                            <p><strong>Email:</strong> {profile.email}</p>
                             <button onClick={handleEditClick}>Edit</button>
+                            <button onClick={handleAddInformationClick}>Add Information</button> {/* New Button */}
                         </>
                     )}
                 </div>

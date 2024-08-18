@@ -2,15 +2,26 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors'); 
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 5050;
 
 app.use(express.json());
 app.use(cors()); 
+const upload = multer({ dest: 'uploads/' });
+
+// Ensure the 'uploads' directory exists
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+}
 
 const dbURI = process.env.MONGODB_URI;
 
+// Define schemas and models
 const userSchema = new mongoose.Schema({
     rollNo: { type: String, required: true, unique: true },
     password: { type: String, required: true }
@@ -28,12 +39,26 @@ const profileSchema = new mongoose.Schema({
     department: { type: String },
     specialization: { type: String },
     location: { type: String },
-    industry: { type: String }
+    industry: { type: String },
+    photo: {type: String},
+    email: {type: String},
 }, { collection: 'Alumni_Profile' });
+
+const informationSchema = new mongoose.Schema({
+    rollNo: { type: String, required: true },
+    phoneNumber: { type: String },
+    linkedIn: { type: String },
+    github: { type: String },
+    leetcode: { type: String },
+    achievements: { type: String },
+    successStory: { type: String },
+    pictures: [{ url: { type: String }, }]
+}, { collection: 'Information' });
 
 const User = mongoose.model('User', userSchema);
 const Admin = mongoose.model('Admin', adminSchema);
 const Profile = mongoose.model('Profile', profileSchema);
+const Information = mongoose.model('Information', informationSchema);
 
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB successfully.'))
@@ -89,7 +114,6 @@ app.get('/profile/:rollNo', async (req, res) => {
     }
 });
 
-
 // Update profile by roll number
 app.put('/profile/:rollNo', async (req, res) => {
     const { rollNo } = req.params;
@@ -112,6 +136,38 @@ app.put('/profile/:rollNo', async (req, res) => {
     }
 });
 
+app.post('/add_information', upload.array('pictures', 10), async (req, res) => {
+    try {
+        const { rollNo, phoneNumber, linkedIn, github, leetcode, achievements, successStory } = req.body;
+        const pictures = req.files.map(file => {
+            const fileName = `${Date.now()}-${file.originalname}`;
+            const filePath = path.join('uploads', fileName);
+            return { url: filePath };
+        });
+
+        // Validate rollNo presence
+        if (!rollNo) {
+            return res.status(400).json({ message: 'Roll number is required' });
+        }
+
+        const information = new Information({
+            rollNo,
+            phoneNumber,
+            linkedIn,
+            github,
+            leetcode,
+            achievements,
+            successStory,
+            pictures,
+        });
+
+        await information.save();
+        res.status(200).json({ message: 'Information added successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to add information' });
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

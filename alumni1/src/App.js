@@ -5,6 +5,7 @@ import Login from './components/Login';
 import AlumniList from './components/AlumniList';
 import Home from './components/Home';
 import Profile from './components/Profile'
+import Add from './components/Add_information'
 
 function App() {
     return (
@@ -13,7 +14,8 @@ function App() {
                 <Route path="/" element={<Login />} />
                 <Route path="/alumni_list" element={<AlumniList />} />
                 <Route path="/home" element={<Home />} />
-                <Route path="/profile" element={<Profile />} />   
+                <Route path="/profile" element={<Profile />} />  
+                <Route path="/add_information" element={<Add/>} />
             </Routes>
         </Router>
     );

@@ -1,7 +1,7 @@
-require('dotenv').config(); 
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors'); 
+const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
@@ -10,7 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 5050;
 
 app.use(express.json());
-app.use(cors()); 
+app.use(cors());
 const upload = multer({ dest: 'uploads/' });
 
 // Ensure the 'uploads' directory exists
@@ -40,8 +40,8 @@ const profileSchema = new mongoose.Schema({
     specialization: { type: String },
     location: { type: String },
     industry: { type: String },
-    photo: {type: String},
-    email: {type: String},
+    photo: { type: String },
+    email: { type: String },
 }, { collection: 'Alumni_Profile' });
 
 const informationSchema = new mongoose.Schema({
@@ -55,10 +55,18 @@ const informationSchema = new mongoose.Schema({
     pictures: [{ url: { type: String }, }]
 }, { collection: 'Information' });
 
+const eventSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    date: { type: Date, required: true },
+    venue: { type: String, required: true },
+    time: { type: String, required: true },
+}, { collection: 'Events' });
+
 const User = mongoose.model('User', userSchema);
 const Admin = mongoose.model('Admin', adminSchema);
 const Profile = mongoose.model('Profile', profileSchema);
 const Information = mongoose.model('Information', informationSchema);
+const Event = mongoose.model('Event', eventSchema);
 
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB successfully.'))
@@ -72,13 +80,13 @@ app.post('/login', async (req, res) => {
         let user = await User.findOne({ rollNo, password });
 
         if (user) {
-            return res.status(200).json({ message: 'Login successful', rollNo });
+            return res.status(200).json({ message: 'Login successful', role: 'user', rollNo });
         }
 
         let admin = await Admin.findOne({ rollNo, password });
 
         if (admin) {
-            return res.status(200).json({ message: 'Admin login successful', rollNo });
+            return res.status(200).json({ message: 'Admin login successful', role: 'admin', rollNo });
         }
 
         res.status(401).json({ message: 'Invalid roll number or password' });
@@ -136,6 +144,7 @@ app.put('/profile/:rollNo', async (req, res) => {
     }
 });
 
+// Add information
 app.post('/add_information', upload.array('pictures', 10), async (req, res) => {
     try {
         const { rollNo, phoneNumber, linkedIn, github, leetcode, achievements, successStory } = req.body;
@@ -166,6 +175,68 @@ app.post('/add_information', upload.array('pictures', 10), async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Failed to add information' });
+    }
+});
+
+// Fetch events
+app.get('/events', async (req, res) => {
+    try {
+        const events = await Event.find({});
+        res.status(200).json({ events });
+    } catch (err) {
+        res.status(500).json({ message: 'An error occurred', error: err.message });
+    }
+});
+
+// Add event
+app.post('/events', async (req, res) => {
+    const { name, date, venue, time } = req.body;
+
+    try {
+        const event = new Event({ name, date, venue, time });
+        await event.save();
+        res.status(200).json({ message: 'Event added successfully' });
+    } catch (err) {
+        res.status(500).json({ message: 'An error occurred', error: err.message });
+    }
+});
+
+// Update event
+app.put('/events/:id', async (req, res) => {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    try {
+        const updatedEvent = await Event.findByIdAndUpdate(
+            id,
+            updateData,
+            { new: true, runValidators: true }
+        );
+
+        if (updatedEvent) {
+            res.status(200).json({ event: updatedEvent });
+        } else {
+            res.status(404).json({ message: 'Event not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: 'An error occurred', error: err.message });
+    }
+});
+
+// Delete event
+app.delete('/events/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const deletedEvent = await Event.findByIdAndDelete(id);
+
+        if (deletedEvent) {
+            res.status(200).json({ message: 'Event deleted successfully' });
+        } else {
+            res.status(404).json({ message: 'Event not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: 'An error occurred', error: err.message });
     }
 });
 

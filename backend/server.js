@@ -50,8 +50,8 @@ const informationSchema = new mongoose.Schema({
     linkedIn: { type: String },
     github: { type: String },
     leetcode: { type: String },
-    achievements: { type: String },
-    successStory: { type: String },
+    achievements: [{ type: String }],
+    successStory: [{ type: String }],
     pictures: [{ url: { type: String }, }]
 }, { collection: 'Information' });
 
@@ -144,39 +144,64 @@ app.put('/profile/:rollNo', async (req, res) => {
     }
 });
 
-// Add information
-app.post('/add_information', upload.array('pictures', 10), async (req, res) => {
+// Get information by rollNo
+app.get('/get_information/:rollNo', async (req, res) => {
+    const { rollNo } = req.params;
     try {
-        const { rollNo, phoneNumber, linkedIn, github, leetcode, achievements, successStory } = req.body;
-        const pictures = req.files.map(file => {
-            const fileName = `${Date.now()}-${file.originalname}`;
-            const filePath = path.join('uploads', fileName);
-            return { url: filePath };
-        });
-
-        // Validate rollNo presence
-        if (!rollNo) {
-            return res.status(400).json({ message: 'Roll number is required' });
+        const data = await Information.findOne({ rollNo });
+        if (data) {
+            res.json(data);
+        } else {
+            res.status(404).send('Information not found');
         }
-
-        const information = new Information({
-            rollNo,
-            phoneNumber,
-            linkedIn,
-            github,
-            leetcode,
-            achievements,
-            successStory,
-            pictures,
-        });
-
-        await information.save();
-        res.status(200).json({ message: 'Information added successfully' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Failed to add information' });
+    } catch (err) {
+        res.status(500).send('Server error');
     }
 });
+
+app.post('/add_information', upload.array('pictures', 10), async (req, res) => {
+    const { rollNo, phoneNumber, linkedIn, github, leetcode, achievements, successStory } = req.body;
+    const pictures = req.files.map(file => ({ url: file.path }));
+
+    try {
+        let info = await Information.findOne({ rollNo });
+
+        if (info) {
+            // Update existing record
+            info.phoneNumber = phoneNumber;
+            info.linkedIn = linkedIn;
+            info.github = github;
+            info.leetcode = leetcode;
+            if (achievements) {
+                info.achievements = Array.isArray(achievements) ? achievements : [achievements];
+            }
+            if (successStory) {
+                info.successStory = Array.isArray(successStory) ? successStory : [successStory];
+            }
+            info.pictures = [...info.pictures, ...pictures];
+        } else {
+            // Create new record
+            info = new Information({
+                rollNo,
+                phoneNumber,
+                linkedIn,
+                github,
+                leetcode,
+                achievements: Array.isArray(achievements) ? achievements : [achievements],
+                successStory: Array.isArray(successStory) ? successStory : [successStory],
+                pictures
+            });
+        }
+
+        await info.save();
+        res.status(200).send('Information saved successfully');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
+
 
 // Fetch events
 app.get('/events', async (req, res) => {

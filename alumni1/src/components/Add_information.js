@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const AddInformation = () => {
@@ -7,12 +7,46 @@ const AddInformation = () => {
         linkedIn: '',
         github: '',
         leetcode: '',
-        achievements: '',
-        successStory: '',
+        achievements: [],
+        successStory: [],
     });
     const [pictures, setPictures] = useState([]);
     const [error, setError] = useState('');
+    const [newAchievement, setNewAchievement] = useState('');
+    const [newStory, setNewStory] = useState('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // Fetch rollNo from localStorage
+        const rollNo = localStorage.getItem('rollNo');
+        if (!rollNo) {
+            navigate('/login'); // Redirect to login if rollNo is not available
+            return;
+        }
+
+        const fetchInformation = async () => {
+            try {
+                const response = await fetch(`http://localhost:5050/get_information/${rollNo}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setFormData({
+                        phoneNumber: data.phoneNumber || '',
+                        linkedIn: data.linkedIn || '',
+                        github: data.github || '',
+                        leetcode: data.leetcode || '',
+                        achievements: data.achievements || [],
+                        successStory: data.successStory || [],
+                    });
+                } else {
+                    setError('Failed to fetch information');
+                }
+            } catch (err) {
+                setError('An error occurred');
+            }
+        };
+
+        fetchInformation();
+    }, [navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -21,6 +55,22 @@ const AddInformation = () => {
 
     const handleFileChange = (e) => {
         setPictures(e.target.files);
+    };
+
+    const handleAddAchievement = () => {
+        setFormData((prevData) => ({
+            ...prevData,
+            achievements: [...prevData.achievements, newAchievement],
+        }));
+        setNewAchievement('');
+    };
+
+    const handleAddStory = () => {
+        setFormData((prevData) => ({
+            ...prevData,
+            successStory: [...prevData.successStory, newStory],
+        }));
+        setNewStory('');
     };
 
     const handleSubmit = async (e) => {
@@ -35,9 +85,15 @@ const AddInformation = () => {
 
         const formDataObj = new FormData();
         formDataObj.append('rollNo', rollNo); // Include rollNo in the form data
+
         for (const key in formData) {
-            formDataObj.append(key, formData[key]);
+            if (Array.isArray(formData[key])) {
+                formData[key].forEach((item) => formDataObj.append(key, item));
+            } else {
+                formDataObj.append(key, formData[key]);
+            }
         }
+
         for (let i = 0; i < pictures.length; i++) {
             formDataObj.append('pictures', pictures[i]);
         }
@@ -101,19 +157,35 @@ const AddInformation = () => {
                 </div>
                 <div>
                     <label>Achievements:</label>
-                    <textarea
-                        name="achievements"
-                        value={formData.achievements}
-                        onChange={handleChange}
-                    ></textarea>
+                    <ul>
+                        {formData.achievements.map((achievement, index) => (
+                            <li key={index}>{achievement}</li>
+                        ))}
+                    </ul>
+                    <input
+                        type="text"
+                        value={newAchievement}
+                        onChange={(e) => setNewAchievement(e.target.value)}
+                    />
+                    <button type="button" onClick={handleAddAchievement}>
+                        Add Achievement
+                    </button>
                 </div>
                 <div>
-                    <label>Success Story:</label>
-                    <textarea
-                        name="successStory"
-                        value={formData.successStory}
-                        onChange={handleChange}
-                    ></textarea>
+                    <label>Success Stories:</label>
+                    <ul>
+                        {formData.successStory.map((story, index) => (
+                            <li key={index}>{story}</li>
+                        ))}
+                    </ul>
+                    <input
+                        type="text"
+                        value={newStory}
+                        onChange={(e) => setNewStory(e.target.value)}
+                    />
+                    <button type="button" onClick={handleAddStory}>
+                        Add Story
+                    </button>
                 </div>
                 <div>
                     <label>Upload Pictures:</label>

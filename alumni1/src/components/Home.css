@@ -74,7 +74,7 @@ html, body {
   
 
   .hero {
-    background-image: url('E:\Alumni-Connect-using-Compass\alumni1\public\images\Graduation.jpg');
+    background-image: url('/public/images/Graduation.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

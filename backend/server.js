@@ -5,6 +5,7 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const { truncate } = require('fs/promises');
 
 const app = express();
 const PORT = process.env.PORT || 5050;
@@ -265,6 +266,54 @@ app.delete('/events/:id', async (req, res) => {
     }
 });
 
+
+  app.get('/api/events', async (req, res) => {
+    try {
+      const events = await Event.find();
+      res.json(events);
+    } catch (error) {
+      res.status(500).json({ message: 'Error fetching events' });
+    }
+  });
+  
+  app.post('/api/events', async (req, res) => {
+    try {
+      const event = new Event(req.body);
+      await event.save();
+      res.status(201).json(event);
+    } catch (error) {
+      res.status(500).json({ message: 'Error creating event' });
+    }
+  });
+  app.put('/events/:id', async (req, res) => {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    try {
+        const updatedEvent = await Event.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
+
+        if (updatedEvent) {
+            res.status(200).json({ event: updatedEvent });
+        } else {
+            res.status(404).json({ message: 'Event not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: 'An error occurred', error: err.message });
+    }
+});
+
+  
+  app.delete('/api/events/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      await Event.findByIdAndDelete(id);
+      res.status(200).json({ message: 'Event deleted' });
+    } catch (error) {
+      res.status(500).json({ message: 'Error deleting event' });
+    }
+  });
+
+  
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

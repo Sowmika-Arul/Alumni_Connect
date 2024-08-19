@@ -1,0 +1,82 @@
+/* src/Events.css */
+
+.events {
+    background: url('E:\Alumni-Connect-using-Compass\alumni1\public\images\back.jpg') no-repeat center center fixed;
+    background-size: cover; /* Ensure the image covers the entire background */
+    background-color: #000; /* Fallback color for areas not covered by the image */
+    min-height: 100vh; /* Full viewport height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    color: #D6D6D6; /* Light gray for text */
+  }
+  
+  .events h1 {
+    color: #baf7ff; /* Cool blue for headings */
+    margin-bottom: 20px;
+    font-size: 3em; /* Larger font size for the heading */
+  }
+  
+  .events button {
+    background-color: #8eeffc; /* Cool blue for button */
+    color: black; /* White text */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  
+  .events button:hover {
+    background-color: rgb(152, 209, 255); /* Slightly darker blue on hover */
+  }
+  
+  .events ul {
+    list-style: none; /* Remove default bullet points */
+    padding: 0;
+    margin: 0;
+  }
+  
+  .events li {
+    margin: 20px 0;
+    padding: 15px;
+    border-left: 5px solid #39d1ff; /* Blue line for emphasis */
+    border-radius: 5px;
+  }
+  
+  .events li h2 {
+    color: #8eeffc; /* Cool blue for event titles */
+    margin: 0;
+    font-size: 1.8em;
+  }
+  
+  .events li p {
+    margin: 5px 0;
+    color: #fffcfc; /* Light gray for paragraphs */
+  }
+  
+  .events p.no-events {
+    color: #8eeffc; /* Cool blue for no events found text */
+    font-size: 1.2em;
+    font-style: italic;
+  }
+  
+  .logout-button {
+    position: absolute;
+    top: 20px; /* Adjust distance from the top as needed */
+    right: 20px; /* Adjust distance from the right as needed */
+    background-color: #8eeffc; /* Cool blue for button */
+    color: black; /* White text */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+  }
+  
+  .logout-button:hover {
+    background-color: #1be4ff; /* Slightly darker blue on hover */
+  }

@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Profile from './components/Profile';
 import Add from './components/Add_information';
 import AdminHome from './components/AdminHome';
+import Events from './components/Events';
 
 function App() {
     return (
@@ -16,7 +17,7 @@ function App() {
                 <Route path="/alumni_list" element={<AlumniList />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/add_information" element={<Add />} />
+                <Route path="/add" element={<Add />} />
             </Routes>
         </Router>
     );

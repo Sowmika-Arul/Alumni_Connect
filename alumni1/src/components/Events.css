@@ -1,71 +1,82 @@
 /* src/Events.css */
+
 .events {
-    background-color: #2C2B30; /* Dark gray background */
-    color: #D6D6D6; /* Light gray text */
-    font-family: 'Arial', sans-serif;
-    padding: 40px;
-    border-radius: 20px; /* Rounded corners */
-    max-width: 800px;
-    margin: auto;
-    position: relative;
-    overflow: hidden; /* Hide overflow for creative shapes */
+    background: url('E:\Alumni-Connect-using-Compass\alumni1\public\images\back.jpg') no-repeat center center fixed;
+    background-size: cover; /* Ensure the image covers the entire background */
+    background-color: #000; /* Fallback color for areas not covered by the image */
+    min-height: 100vh; /* Full viewport height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-}
-
-h1 {
-    color: #F58F7C; /* Coral color for headings */
-    font-size: 3rem;
-    margin-bottom: 30px;
-    position: relative;
-    z-index: 2; /* Place above background */
-}
-
-button {
-    background-color: #F58F7C; /* Coral color for the button */
-    color: #2C2B30; /* Dark gray text */
+    padding: 20px;
+    color: #D6D6D6; /* Light gray for text */
+  }
+  
+  .events h1 {
+    color: #baf7ff; /* Cool blue for headings */
+    margin-bottom: 20px;
+    font-size: 3em; /* Larger font size for the heading */
+  }
+  
+  .events button {
+    background-color: #8eeffc; /* Cool blue for button */
+    color: black; /* White text */
     border: none;
-    border-radius: 50px; /* Oval button */
-    padding: 12px 30px;
-    font-size: 1.2rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
     cursor: pointer;
     margin-bottom: 20px;
-    transition: background-color 0.3s ease;
-    position: relative;
-    z-index: 2; /* Place above background */
-}
-
-button:hover {
-    background-color: #D6D6D6; /* Light gray on hover */
-    color: #2C2B30; /* Dark gray text on hover */
-}
-
-ul {
-    list-style-type: none;
+  }
+  
+  .events button:hover {
+    background-color: rgb(152, 209, 255); /* Slightly darker blue on hover */
+  }
+  
+  .events ul {
+    list-style: none; /* Remove default bullet points */
     padding: 0;
-    position: relative;
-    z-index: 2; /* Place above background */
-}
-
-li {
-    background: #4F4F51; /* Gray background for items */
-    border: 3px solid #F58F7C; /* Coral border */
-    border-radius: 20px; /* Rounded edges */
-    padding: 20px;
-    margin: 20px auto; /* Center-align with auto margins */
-    width: 80%;
-    max-width: 350px;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5); /* Deep shadow for depth */
-    position: relative;
-    z-index: 2; /* Place above background */
-    transform: rotate(-5deg); /* Slight rotation for a dynamic look */
-}
-
-h2 {
-    color: #F58F7C; /* Coral color for event titles */
-    margin: 0 0 10px 0;
-}
-
-p {
-    color: #D6D6D6; /* Light gray for readability */
+    margin: 0;
+  }
+  
+  .events li {
+    margin: 20px 0;
+    padding: 15px;
+    border-left: 5px solid #39d1ff; /* Blue line for emphasis */
+    border-radius: 5px;
+  }
+  
+  .events li h2 {
+    color: #8eeffc; /* Cool blue for event titles */
+    margin: 0;
+    font-size: 1.8em;
+  }
+  
+  .events li p {
     margin: 5px 0;
-}
+    color: #fffcfc; /* Light gray for paragraphs */
+  }
+  
+  .events p.no-events {
+    color: #8eeffc; /* Cool blue for no events found text */
+    font-size: 1.2em;
+    font-style: italic;
+  }
+  
+  .logout-button {
+    position: absolute;
+    top: 20px; /* Adjust distance from the top as needed */
+    right: 20px; /* Adjust distance from the right as needed */
+    background-color: #8eeffc; /* Cool blue for button */
+    color: black; /* White text */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+  }
+  
+  .logout-button:hover {
+    background-color: #1be4ff; /* Slightly darker blue on hover */
+  }

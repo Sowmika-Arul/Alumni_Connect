@@ -28,7 +28,7 @@ const Events = () => {
     return (
         <div className="events">
             <h1>Upcoming Events</h1>
-            <button onClick={handleLogout}>Logout</button>
+            <button className="logout-button" onClick={handleLogout}>Logout</button>
             {events.length > 0 ? (
                 <ul>
                     {events.map(event => (
@@ -41,7 +41,7 @@ const Events = () => {
                     ))}
                 </ul>
             ) : (
-                <p>No events found.</p>
+                <p className="no-events">No events found.</p>
             )}
         </div>
     );

@@ -1,5 +1,7 @@
+// src/AdminHome.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './AdminHome.css';
 
 function AdminHome() {
     const [events, setEvents] = useState([]);
@@ -9,11 +11,12 @@ function AdminHome() {
     const [time, setTime] = useState('');
     const [editingEvent, setEditingEvent] = useState(null);
     const navigate = useNavigate();
+
     const handleLogout = () => {
-      localStorage.removeItem('rollNo'); // Clear rollNo on logout
-      navigate('/');
-  };
-    // Fetch events on component mount
+        localStorage.removeItem('rollNo'); // Clear rollNo on logout
+        navigate('/');
+    };
+
     useEffect(() => {
         fetchEvents();
     }, []);
@@ -107,10 +110,11 @@ function AdminHome() {
     };
 
     return (
-        <div>
-            <h1>Admin Event Management</h1>
-            <button onClick={handleLogout}>Logout</button>
-            <form onSubmit={handleAddEvent}>
+        <div className="admin-home">
+            <button className="logout-button" onClick={handleLogout}>Logout</button>
+            <h1>Upcoming Events</h1>
+            <form onSubmit={handleAddEvent} className="admin-form">
+                <h2>Add Event</h2>
                 <input
                     type="text"
                     placeholder="Event Name"
@@ -141,7 +145,7 @@ function AdminHome() {
             </form>
 
             {editingEvent && (
-                <form onSubmit={handleUpdateEvent}>
+                <form onSubmit={handleUpdateEvent} className="admin-form">
                     <h2>Edit Event</h2>
                     <input
                         type="text"

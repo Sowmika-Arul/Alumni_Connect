@@ -17,7 +17,9 @@ function App() {
                 <Route path="/alumni_list" element={<AlumniList />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/add_information" element={<Add />} />
+                <Route path="/add" element={<Add />} />
+                <Route path="/events" element={<Events />} />
+            
             </Routes>
         </Router>
     );

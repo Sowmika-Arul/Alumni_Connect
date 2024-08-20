@@ -2,15 +2,13 @@
 .admin-home {
     position: relative;
     color: #F0F0F0; 
-    min-height: 100vh; 
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     padding: 20px;
-    overflow: hidden; /* Prevent scrolling */
     margin: 0;
-    background: linear-gradient(135deg, #000000, #ffccba); /* Black to orange gradient background */
+    background: linear-gradient(135deg, #000000, #ffccba); 
 }
   
 .admin-home::before {
@@ -26,7 +24,7 @@
 }
   
 .admin-home h1 {
-    color: #FFD700; /* Gold color for header */
+    color: #FFD700; 
     margin-bottom: 20px;
     font-size: 2.5em;
 }
@@ -47,8 +45,8 @@
 }
   
 .admin-form {
-    background: rgba(0, 0, 0, 0.8); /* Dark background for form */
-    color: #FFD700; /* Gold color for text */
+    background: rgba(0, 0, 0, 0.8); 
+    color: #FFD700; 
     padding: 20px;
     border-radius: 10px;
     width: 100%;
@@ -62,11 +60,11 @@
     width: calc(100% - 22px); 
     margin: 10px 0;
     padding: 10px;
-    border: 1px solid #FFD700; /* Gold border */
+    border: 1px solid #FFD700;
     border-radius: 5px;
     font-size: 1em;
-    background-color: #333333; /* Dark input background */
-    color: #FFD700; /* Gold text color */
+    background-color: #333333; 
+    color: #FFD700; 
 }
   
 .admin-form button {
@@ -81,16 +79,6 @@
   
 .admin-form button:hover {
     background-color: #FF6347; /* Slightly lighter orange */
-}
-  
-.existing-events {
-    max-height: none; /* Remove max-height to show all events */
-    overflow: visible; /* Ensure content is visible */
-    width: 100%;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.6); /* Slightly transparent dark background */
-    border-radius: 10px;
-    
 }
   
 .admin-home ul {

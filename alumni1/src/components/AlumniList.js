@@ -1,4 +1,3 @@
-// AlumniList.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AlumniList.css';
@@ -32,6 +31,10 @@ function AlumniList() {
         navigate('/');
     };
 
+    const viewDetails = (rollNo) => {
+        navigate(`/alumni_details/${rollNo}`);
+    };
+
     return (
         <div>
             <h2>Alumni List</h2>
@@ -48,6 +51,7 @@ function AlumniList() {
                             <p><strong>Specialization:</strong> {profile.specialization}</p>
                             <p><strong>Location:</strong> {profile.location}</p>
                             <p><strong>Industry:</strong> {profile.industry}</p>
+                            <button onClick={() => viewDetails(profile.rollNo)}>View Details</button>
                             <hr />
                         </li>
                     ))

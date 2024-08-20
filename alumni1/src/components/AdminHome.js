@@ -1,7 +1,7 @@
 // src/AdminHome.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './AdminHome.css';
+// import './AdminHome.css';
 
 function AdminHome() {
     const [events, setEvents] = useState([]);
@@ -176,7 +176,6 @@ function AdminHome() {
                     <button type="submit">Update Event</button>
                 </form>
             )}
-
             <h2>Existing Events</h2>
             <ul>
                 {events.map(event => (
@@ -190,7 +189,7 @@ function AdminHome() {
                     </li>
                 ))}
             </ul>
-        </div>
+            </div>
     );
 }
 

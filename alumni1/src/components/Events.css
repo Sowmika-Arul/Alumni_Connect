@@ -1,7 +1,7 @@
 /* src/Events.css */
 
 .events {
-    background: url('E:\Alumni-Connect-using-Compass\alumni1\public\images\back.jpg') no-repeat center center fixed;
+    background: url('/public/images/back.jpg') no-repeat center center fixed;
     background-size: cover; /* Ensure the image covers the entire background */
     background-color: #000; /* Fallback color for areas not covered by the image */
     min-height: 100vh; /* Full viewport height */

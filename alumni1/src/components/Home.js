@@ -1,5 +1,6 @@
 import React from 'react';
 import './Home.css';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -27,7 +28,7 @@ const Navbar = () => {
       <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/alumni_list">Our Alumni</a></li>
-        <li><a href="/team">Events</a></li>
+        <li><Link to="/events">Events</Link></li>
         <li><a href="/contact">Donation</a></li>
         <li><a href="/profile">Profile</a></li>
       </ul>

@@ -1,0 +1,71 @@
+/* src/Events.css */
+.events {
+    background-color: #2C2B30; /* Dark gray background */
+    color: #D6D6D6; /* Light gray text */
+    font-family: 'Arial', sans-serif;
+    padding: 40px;
+    border-radius: 20px; /* Rounded corners */
+    max-width: 800px;
+    margin: auto;
+    position: relative;
+    overflow: hidden; /* Hide overflow for creative shapes */
+    text-align: center;
+}
+
+h1 {
+    color: #F58F7C; /* Coral color for headings */
+    font-size: 3rem;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 2; /* Place above background */
+}
+
+button {
+    background-color: #F58F7C; /* Coral color for the button */
+    color: #2C2B30; /* Dark gray text */
+    border: none;
+    border-radius: 50px; /* Oval button */
+    padding: 12px 30px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+    position: relative;
+    z-index: 2; /* Place above background */
+}
+
+button:hover {
+    background-color: #D6D6D6; /* Light gray on hover */
+    color: #2C2B30; /* Dark gray text on hover */
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    position: relative;
+    z-index: 2; /* Place above background */
+}
+
+li {
+    background: #4F4F51; /* Gray background for items */
+    border: 3px solid #F58F7C; /* Coral border */
+    border-radius: 20px; /* Rounded edges */
+    padding: 20px;
+    margin: 20px auto; /* Center-align with auto margins */
+    width: 80%;
+    max-width: 350px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5); /* Deep shadow for depth */
+    position: relative;
+    z-index: 2; /* Place above background */
+    transform: rotate(-5deg); /* Slight rotation for a dynamic look */
+}
+
+h2 {
+    color: #F58F7C; /* Coral color for event titles */
+    margin: 0 0 10px 0;
+}
+
+p {
+    color: #D6D6D6; /* Light gray for readability */
+    margin: 5px 0;
+}

@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Profile from './components/Profile';
 import Add from './components/Add_information';
 import AdminHome from './components/AdminHome';
+import Events from './components/Events';
 
 function App() {
     return (
@@ -17,6 +18,8 @@ function App() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/add" element={<Add />} />
+                <Route path="/events" element={<Events />} />
+            
             </Routes>
         </Router>
     );

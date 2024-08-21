@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Add_information.css'; 
 
 const AddInformation = () => {
     const [formData, setFormData] = useState({
@@ -117,7 +118,7 @@ const AddInformation = () => {
     return (
         <div>
             <h2>Add Information</h2>
-            {error && <p>{error}</p>}
+            {error && <p className="error">{error}</p>}
             <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div>
                     <label>Phone Number:</label>

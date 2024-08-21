@@ -1,24 +1,31 @@
-/* AlumniList.css */
+/* General container styling */
 .alumni-list-container {
     margin: 0;
     padding: 20px;
     font-family: Arial, sans-serif;
-    background: #f4f4f4;
+    background: #1A1A1A; /* Dark background */
+    color: #F4F4F4; /* Light text color */
     min-height: 100vh;
 }
 
+/* Header styling */
 .alumni-list-container h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: #333;
+    color: #FFC107; /* Yellow color */
+    font-size: 28px;
+    font-weight: bold;
+    border-bottom: 2px solid #FFA500; /* Orange underline */
+    padding-bottom: 10px;
 }
 
+/* Logout button styling */
 .logout-button {
     display: block;
     margin: 0 auto 20px auto;
     padding: 10px 20px;
     background-color: #e74c3c;
-    color: white;
+    color: #FFFFFF; /* White text */
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -30,58 +37,93 @@
     background-color: #c0392b;
 }
 
+/* Error message styling */
 .error-message {
-    color: #e74c3c;
+    color: #FF0000; /* Red for errors */
     text-align: center;
     margin: 20px 0;
 }
 
-.profile-list {
-    list-style-type: none;
+/* Alumni profile grid */
+.profile-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
     padding: 0;
-    margin: 0;
-    max-width: 900px;
     margin: 0 auto;
+    max-width: 1200px;
 }
 
-.profile-list li {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    padding: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+/* Individual profile card styling */
+.profile-card {
+    background: #2C2C2C; /* Dark gray background */
+    border: 2px solid #FFC107; /* Yellow border */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Strong shadow */
+    width: calc(33.333% - 20px); /* Adjust to fit 3 cards per row with a gap */
+    box-sizing: border-box;
 }
 
-.profile-list li p {
-    margin: 5px 0;
-    color: #333;
+/* Paragraph styling with added spacing */
+.profile-card p {
+    margin: 10px 0; /* Added spacing between each detail */
+    color: #F4F4F4; /* Light text color */
+    line-height: 1.5; /* Improved readability */
 }
 
-.profile-list li strong {
-    color: #333;
+/* Styling for emphasized text */
+.profile-card strong {
+    color: #FFC107; /* Yellow color for strong text */
 }
 
-.profile-list li hr {
+/* Horizontal rule within cards */
+.profile-card hr {
     border: 0;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #FFC107; /* Yellow horizontal rule */
     margin: 10px 0;
 }
 
-/* AlumniList.css */
+/* Button styling within cards */
+.profile-card button {
+    background-color: #FFC107; /* Yellow */
+    color: #1A1A1A; /* Dark text */
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
 
+.profile-card button:hover {
+    background-color: #1A1A1A; /* Dark background */
+    color: #FFC107; /* Yellow text */
+}
+
+/* Filters styling */
 .filters {
     margin-bottom: 20px;
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
+    justify-content: center;
 }
 
+/* Styling for dropdown filters */
 .filters select {
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 14px;
-    width: calc(25% - 20px); /* Adjust width to fit within a responsive layout */
-    background-color: #f0f0f0;
+    background-color: #3A3A3A; /* Darker gray background for filters */
+    color: #F4F4F4; /* Light text */
+    width: calc(25% - 20px); /* Adjust width for a responsive layout */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Slight shadow */
+}
+
+.filters select option {
+    background-color: #2C2C2C; /* Dark background for options */
+    color: #F4F4F4; /* Light text */
 }

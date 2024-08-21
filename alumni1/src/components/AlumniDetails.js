@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import './AlumniDetails.css'; // Import the CSS file
 
 function AlumniDetails() {
     const { rollNo } = useParams();
@@ -31,11 +32,11 @@ function AlumniDetails() {
     };
 
     if (error) {
-        return <p>{error}</p>;
+        return <p className="error-message">{error}</p>;
     }
 
     return (
-        <div>
+        <div className="alumni-details-container">
             <h2>Alumni Details</h2>
             {profile ? (
                 <div>
@@ -46,21 +47,25 @@ function AlumniDetails() {
                     
                     <div>
                         <h3>Achievements</h3>
-                        <ul>
+                        <div className="achievements-container">
                             {profile.achievements.map((achievement, index) => (
-                                <li key={index}>{achievement}</li>
+                                <div className="achievement-box" key={index}>
+                                    {achievement}
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     </div>
                     <div>
                         <h3>Success Stories</h3>
-                        <ul>
+                        <div className="success-stories-container">
                             {profile.successStory.map((story, index) => (
-                                <li key={index}>{story}</li>
+                                <div className="success-story-box" key={index}>
+                                    {story}
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     </div>
-                    <button onClick={handleBack}>Back to List</button>
+                    <button className="back-button" onClick={handleBack}>Back to List</button>
                 </div>
             ) : (
                 <p>Loading...</p>

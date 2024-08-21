@@ -71,10 +71,10 @@ function AlumniList() {
     const uniqueLocations = [...new Set(profiles.map(profile => profile.location))];
 
     return (
-        <div>
+        <div className="alumni-list-container">
             <h2>Alumni List</h2>
-            <button onClick={handleLogout}>Logout</button>
-            {error && <p>{error}</p>}
+            <button className="logout-button" onClick={handleLogout}>Logout</button>
+            {error && <p className="error-message">{error}</p>}
 
             <div className="filters">
                 <select name="department" value={filters.department} onChange={handleFilterChange}>
@@ -114,10 +114,10 @@ function AlumniList() {
                 </select>
             </div>
 
-            <ul>
+            <div className="profile-grid">
                 {filteredProfiles.length > 0 ? (
                     filteredProfiles.map((profile) => (
-                        <li key={profile.rollNo}>
+                        <div className="profile-card" key={profile.rollNo}>
                             <p><strong>Roll No:</strong> {profile.rollNo}</p>
                             <p><strong>Name:</strong> {profile.name}</p>
                             <p><strong>Batch:</strong> {profile.batch}</p>
@@ -127,12 +127,12 @@ function AlumniList() {
                             <p><strong>Industry:</strong> {profile.industry}</p>
                             <button onClick={() => viewDetails(profile.rollNo)}>View Details</button>
                             <hr />
-                        </li>
+                        </div>
                     ))
                 ) : (
                     <p>No profiles available</p>
                 )}
-            </ul>
+            </div>
         </div>
     );
 }

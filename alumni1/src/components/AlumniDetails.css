@@ -1,0 +1,153 @@
+/* Container styling */
+.alumni-details-container {
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #1A1A1A; /* Dark background */
+    color: #F4F4F4; /* Light text color */
+    min-height: 100vh;
+}
+
+/* Header styling */
+.alumni-details-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #FFC107; /* Yellow color */
+    font-size: 28px;
+    font-weight: bold;
+    border-bottom: 2px solid #FFA500; /* Orange underline */
+    padding-bottom: 10px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Paragraph styling */
+.alumni-details-container p {
+    margin: 10px 0;
+    color: #F4F4F4; /* Light text color */
+    font-size: 16px;
+    line-height: 1.5; /* Improved readability */
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Links styling */
+.alumni-details-container a {
+    color: #FFC107; /* Yellow color for links */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.alumni-details-container a:hover {
+    color: #FFA500; /* Orange color on hover */
+    text-decoration: underline;
+}
+
+/* Section heading styling */
+.alumni-details-container h3 {
+    color: #FFA500; /* Orange color */
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 22px;
+    border-bottom: 1px solid #FFC107; /* Yellow underline */
+    padding-bottom: 5px;
+    animation: slideIn 1s ease-out;
+}
+
+/* Unordered list styling */
+.alumni-details-container ul {
+    list-style-type: none; /* Remove default list style */
+    padding: 0;
+    margin: 0;
+}
+
+/* Container for achievements and success stories */
+.achievements-container,
+.success-stories-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* Achievements and success stories boxes */
+.achievement-box,
+.success-story-box {
+    background: #2C2C2C; /* Dark gray background */
+    border: 1px solid #FFC107; /* Yellow border */
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Light shadow */
+    width: calc(50% - 15px); /* Two boxes per row with a gap */
+    box-sizing: border-box;
+    opacity: 0; /* Start hidden */
+    animation: fadeInUp 1s forwards; /* Animation */
+}
+
+/* List items inside the boxes */
+.achievement-box,
+.success-story-box {
+    color: #F4F4F4; /* Light text color */
+    line-height: 1.5;
+}
+
+/* Back button styling */
+.back-button {
+    display: block;
+    margin: 30px auto 0 auto;
+    padding: 10px 20px;
+    background-color: #FFC107; /* Yellow */
+    color: #1A1A1A; /* Dark text */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+    animation: pulse 1s infinite; /* Animation */
+}
+
+.back-button:hover {
+    background-color: #1A1A1A; /* Dark background */
+    color: #FFC107; /* Yellow text */
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

@@ -1,0 +1,115 @@
+/* Profile.css - Black, Yellow, and Orange Theme with Black Accents */
+
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1A1A1A; /* Dark background for contrast */
+    color: #F4F4F4; /* Light gray text */
+  }
+  
+  /* Container for central alignment and responsive width */
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Profile Styles */
+  .profile-details {
+    background-color: #2C2C2C; /* Dark gray background */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Stronger shadow for depth */
+    padding: 30px;
+    margin-top: 20px;
+    border: 2px solid #FFC107; /* Yellow border for accent */
+  }
+  
+  h2 {
+    color: #FFC107; /* Yellow */
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    border-bottom: 2px solid #FFA500; /* Orange border under heading */
+    padding-bottom: 10px;
+  }
+  
+  img {
+    display: block;
+    margin: 0 auto 20px auto;
+    border: 5px solid #FFA500; /* Orange border */
+    border-radius: 50%;
+  }
+  
+  button {
+    background-color: #FFC107; /* Yellow */
+    color: #1A1A1A; /* Dark text */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 10px;
+  }
+  
+  button:hover {
+    background-color: #1A1A1A; /* Black */
+    color: #FFC107; /* Yellow */
+  }
+  
+  button.cancel {
+    background-color: #FF4500; /* Orange-Red */
+    color: #FFFFFF; /* White text */
+  }
+  
+  button.cancel:hover {
+    background-color: #1A1A1A; /* Black */
+    color: #FF4500; /* Orange-Red */
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  label {
+    font-weight: bold;
+    color: #F4F4F4; /* Light gray */
+    margin-bottom: 5px;
+  }
+  
+  input {
+    padding: 10px;
+    border: 1px solid #F4F4F4; /* Light gray border */
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    background-color: #2C2C2C; /* Dark gray input background */
+    color: #F4F4F4; /* Light text */
+  }
+  
+  input:disabled {
+    background-color: #3A3A3A; /* Slightly darker gray for disabled state */
+    cursor: not-allowed;
+  }
+  
+  .error {
+    color: #FF0000; /* Red */
+    text-align: center;
+    margin: 10px 0;
+  }
+  
+  .profile-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .profile-details div {
+    margin-bottom: 15px;
+  }
+  

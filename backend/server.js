@@ -6,6 +6,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { truncate } = require('fs/promises');
+const { MongoClient } = require('mongodb');
 
 const app = express();
 const PORT = process.env.PORT || 5050;
@@ -312,8 +313,33 @@ app.delete('/events/:id', async (req, res) => {
       res.status(500).json({ message: 'Error deleting event' });
     }
   });
+  const client = new MongoClient(dbURI);
+  app.get('/alumni_list', async (req, res) => {
+    try {
+        const db = client.db('Alumni');
+        const collection = db.collection('Alumni_Profile');  // Replace with your actual collection name
 
-  
+        // Create an empty query object
+        const query = {};
+
+        // Check each filter and add it to the query if it exists
+        if (req.query.rollno) query.rollno = req.query.rollno;
+        if (req.query.name) query.name = req.query.name;
+        if (req.query.batch) query.batch = req.query.batch;
+        if (req.query.department) query.department = req.query.department;
+        if (req.query.specialization) query.specialization = req.query.specialization;
+        if (req.query.location) query.location = req.query.location;
+        if (req.query.industry) query.industry = req.query.industry;
+
+        // Find and return profiles based on the query
+        const profiles = await collection.find(query).toArray();
+        res.json({ profiles });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

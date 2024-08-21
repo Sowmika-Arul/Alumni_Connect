@@ -64,18 +64,11 @@ const eventSchema = new mongoose.Schema({
     time: { type: String, required: true },
 }, { collection: 'Events' });
 
-
-const imageSchema = new mongoose.Schema({
-    imageUrl: { type: String, required: true }
-}, { collection: 'Images' });
-
 const User = mongoose.model('User', userSchema);
 const Admin = mongoose.model('Admin', adminSchema);
 const Profile = mongoose.model('Profile', profileSchema);
 const Information = mongoose.model('Information', informationSchema);
 const Event = mongoose.model('Event', eventSchema);
-const Image = mongoose.model('Image', imageSchema);
-
 
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB successfully.'))
@@ -103,9 +96,6 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ message: 'An error occurred', error: err.message });
     }
 });
-
-
-app.use('/uploads', express.static('uploads'));
 
 // Fetch alumni profiles
 app.get('/alumni_list', async (req, res) => {
@@ -278,29 +268,50 @@ app.delete('/events/:id', async (req, res) => {
 });
 
 
-// Route to get images
-app.get('/images', async (req, res) => {
+  app.get('/api/events', async (req, res) => {
     try {
-        const images = await Image.find();
-        res.json(images);
+      const events = await Event.find();
+      res.json(events);
     } catch (error) {
-        res.status(500).send(error.toString());
+      res.status(500).json({ message: 'Error fetching events' });
+    }
+  });
+  
+  app.post('/api/events', async (req, res) => {
+    try {
+      const event = new Event(req.body);
+      await event.save();
+      res.status(201).json(event);
+    } catch (error) {
+      res.status(500).json({ message: 'Error creating event' });
+    }
+  });
+  app.put('/events/:id', async (req, res) => {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    try {
+        const updatedEvent = await Event.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
+
+        if (updatedEvent) {
+            res.status(200).json({ event: updatedEvent });
+        } else {
+            res.status(404).json({ message: 'Event not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: 'An error occurred', error: err.message });
     }
 });
 
-app.post('/upload', upload.single('image'), async (req, res) => {
+  
+  app.delete('/api/events/:id', async (req, res) => {
     try {
-        if (!req.file) {
-            return res.status(400).send('No file uploaded.');
-        }
-        const imageUrl = `http://localhost:5050/uploads/${req.file.filename}`;
-        const image = new Image({ imageUrl });
-        await image.save();
-        res.status(200).json({ message: 'Image uploaded successfully', imageUrl });
+      const { id } = req.params;
+      await Event.findByIdAndDelete(id);
+      res.status(200).json({ message: 'Event deleted' });
     } catch (error) {
-        res.status(500).send(error.toString());
+      res.status(500).json({ message: 'Error deleting event' });
     }
-<<<<<<< HEAD
   });
   const client = new MongoClient(dbURI);
   app.get('/alumni_list', async (req, res) => {
@@ -327,8 +338,6 @@ app.post('/upload', upload.single('image'), async (req, res) => {
         console.error(err);
         res.status(500).send('Internal Server Error');
     }
-=======
->>>>>>> f1a23e322897e9e9f32f7ef3a382e5bb5b165374
 });
 
 app.listen(PORT, () => {

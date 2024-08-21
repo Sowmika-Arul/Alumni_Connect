@@ -67,3 +67,21 @@
     border-top: 1px solid #ddd;
     margin: 10px 0;
 }
+
+/* AlumniList.css */
+
+.filters {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.filters select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    width: calc(25% - 20px); /* Adjust width to fit within a responsive layout */
+    background-color: #f0f0f0;
+}

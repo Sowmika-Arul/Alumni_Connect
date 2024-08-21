@@ -1,94 +1,28 @@
-// import React, { useEffect, useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import './AlumniList.css';
-
-// function AlumniList() {
-//     const [profiles, setProfiles] = useState([]);
-//     const [error, setError] = useState('');
-//     const navigate = useNavigate();
-
-//     useEffect(() => {
-//         const fetchProfiles = async () => {
-//             try {
-//                 const response = await fetch('http://localhost:5050/alumni_list');
-
-//                 if (response.ok) {
-//                     const data = await response.json();
-//                     setProfiles(data.profiles);
-//                 } else {
-//                     setError('Failed to fetch alumni profiles');
-//                 }
-//             } catch (err) {
-//                 setError('An error occurred');
-//             }
-//         };
-
-//         fetchProfiles();
-//     }, []);
-
-//     const handleLogout = () => {
-//         localStorage.removeItem('userProfile');
-//         navigate('/');
-//     };
-
-//     const viewDetails = (rollNo) => {
-//         navigate(`/alumni_details/${rollNo}`);
-//     };
-
-//     return (
-//         <div>
-//             <h2>Alumni List</h2>
-//             <button onClick={handleLogout}>Logout</button>
-//             {error && <p>{error}</p>}
-//             <ul>
-//                 {profiles.length > 0 ? (
-//                     profiles.map((profile) => (
-//                         <li key={profile.rollNo}>
-//                             <p><strong>Roll No:</strong> {profile.rollNo}</p>
-//                             <p><strong>Name:</strong> {profile.name}</p>
-//                             <p><strong>Batch:</strong> {profile.batch}</p>
-//                             <p><strong>Department:</strong> {profile.department}</p>
-//                             <p><strong>Specialization:</strong> {profile.specialization}</p>
-//                             <p><strong>Location:</strong> {profile.location}</p>
-//                             <p><strong>Industry:</strong> {profile.industry}</p>
-//                             <button onClick={() => viewDetails(profile.rollNo)}>View Details</button>
-//                             <hr />
-//                         </li>
-//                     ))
-//                 ) : (
-//                     <p>No profiles available</p>
-//                 )}
-//             </ul>
-//         </div>
-//     );
-// }
-
-// export default AlumniList;
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AlumniList.css';
 
 function AlumniList() {
     const [profiles, setProfiles] = useState([]);
+    const [filteredProfiles, setFilteredProfiles] = useState([]);
     const [error, setError] = useState('');
     const [filters, setFilters] = useState({
-        batch: '',
         department: '',
         specialization: '',
-        location: '',
-        industry: ''
+        batch: '',
+        location: ''
     });
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProfiles = async () => {
             try {
-                const queryParams = new URLSearchParams(filters);
-                const response = await fetch(`http://localhost:5050/alumni_list?${queryParams.toString()}`);
+                const response = await fetch('http://localhost:5050/alumni_list');
 
                 if (response.ok) {
                     const data = await response.json();
                     setProfiles(data.profiles);
+                    setFilteredProfiles(data.profiles); // Set initial filtered profiles to all profiles
                 } else {
                     setError('Failed to fetch alumni profiles');
                 }
@@ -98,7 +32,7 @@ function AlumniList() {
         };
 
         fetchProfiles();
-    }, [filters]);
+    }, []);
 
     const handleLogout = () => {
         localStorage.removeItem('userProfile');
@@ -111,11 +45,30 @@ function AlumniList() {
 
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
-        setFilters(prevFilters => ({
-            ...prevFilters,
-            [name]: value
-        }));
+        setFilters(prevFilters => ({ ...prevFilters, [name]: value }));
     };
+
+    useEffect(() => {
+        const applyFilters = () => {
+            const filtered = profiles.filter(profile => {
+                return (
+                    (filters.department === '' || profile.department.includes(filters.department)) &&
+                    (filters.specialization === '' || profile.specialization.includes(filters.specialization)) &&
+                    (filters.batch === '' || profile.batch.toString().includes(filters.batch)) &&
+                    (filters.location === '' || profile.location.includes(filters.location))
+                );
+            });
+            setFilteredProfiles(filtered);
+        };
+
+        applyFilters();
+    }, [filters, profiles]);
+
+    // Extract unique values for dropdowns
+    const uniqueDepartments = [...new Set(profiles.map(profile => profile.department))];
+    const uniqueSpecializations = [...new Set(profiles.map(profile => profile.specialization))];
+    const uniqueBatches = [...new Set(profiles.map(profile => profile.batch))];
+    const uniqueLocations = [...new Set(profiles.map(profile => profile.location))];
 
     return (
         <div>
@@ -124,40 +77,46 @@ function AlumniList() {
             {error && <p>{error}</p>}
 
             <div className="filters">
-                <select name="batch" onChange={handleFilterChange}>
-                    <option value="">All Batches</option>
-                    <option value="2022 - 2026">2022 - 2026</option>
-                    {/* Add more batches as needed */}
-                </select>
-
-                <select name="department" onChange={handleFilterChange}>
+                <select name="department" value={filters.department} onChange={handleFilterChange}>
                     <option value="">All Departments</option>
-                    <option value="CSE">CSE</option>
-                    {/* Add more departments as needed */}
+                    {uniqueDepartments.map(department => (
+                        <option key={department} value={department}>
+                            {department}
+                        </option>
+                    ))}
                 </select>
 
-                <select name="specialization" onChange={handleFilterChange}>
+                <select name="specialization" value={filters.specialization} onChange={handleFilterChange}>
                     <option value="">All Specializations</option>
-                    <option value="AI">AI</option>
-                    {/* Add more specializations as needed */}
+                    {uniqueSpecializations.map(specialization => (
+                        <option key={specialization} value={specialization}>
+                            {specialization}
+                        </option>
+                    ))}
                 </select>
 
-                <select name="location" onChange={handleFilterChange}>
+                <select name="batch" value={filters.batch} onChange={handleFilterChange}>
+                    <option value="">All Batches</option>
+                    {uniqueBatches.map(batch => (
+                        <option key={batch} value={batch}>
+                            {batch}
+                        </option>
+                    ))}
+                </select>
+
+                <select name="location" value={filters.location} onChange={handleFilterChange}>
                     <option value="">All Locations</option>
-                    <option value="Salem">Salem</option>
-                    {/* Add more locations as needed */}
-                </select>
-
-                <select name="industry" onChange={handleFilterChange}>
-                    <option value="">All Industries</option>
-                    <option value="Zoho">Zoho</option>
-                    {/* Add more industries as needed */}
+                    {uniqueLocations.map(location => (
+                        <option key={location} value={location}>
+                            {location}
+                        </option>
+                    ))}
                 </select>
             </div>
 
             <ul>
-                {profiles.length > 0 ? (
-                    profiles.map((profile) => (
+                {filteredProfiles.length > 0 ? (
+                    filteredProfiles.map((profile) => (
                         <li key={profile.rollNo}>
                             <p><strong>Roll No:</strong> {profile.rollNo}</p>
                             <p><strong>Name:</strong> {profile.name}</p>

@@ -1,7 +1,7 @@
 // src/AdminHome.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import './AdminHome.css';
+import './AdminHome.css';
 
 function AdminHome() {
     const [events, setEvents] = useState([]);

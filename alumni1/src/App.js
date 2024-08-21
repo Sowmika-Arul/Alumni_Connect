@@ -15,7 +15,6 @@ import ImageGallery from './components/Images';
 import './App.css';
 
 function App() {
-    // If the user is not logged in (no username in localStorage), show the chat login form
     if (!localStorage.getItem('username')) {
         return (
             <LoginForm />
@@ -26,11 +25,11 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<Login />} />
-                <Route path="/adminHome" element={<AdminHome />} />
                 <Route path="/alumni_list" element={<AlumniList />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/add_information" element={<Add />} />
+                <Route path="/adminHome" element={<AdminHome />} />
                 <Route path="/alumni_details/:rollNo" element={<AlumniDetails />} />
                 <Route path="/events" element={<Events />} />
                 <Route path="/images" element={<ImageGallery />} />

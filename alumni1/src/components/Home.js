@@ -38,11 +38,15 @@ const Navbar = () => {
 };
 
 const MainContent = () => {
+  const handleSchemesClick = () => {
+    window.location.href = 'https://www.myscheme.gov.in/search/state/Gujarat';
+  };
+
   return (
     <main className="main-content">
       <section className="hero">
         <h1>WELCOME TO OUR UNIVERSITY</h1>
-        <button>About us</button>
+        <button onClick={handleSchemesClick}>Schemes</button>
       </section>
       <section className="courses">
         <div className="frame-container">
@@ -58,7 +62,7 @@ const MainContent = () => {
 const Footer = () => {
   return (
     <footer className="footer">
-      {/* Add footer content here */}
+      <p>&copy; 2024 Our University. All Rights Reserved.</p>
     </footer>
   );
 };

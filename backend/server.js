@@ -64,11 +64,17 @@ const eventSchema = new mongoose.Schema({
     time: { type: String, required: true },
 }, { collection: 'Events' });
 
+const imageSchema = new mongoose.Schema({
+    imageUrl: { type: String, required: true }
+}, { collection: 'Images' });
+
 const User = mongoose.model('User', userSchema);
 const Admin = mongoose.model('Admin', adminSchema);
 const Profile = mongoose.model('Profile', profileSchema);
 const Information = mongoose.model('Information', informationSchema);
 const Event = mongoose.model('Event', eventSchema);
+const Image = mongoose.model('Image', imageSchema);
+
 
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB successfully.'))
@@ -266,6 +272,33 @@ app.delete('/events/:id', async (req, res) => {
         res.status(500).json({ message: 'An error occurred', error: err.message });
     }
 });
+
+// Route to get images
+app.get('/images', async (req, res) => {
+    try {
+        const images = await Image.find();
+        res.json(images);
+    } catch (error) {
+        res.status(500).send(error.toString());
+    }
+});
+
+app.post('/upload', upload.single('image'), async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).send('No file uploaded.');
+        }
+        const imageUrl = `http: //localhost:5050/uploads/${req.file.filename}`;
+        const image = new Image({ imageUrl });
+        await image.save();
+        res.status(200).json({ message: 'Image uploaded successfully', imageUrl });
+    } catch (error) {
+        res.status(500).send(error.toString());
+    }
+});
+
+// Serve uploaded files
+app.use('/uploads', express.static('uploads'));
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

@@ -66,7 +66,12 @@ const ImageGallery = () => {
                         key={index}
                         src={image.imageUrl}
                         alt={`Artwork ${index}`} // Use a more descriptive alt text
-                        style={{ width: '200px', height: 'auto', margin: '10px' }}
+                        style={{ 
+                            width: '300px', 
+                            height: 'auto', 
+                            margin: '10px', 
+                            borderRadius: '0' // Ensure images are not circular
+                        }}
                     />
                 ))}
             </div>

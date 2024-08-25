@@ -6,6 +6,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { truncate } = require('fs/promises');
+const paypal = require('paypal-rest-sdk');
 const { MongoClient } = require('mongodb');
 
 const app = express();
@@ -15,6 +16,9 @@ app.use(express.json());
 app.use(cors());
 const upload = multer({ dest: 'uploads/' });
 
+// Serve uploaded files
+app.use('/uploads', express.static('uploads'));
+
 // Ensure the 'uploads' directory exists
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
@@ -22,6 +26,19 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 const dbURI = process.env.MONGODB_URI;
+
+// PayPal configuration
+paypal.configure({
+    mode: 'sandbox',
+    client_id: process.env.PAYPAL_CLIENT_ID,
+    client_secret: process.env.PAYPAL_CLIENT_SECRET,
+    log: {
+        level: 'info',
+        filePath: 'paypal.log',
+        maxSize: 10 * 1024 * 1024, // 10 MB
+        maxFiles: 5
+    }
+});
 
 // Define schemas and models
 const userSchema = new mongoose.Schema({
@@ -68,12 +85,20 @@ const imageSchema = new mongoose.Schema({
     imageUrl: { type: String, required: true }
 }, { collection: 'Images' });
 
+const donationSchema = new mongoose.Schema({
+    rollNo: { type: String, required: true },
+    amount: { type: Number, required: true },
+    transactionId: { type: String, required: true },
+    timestamp: { type: Date, default: Date.now }
+}, { collection: 'Donations' });
+
 const User = mongoose.model('User', userSchema);
 const Admin = mongoose.model('Admin', adminSchema);
 const Profile = mongoose.model('Profile', profileSchema);
 const Information = mongoose.model('Information', informationSchema);
 const Event = mongoose.model('Event', eventSchema);
 const Image = mongoose.model('Image', imageSchema);
+const Donation = mongoose.model('Donation', donationSchema);
 
 
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -297,8 +322,102 @@ app.post('/upload', upload.single('image'), async (req, res) => {
     }
 });
 
-// Serve uploaded files
-app.use('/uploads', express.static('uploads'));
+app.post('/donate', async (req, res) => {
+    const { amount, rollNo } = req.body;
+
+    if (!amount || !rollNo) {
+        return res.status(400).json({ message: 'Donation amount and roll number are required' });
+    }
+
+    const create_payment_json = {
+        intent: 'sale',
+        payer: {
+            payment_method: 'paypal'
+        },
+        redirect_urls: {
+            return_url: `http://localhost:${PORT}/success`,
+            cancel_url: `http://localhost:${PORT}/cancel`
+        },
+        transactions: [{
+            item_list: {
+                items: [{
+                    name: `Donation by ${rollNo}`,
+                    sku: '001',
+                    price: amount,
+                    currency: 'USD',
+                    quantity: 1
+                }]
+            },
+            amount: {
+                currency: 'USD',
+                total: amount
+            },
+            description: 'Alumni donation'
+        }]
+    };
+
+    paypal.payment.create(create_payment_json, function (error, payment) {
+        if (error) {
+            console.error('PayPal payment creation error:', error);
+            return res.status(500).json({ message: 'Error creating PayPal payment', error: error.message });
+        } else {
+            const approvalUrl = payment.links.find(link => link.rel === 'approval_url').href;
+            res.json({ forwardLink: approvalUrl });
+        }
+    });
+});
+
+// Success route
+app.get('/success', async (req, res) => {
+    const payerId = req.query.PayerID;
+    const paymentId = req.query.paymentId;
+
+    // Fetch the payment details to get the amount
+    paypal.payment.get(paymentId, function (error, payment) {
+        if (error) {
+            console.error('Error fetching payment details:', error);
+            return res.status(500).json({ message: 'Payment fetch failed' });
+        } else {
+            const amount = payment.transactions[0].amount.total; // Get the amount from the payment details
+
+            const execute_payment_json = {
+                payer_id: payerId,
+                transactions: [{
+                    amount: {
+                        currency: 'USD',
+                        total: amount // Use the fetched amount here
+                    }
+                }]
+            };
+
+            paypal.payment.execute(paymentId, execute_payment_json, async function (error, payment) {
+                if (error) {
+                    console.error('PayPal payment execution error:', error.response);
+                    return res.status(500).json({ message: 'Payment failed' });
+                } else {
+                    // Store the donation details without exposing sensitive information
+                    const donation = new Donation({
+                        rollNo: 'Anonymous', // Ideally, fetch the rollNo from your database if needed
+                        amount: payment.transactions[0].amount.total,
+                        transactionId: payment.id
+                    });
+
+                    try {
+                        await donation.save();
+                        res.json({ message: 'Thank you for your donation!' });
+                    } catch (err) {
+                        res.status(500).json({ message: 'Error saving donation details', error: err.message });
+                    }
+                }
+            });
+        }
+    });
+});
+
+// Cancel route
+app.get('/cancel', (req, res) => {
+    res.json({ message: 'Payment canceled' });
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

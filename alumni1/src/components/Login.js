@@ -196,10 +196,10 @@ function Login() {
     return (
         <div style={styles.body}>
             <div style={styles.header}>
-                <img src="/images/logo.png" alt="Department of School Education - Government of Tamil Nadu" style={styles.headerImg} />
+                <img src="/images/ab1.png" alt="Department of School Education - Government of Tamil Nadu" style={styles.headerImg} />
                 <div style={styles.headerText}>
                     <h1 style={styles.headerTextH1}>Department of School Education</h1>
-                    <p style={styles.headerTextP}>Government of Tamil Nadu</p>
+                    <p style={styles.headerTextP}>Government of Gujarat</p>
                 </div>
             </div>
 

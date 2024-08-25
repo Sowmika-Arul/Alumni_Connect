@@ -9,7 +9,6 @@ import AdminHome from './components/AdminHome';
 import AlumniDetails from './components/AlumniDetails';
 import Events from './components/Events';
 import ImageGallery from './components/Images';
-import Donate from './components/Donate';
 import './App.css';
 
 function App() {
@@ -25,7 +24,6 @@ function App() {
                 <Route path="/alumni_details/:rollNo" element={<AlumniDetails />} />
                 <Route path="/events" element={<Events />} />
                 <Route path="/images" element={<ImageGallery />} />
-                <Route path="/donate" element={<Donate/>} />
             </Routes>
         </Router>
     );

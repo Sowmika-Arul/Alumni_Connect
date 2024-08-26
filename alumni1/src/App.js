@@ -1,9 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-<<<<<<< HEAD
-import LoginForm from './components/LoginForm';
-=======
->>>>>>> cb675ef4099602d0b5daf3494726dc93a8736fff
 import Login from './components/Login';
 import AlumniList from './components/AlumniList';
 import Home from './components/Home';
@@ -27,12 +23,8 @@ function App() {
                 <Route path="/adminHome" element={<AdminHome />} />
                 <Route path="/alumni_details/:rollNo" element={<AlumniDetails />} />
                 <Route path="/events" element={<Events />} />
-<<<<<<< HEAD
                 <Route path="/jobs" element={<JobApplication />} />
                
-=======
-                <Route path="/images" element={<ImageGallery />} />
->>>>>>> cb675ef4099602d0b5daf3494726dc93a8736fff
             </Routes>
         </Router>
     );

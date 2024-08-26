@@ -306,7 +306,7 @@ app.post('/donate', async (req, res) => {
             payment_method: 'paypal'
         },
         redirect_urls: {
-            return_url: `http://localhost:${PORT}/success`,
+            return_url: `http://localhost:${PORT}/success?rollNo=${encodeURIComponent(rollNo)}`,
             cancel_url: `http://localhost:${PORT}/cancel`
         },
         transactions: [{
@@ -338,10 +338,10 @@ app.post('/donate', async (req, res) => {
     });
 });
 
-// Success route
 app.get('/success', async (req, res) => {
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
+    const rollNo = req.query.rollNo || 'Anonymous'; 
 
     // Fetch the payment details to get the amount
     paypal.payment.get(paymentId, function (error, payment) {
@@ -349,7 +349,7 @@ app.get('/success', async (req, res) => {
             console.error('Error fetching payment details:', error);
             return res.status(500).json({ message: 'Payment fetch failed' });
         } else {
-            const amount = payment.transactions[0].amount.total; // Get the amount from the payment details
+            const amount = payment.transactions[0].amount.total; 
 
             const execute_payment_json = {
                 payer_id: payerId,
@@ -366,9 +366,9 @@ app.get('/success', async (req, res) => {
                     console.error('PayPal payment execution error:', error.response);
                     return res.status(500).json({ message: 'Payment failed' });
                 } else {
-                    // Store the donation details without exposing sensitive information
+                    // Store the donation details with the rollNo
                     const donation = new Donation({
-                        rollNo: 'Anonymous', // Ideally, fetch the rollNo from your database if needed
+                        rollNo: rollNo,
                         amount: payment.transactions[0].amount.total,
                         transactionId: payment.id
                     });

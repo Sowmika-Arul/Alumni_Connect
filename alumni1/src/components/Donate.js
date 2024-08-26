@@ -9,7 +9,8 @@ function Donate() {
     const handleDonate = async (e) => {
         e.preventDefault();
 
-        const rollNo = localStorage.getItem('rollNo'); // Retrieve the roll number from local storage
+        const rollNo = localStorage.getItem('rollNo');
+        console.log(rollNo); // Retrieve the roll number from local storage
 
         if (!rollNo) {
             setError('Please log in to make a donation.');

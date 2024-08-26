@@ -64,16 +64,16 @@ const eventSchema = new mongoose.Schema({
     time: { type: String, required: true },
 }, { collection: 'Events' });
 
-const imageSchema = new mongoose.Schema({
-    imageUrl: { type: String, required: true }
-}, { collection: 'Images' });
+// const imageSchema = new mongoose.Schema({
+//     imageUrl: { type: String, required: true }
+// }, { collection: 'Images' });
 
 const User = mongoose.model('User', userSchema);
 const Admin = mongoose.model('Admin', adminSchema);
 const Profile = mongoose.model('Profile', profileSchema);
 const Information = mongoose.model('Information', informationSchema);
 const Event = mongoose.model('Event', eventSchema);
-const Image = mongoose.model('Image', imageSchema);
+//const Image = mongoose.model('Image', imageSchema);
 
 
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -273,7 +273,7 @@ app.delete('/events/:id', async (req, res) => {
     }
 });
 
-// Route to get images
+/*
 app.get('/images', async (req, res) => {
     try {
         const images = await Image.find();
@@ -296,9 +296,147 @@ app.post('/upload', upload.single('image'), async (req, res) => {
         res.status(500).send(error.toString());
     }
 });
-
-// Serve uploaded files
 app.use('/uploads', express.static('uploads'));
+*/
+const jobSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+});
+
+const Job = mongoose.model('Job', jobSchema);
+
+// Routes
+app.get('/api/jobs', async (req, res) => {
+    try {
+        const jobs = await Job.find();
+        res.json(jobs);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+app.post('/api/jobs', async (req, res) => {
+    const { title, description } = req.body;
+
+    try {
+        const newJob = new Job({ title, description });
+        await newJob.save();
+        res.status(201).json(newJob);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+// Job Application Schema
+const jobApplicationSchema = new mongoose.Schema({
+    jobId: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Job', 
+        required: true 
+    },
+    applicantId: { 
+        type: String, 
+        required: true 
+    },  // Use this to track which user applied
+    appliedAt: { 
+        type: Date, 
+        default: Date.now 
+    }
+});
+
+const JobApplication = mongoose.model('JobApplication', jobApplicationSchema);
+
+/*Apply for job
+app.post('/apply_job', async (req, res) => {
+    const { jobId, applicantId } = req.body;
+
+    try {
+        const jobApplication = new JobApplication({ jobId, applicantId });
+        await jobApplication.save();
+        res.status(200).json({ message: 'Job application submitted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: 'An error occurred while submitting the application', error: err.message });
+    }
+});
+*/
+// Update a job
+app.put('/api/jobs/:id', async (req, res) => {
+    const { id } = req.params;
+    const { title, description } = req.body;
+
+    // Validate input
+    if (!title || !description) {
+        return res.status(400).json({ message: 'Title and description are required' });
+    }
+
+    try {
+        // Find the job and update it
+        const updatedJob = await Job.findByIdAndUpdate(
+            id,
+            { title, description },
+            { new: true, runValidators: true } // Return the updated document and run validators
+        );
+
+        // Check if the job was found
+        if (!updatedJob) {
+            return res.status(404).json({ message: 'Job not found' });
+        }
+
+        // Respond with the updated job
+        res.json(updatedJob);
+    } catch (error) {
+        // Handle errors
+        console.error('Error updating job:', error);
+        res.status(400).json({ message: 'Error updating job', error: error.message });
+    }
+});
+
+
+// Delete a job
+app.delete('/api/jobs/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const deletedJob = await Job.findByIdAndDelete(id);
+        if (!deletedJob) {
+            return res.status(404).json({ message: 'Job not found' });
+        }
+        res.json({ message: 'Job deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Apply for a job
+app.post('/api/jobs/:id/apply', async (req, res) => {
+    const { id } = req.params;
+    const { applicantId } = req.body;
+
+    if (!applicantId) {
+        return res.status(400).json({ message: 'Applicant ID is required' });
+    }
+
+    try {
+        // Check if the job exists
+        const job = await Job.findById(id);
+        if (!job) {
+            return res.status(404).json({ message: 'Job not found' });
+        }
+
+        // Check if the applicant has already applied
+        const existingApplication = await JobApplication.findOne({ jobId: id, applicantId });
+        if (existingApplication) {
+            return res.status(400).json({ message: 'Already applied for this job' });
+        }
+
+        // Create a new job application
+        const jobApplication = new JobApplication({ jobId: id, applicantId });
+        await jobApplication.save();
+
+        res.status(200).json({ message: 'Job application submitted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: 'An error occurred while submitting the application', error: err.message });
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

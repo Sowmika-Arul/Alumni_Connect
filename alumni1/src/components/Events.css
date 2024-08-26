@@ -1,82 +1,119 @@
 /* src/Events.css */
 
 .events {
-    background: url('/public/images/back.jpg') no-repeat center center fixed;
-    background-size: cover; /* Ensure the image covers the entire background */
-    background-color: #000; /* Fallback color for areas not covered by the image */
-    min-height: 100vh; /* Full viewport height */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-    color: #D6D6D6; /* Light gray for text */
-  }
-  
+  background: url('/public/images/back.jpg') no-repeat center center fixed;
+  background-size: cover; /* Ensure the image covers the entire background */
+  background-color: #000; /* Fallback color for areas not covered by the image */
+  min-height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  color: #D6D6D6; /* Light gray for text */
+}
+
+.events h1 {
+  color: #baf7ff; /* Cool blue for headings */
+  margin-bottom: 20px;
+  font-size: 3em; /* Larger font size for the heading */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Add a subtle text shadow for depth */
+}
+
+.events button {
+  background-color: #8eeffc; /* Cool blue for button */
+  color: black; /* Black text */
+  border: none;
+  padding: 12px 24px; /* Slightly larger padding for better click area */
+  border-radius: 50px; /* More rounded buttons for a modern look */
+  font-size: 1.1em; /* Slightly larger font size */
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition on hover */
+}
+
+.events button:hover {
+  background-color: rgb(152, 209, 255); /* Slightly darker blue on hover */
+  transform: scale(1.05); /* Slightly scale up on hover */
+}
+
+.events ul {
+  list-style: none; /* Remove default bullet points */
+  padding: 0;
+  margin: 0;
+  max-width: 800px; /* Limit the width for better readability */
+  width: 100%; /* Ensure it scales down on smaller screens */
+}
+
+.events li {
+  margin: 20px 0;
+  padding: 20px; /* More padding for better spacing */
+  background: rgba(0, 0, 0, 0.6); /* Semi-transparent background for contrast */
+  border-left: 5px solid #39d1ff; /* Blue line for emphasis */
+  border-radius: 10px; /* More rounded corners */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Add a shadow for depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition on hover */
+}
+
+.events li:hover {
+  transform: translateY(-5px); /* Slight lift on hover */
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.7); /* Enhanced shadow on hover */
+}
+
+.events li h2 {
+  color: #8eeffc; /* Cool blue for event titles */
+  margin: 0;
+  font-size: 2em; /* Larger font size for titles */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Subtle text shadow for depth */
+}
+
+.events li p {
+  margin: 10px 0; /* More space between paragraphs */
+  color: #fffcfc; /* Light gray for paragraphs */
+  font-size: 1.1em; /* Slightly larger text for better readability */
+  line-height: 1.5; /* Improved line spacing */
+}
+
+.events p.no-events {
+  color: #8eeffc; /* Cool blue for no events found text */
+  font-size: 1.3em; /* Slightly larger font */
+  font-style: italic;
+}
+
+.logout-button {
+  position: absolute;
+  top: 20px; /* Adjust distance from the top as needed */
+  right: 20px; /* Adjust distance from the right as needed */
+  background-color: #8eeffc; /* Cool blue for button */
+  color: black; /* Black text */
+  border: none;
+  padding: 12px 24px; /* Slightly larger padding */
+  border-radius: 50px; /* More rounded buttons */
+  font-size: 1.1em; /* Slightly larger font size */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition on hover */
+}
+
+.logout-button:hover {
+  background-color: #1be4ff; /* Slightly darker blue on hover */
+  transform: scale(1.05); /* Slightly scale up on hover */
+}
+
+/* Media query for responsiveness */
+@media (max-width: 768px) {
   .events h1 {
-    color: #baf7ff; /* Cool blue for headings */
-    margin-bottom: 20px;
-    font-size: 3em; /* Larger font size for the heading */
-  }
-  
-  .events button {
-    background-color: #8eeffc; /* Cool blue for button */
-    color: black; /* White text */
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 1em;
-    cursor: pointer;
-    margin-bottom: 20px;
-  }
-  
-  .events button:hover {
-    background-color: rgb(152, 209, 255); /* Slightly darker blue on hover */
-  }
-  
-  .events ul {
-    list-style: none; /* Remove default bullet points */
-    padding: 0;
-    margin: 0;
+      font-size: 2.5em;
   }
   
   .events li {
-    margin: 20px 0;
-    padding: 15px;
-    border-left: 5px solid #39d1ff; /* Blue line for emphasis */
-    border-radius: 5px;
+      padding: 15px;
   }
-  
+
   .events li h2 {
-    color: #8eeffc; /* Cool blue for event titles */
-    margin: 0;
-    font-size: 1.8em;
+      font-size: 1.6em;
   }
-  
-  .events li p {
-    margin: 5px 0;
-    color: #fffcfc; /* Light gray for paragraphs */
-  }
-  
-  .events p.no-events {
-    color: #8eeffc; /* Cool blue for no events found text */
-    font-size: 1.2em;
-    font-style: italic;
-  }
-  
+
   .logout-button {
-    position: absolute;
-    top: 20px; /* Adjust distance from the top as needed */
-    right: 20px; /* Adjust distance from the right as needed */
-    background-color: #8eeffc; /* Cool blue for button */
-    color: black; /* White text */
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 1em;
-    cursor: pointer;
+      padding: 10px 20px;
   }
-  
-  .logout-button:hover {
-    background-color: #1be4ff; /* Slightly darker blue on hover */
-  }
+}

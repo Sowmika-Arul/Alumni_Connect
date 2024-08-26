@@ -12,11 +12,6 @@ function AdminHome() {
     const [editingEvent, setEditingEvent] = useState(null);
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-        localStorage.removeItem('rollNo'); // Clear rollNo on logout
-        navigate('/');
-    };
-
     useEffect(() => {
         fetchEvents();
     }, []);
@@ -29,6 +24,11 @@ function AdminHome() {
         } catch (err) {
             console.error('Failed to fetch events:', err);
         }
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('rollNo');
+        navigate('/');
     };
 
     const handleAddEvent = async (e) => {
@@ -45,15 +45,37 @@ function AdminHome() {
 
             if (response.ok) {
                 fetchEvents();
-                setName('');
-                setDate('');
-                setVenue('');
-                setTime('');
+                resetForm();
             } else {
                 console.error('Failed to add event');
             }
         } catch (err) {
             console.error('Error adding event:', err);
+        }
+    };
+
+    const handleUpdateEvent = async (e) => {
+        e.preventDefault();
+
+        if (!editingEvent) return;
+
+        try {
+            const response = await fetch(`http://localhost:5050/events/${editingEvent._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, date, venue, time })
+            });
+
+            if (response.ok) {
+                fetchEvents();
+                resetForm();
+            } else {
+                console.error('Failed to update event');
+            }
+        } catch (err) {
+            console.error('Error updating event:', err);
         }
     };
 
@@ -73,48 +95,30 @@ function AdminHome() {
         }
     };
 
-    const handleUpdateEvent = async (e) => {
-        e.preventDefault();
-        if (!editingEvent) return;
-
-        try {
-            const response = await fetch(`http://localhost:5050/events/${editingEvent._id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ name, date, venue, time })
-            });
-
-            if (response.ok) {
-                fetchEvents();
-                setName('');
-                setDate('');
-                setVenue('');
-                setTime('');
-                setEditingEvent(null);
-            } else {
-                console.error('Failed to update event');
-            }
-        } catch (err) {
-            console.error('Error updating event:', err);
-        }
-    };
-
     const handleEditClick = (event) => {
         setEditingEvent(event);
         setName(event.name);
-        setDate(event.date.split('T')[0]); // Convert to YYYY-MM-DD format
+        setDate(event.date.split('T')[0]);
         setVenue(event.venue);
         setTime(event.time);
+    };
+
+    const resetForm = () => {
+        setName('');
+        setDate('');
+        setVenue('');
+        setTime('');
+        setEditingEvent(null);
     };
 
     return (
         <div className="admin-home">
             <button className="logout-button" onClick={handleLogout}>Logout</button>
             <h1>Upcoming Events</h1>
-            <form onSubmit={handleAddEvent} className="admin-form">
-                <h2>Add Event</h2>
+            
+            {/* Add Event Form */}
+            <form onSubmit={editingEvent ? handleUpdateEvent : handleAddEvent} className="admin-form">
+                <h2>{editingEvent ? 'Edit Event' : 'Add Event'}</h2>
                 <input
                     type="text"
                     placeholder="Event Name"
@@ -141,55 +145,31 @@ function AdminHome() {
                     onChange={(e) => setTime(e.target.value)}
                     required
                 />
-                <button type="submit">Add Event</button>
+                <button type="submit">{editingEvent ? 'Update Event' : 'Add Event'}</button>
+                {editingEvent && (
+                    <button type="button" onClick={resetForm}>Cancel Edit</button>
+                )}
             </form>
 
-            {editingEvent && (
-                <form onSubmit={handleUpdateEvent} className="admin-form">
-                    <h2>Edit Event</h2>
-                    <input
-                        type="text"
-                        placeholder="Event Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="date"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="text"
-                        placeholder="Venue"
-                        value={venue}
-                        onChange={(e) => setVenue(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="time"
-                        value={time}
-                        onChange={(e) => setTime(e.target.value)}
-                        required
-                    />
-                    <button type="submit">Update Event</button>
-                </form>
-            )}
+            {/* Display Existing Events */}
             <h2>Existing Events</h2>
-            <ul>
-                {events.map(event => (
-                    <li key={event._id}>
-                        <h3>{event.name}</h3>
-                        <p>Date: {new Date(event.date).toLocaleDateString()}</p>
-                        <p>Venue: {event.venue}</p>
-                        <p>Time: {event.time}</p>
-                        <button onClick={() => handleDeleteEvent(event._id)}>Delete</button>
-                        <button onClick={() => handleEditClick(event)}>Edit</button>
-                    </li>
-                ))}
-            </ul>
+            <div className="existing-events">
+                {events.length > 0 ? (
+                    events.map(event => (
+                        <div key={event._id} className="event-detail-box">
+                            <h3>{event.name}</h3>
+                            <p>Date: {new Date(event.date).toLocaleDateString()}</p>
+                            <p>Venue: {event.venue}</p>
+                            <p>Time: {event.time}</p>
+                            <button onClick={() => handleDeleteEvent(event._id)}>Delete</button>
+                            <button onClick={() => handleEditClick(event)}>Edit</button>
+                        </div>
+                    ))
+                ) : (
+                    <p className="no-events">No events found.</p>
+                )}
             </div>
+        </div>
     );
 }
 

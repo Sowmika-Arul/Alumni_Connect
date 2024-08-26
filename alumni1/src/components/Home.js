@@ -28,7 +28,7 @@ const Navbar = () => {
       <ul>
         <li><a href="/alumni_list">Our Alumni</a></li>
         <li><Link to="/events">Events</Link></li>
-        <li><a href="/contact">Donation</a></li>
+        <li><a href="/donate">Donation</a></li>
         <li><a href="/profile">Profile</a></li>
         <li><Link to="/jobs">Job</Link></li> 
         <li><a href="/">Logout</a></li>

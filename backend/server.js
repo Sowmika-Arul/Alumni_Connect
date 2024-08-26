@@ -6,7 +6,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { truncate } = require('fs/promises');
-const { MongoClient } = require('mongodb');
+const paypal = require('paypal-rest-sdk');
 
 const app = express();
 const PORT = process.env.PORT || 5050;
@@ -15,6 +15,9 @@ app.use(express.json());
 app.use(cors());
 const upload = multer({ dest: 'uploads/' });
 
+// Serve uploaded files
+app.use('/uploads', express.static('uploads'));
+
 // Ensure the 'uploads' directory exists
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
@@ -22,6 +25,19 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 const dbURI = process.env.MONGODB_URI;
+
+// PayPal configuration
+paypal.configure({
+    mode: 'sandbox',
+    client_id: process.env.PAYPAL_CLIENT_ID,
+    client_secret: process.env.PAYPAL_CLIENT_SECRET,
+    log: {
+        level: 'info',
+        filePath: 'paypal.log',
+        maxSize: 10 * 1024 * 1024, // 10 MB
+        maxFiles: 5
+    }
+});
 
 // Define schemas and models
 const userSchema = new mongoose.Schema({
@@ -64,16 +80,20 @@ const eventSchema = new mongoose.Schema({
     time: { type: String, required: true },
 }, { collection: 'Events' });
 
-// const imageSchema = new mongoose.Schema({
-//     imageUrl: { type: String, required: true }
-// }, { collection: 'Images' });
+
+const donationSchema = new mongoose.Schema({
+    rollNo: { type: String, required: true },
+    amount: { type: Number, required: true },
+    transactionId: { type: String, required: true },
+    timestamp: { type: Date, default: Date.now }
+}, { collection: 'Donations' });
 
 const User = mongoose.model('User', userSchema);
 const Admin = mongoose.model('Admin', adminSchema);
 const Profile = mongoose.model('Profile', profileSchema);
 const Information = mongoose.model('Information', informationSchema);
 const Event = mongoose.model('Event', eventSchema);
-//const Image = mongoose.model('Image', imageSchema);
+const Donation = mongoose.model('Donation', donationSchema);
 
 
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -273,169 +293,101 @@ app.delete('/events/:id', async (req, res) => {
     }
 });
 
-/*
-app.get('/images', async (req, res) => {
-    try {
-        const images = await Image.find();
-        res.json(images);
-    } catch (error) {
-        res.status(500).send(error.toString());
-    }
-});
+app.post('/donate', async (req, res) => {
+    const { amount, rollNo } = req.body;
 
-app.post('/upload', upload.single('image'), async (req, res) => {
-    try {
-        if (!req.file) {
-            return res.status(400).send('No file uploaded.');
+    if (!amount || !rollNo) {
+        return res.status(400).json({ message: 'Donation amount and roll number are required' });
+    }
+
+    const create_payment_json = {
+        intent: 'sale',
+        payer: {
+            payment_method: 'paypal'
+        },
+        redirect_urls: {
+            return_url: `http://localhost:${PORT}/success?rollNo=${encodeURIComponent(rollNo)}`,
+            cancel_url: `http://localhost:${PORT}/cancel`
+        },
+        transactions: [{
+            item_list: {
+                items: [{
+                    name: `Donation by ${rollNo}`,
+                    sku: '001',
+                    price: amount,
+                    currency: 'USD',
+                    quantity: 1
+                }]
+            },
+            amount: {
+                currency: 'USD',
+                total: amount
+            },
+            description: 'Alumni donation'
+        }]
+    };
+
+    paypal.payment.create(create_payment_json, function (error, payment) {
+        if (error) {
+            console.error('PayPal payment creation error:', error);
+            return res.status(500).json({ message: 'Error creating PayPal payment', error: error.message });
+        } else {
+            const approvalUrl = payment.links.find(link => link.rel === 'approval_url').href;
+            res.json({ forwardLink: approvalUrl });
         }
-        const imageUrl = `http: //localhost:5050/uploads/${req.file.filename}`;
-        const image = new Image({ imageUrl });
-        await image.save();
-        res.status(200).json({ message: 'Image uploaded successfully', imageUrl });
-    } catch (error) {
-        res.status(500).send(error.toString());
-    }
-});
-app.use('/uploads', express.static('uploads'));
-*/
-const jobSchema = new mongoose.Schema({
-    title: { type: String, required: true },
-    description: { type: String, required: true },
+    });
 });
 
-const Job = mongoose.model('Job', jobSchema);
+app.get('/success', async (req, res) => {
+    const payerId = req.query.PayerID;
+    const paymentId = req.query.paymentId;
+    const rollNo = req.query.rollNo || 'Anonymous'; 
 
-// Routes
-app.get('/api/jobs', async (req, res) => {
-    try {
-        const jobs = await Job.find();
-        res.json(jobs);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
+    // Fetch the payment details to get the amount
+    paypal.payment.get(paymentId, function (error, payment) {
+        if (error) {
+            console.error('Error fetching payment details:', error);
+            return res.status(500).json({ message: 'Payment fetch failed' });
+        } else {
+            const amount = payment.transactions[0].amount.total; 
 
-app.post('/api/jobs', async (req, res) => {
-    const { title, description } = req.body;
+            const execute_payment_json = {
+                payer_id: payerId,
+                transactions: [{
+                    amount: {
+                        currency: 'USD',
+                        total: amount // Use the fetched amount here
+                    }
+                }]
+            };
 
-    try {
-        const newJob = new Job({ title, description });
-        await newJob.save();
-        res.status(201).json(newJob);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-});
+            paypal.payment.execute(paymentId, execute_payment_json, async function (error, payment) {
+                if (error) {
+                    console.error('PayPal payment execution error:', error.response);
+                    return res.status(500).json({ message: 'Payment failed' });
+                } else {
+                    // Store the donation details with the rollNo
+                    const donation = new Donation({
+                        rollNo: rollNo,
+                        amount: payment.transactions[0].amount.total,
+                        transactionId: payment.id
+                    });
 
-// Job Application Schema
-const jobApplicationSchema = new mongoose.Schema({
-    jobId: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Job', 
-        required: true 
-    },
-    applicantId: { 
-        type: String, 
-        required: true 
-    },  // Use this to track which user applied
-    appliedAt: { 
-        type: Date, 
-        default: Date.now 
-    }
-});
-
-const JobApplication = mongoose.model('JobApplication', jobApplicationSchema);
-
-/*Apply for job
-app.post('/apply_job', async (req, res) => {
-    const { jobId, applicantId } = req.body;
-
-    try {
-        const jobApplication = new JobApplication({ jobId, applicantId });
-        await jobApplication.save();
-        res.status(200).json({ message: 'Job application submitted successfully' });
-    } catch (err) {
-        res.status(500).json({ message: 'An error occurred while submitting the application', error: err.message });
-    }
-});
-*/
-// Update a job
-app.put('/api/jobs/:id', async (req, res) => {
-    const { id } = req.params;
-    const { title, description } = req.body;
-
-    // Validate input
-    if (!title || !description) {
-        return res.status(400).json({ message: 'Title and description are required' });
-    }
-
-    try {
-        // Find the job and update it
-        const updatedJob = await Job.findByIdAndUpdate(
-            id,
-            { title, description },
-            { new: true, runValidators: true } // Return the updated document and run validators
-        );
-
-        // Check if the job was found
-        if (!updatedJob) {
-            return res.status(404).json({ message: 'Job not found' });
+                    try {
+                        await donation.save();
+                        res.json({ message: 'Thank you for your donation!' });
+                    } catch (err) {
+                        res.status(500).json({ message: 'Error saving donation details', error: err.message });
+                    }
+                }
+            });
         }
-
-        // Respond with the updated job
-        res.json(updatedJob);
-    } catch (error) {
-        // Handle errors
-        console.error('Error updating job:', error);
-        res.status(400).json({ message: 'Error updating job', error: error.message });
-    }
+    });
 });
 
-
-// Delete a job
-app.delete('/api/jobs/:id', async (req, res) => {
-    const { id } = req.params;
-    try {
-        const deletedJob = await Job.findByIdAndDelete(id);
-        if (!deletedJob) {
-            return res.status(404).json({ message: 'Job not found' });
-        }
-        res.json({ message: 'Job deleted successfully' });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-// Apply for a job
-app.post('/api/jobs/:id/apply', async (req, res) => {
-    const { id } = req.params;
-    const { applicantId } = req.body;
-
-    if (!applicantId) {
-        return res.status(400).json({ message: 'Applicant ID is required' });
-    }
-
-    try {
-        // Check if the job exists
-        const job = await Job.findById(id);
-        if (!job) {
-            return res.status(404).json({ message: 'Job not found' });
-        }
-
-        // Check if the applicant has already applied
-        const existingApplication = await JobApplication.findOne({ jobId: id, applicantId });
-        if (existingApplication) {
-            return res.status(400).json({ message: 'Already applied for this job' });
-        }
-
-        // Create a new job application
-        const jobApplication = new JobApplication({ jobId: id, applicantId });
-        await jobApplication.save();
-
-        res.status(200).json({ message: 'Job application submitted successfully' });
-    } catch (err) {
-        res.status(500).json({ message: 'An error occurred while submitting the application', error: err.message });
-    }
+// Cancel route
+app.get('/cancel', (req, res) => {
+    res.json({ message: 'Payment canceled' });
 });
 
 app.listen(PORT, () => {

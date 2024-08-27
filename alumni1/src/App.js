@@ -10,6 +10,7 @@ import AlumniDetails from './components/AlumniDetails';
 import Events from './components/Events';
 import Donate from './components/Donate';
 import './App.css';
+import JobApplication from './components/JobApplication';
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/add_information" element={<Add />} />
                 <Route path="/adminHome" element={<AdminHome />} />
                 <Route path="/alumni_details/:rollNo" element={<AlumniDetails />} />
+                <Route path="/jobs" element={<JobApplication />} />
                 <Route path="/events" element={<Events />} />
                 <Route path="/donate" element={<Donate />} />
             </Routes>

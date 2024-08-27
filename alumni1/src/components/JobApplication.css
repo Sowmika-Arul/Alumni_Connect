@@ -1,0 +1,69 @@
+job-application-page {
+    padding: 20px;
+    background-color: #000; 
+    color: #fff; 
+  }
+
+  .job-post-form, .job-search, .job-list {
+    margin-bottom: 20px;
+    background-color: #1a1a1a; 
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .job-post-form h2, .job-search h2, .job-list h2 {
+    color: #FFD700; 
+  }
+
+  .job-post-form input, .job-post-form textarea, .job-search input {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #FFD700; 
+    border-radius: 4px;
+    background-color: #333; 
+    color: #fff; 
+  }
+
+  .job-post-form button {
+    padding: 10px 20px;
+    background-color: #FFD700; 
+    color: #000; 
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .job-post-form button:hover {
+    background-color: #e6c25f; 
+  }
+
+  .job-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .job-list li {
+    border-bottom: 1px solid #444; 
+    padding: 10px 0;
+  }
+
+  .job-list h3 {
+    color: #FFD700;
+  }
+
+  .job-list button {
+    padding: 5px 10px;
+    background-color: #FFD700; 
+    color: #000; 
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 5px; 
+  }
+
+  .job-list button:hover {
+    background-color: #e6c25f; 
+  }
+

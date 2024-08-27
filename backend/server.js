@@ -231,7 +231,7 @@ app.post('/add_information', upload.array('pictures', 10), async (req, res) => {
 
 
 
-// Fetch events
+
 app.get('/events', async (req, res) => {
     try {
         const events = await Event.find({});
@@ -241,7 +241,6 @@ app.get('/events', async (req, res) => {
     }
 });
 
-// Add event
 app.post('/events', async (req, res) => {
     const { name, date, venue, time } = req.body;
 
@@ -254,7 +253,7 @@ app.post('/events', async (req, res) => {
     }
 });
 
-// Update event
+
 app.put('/events/:id', async (req, res) => {
     const { id } = req.params;
     const updateData = req.body;
@@ -276,7 +275,7 @@ app.put('/events/:id', async (req, res) => {
     }
 });
 
-// Delete event
+
 app.delete('/events/:id', async (req, res) => {
     const { id } = req.params;
 
@@ -292,6 +291,147 @@ app.delete('/events/:id', async (req, res) => {
         res.status(500).json({ message: 'An error occurred', error: err.message });
     }
 });
+
+const jobSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+});
+
+const Job = mongoose.model('Job', jobSchema);
+
+
+app.get('/api/jobs', async (req, res) => {
+    try {
+        const jobs = await Job.find();
+        res.json(jobs);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+app.post('/api/jobs', async (req, res) => {
+    const { title, description } = req.body;
+
+    try {
+        const newJob = new Job({ title, description });
+        await newJob.save();
+        res.status(201).json(newJob);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+
+const jobApplicationSchema = new mongoose.Schema({
+    jobId: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Job', 
+        required: true 
+    },
+    applicantId: { 
+        type: String, 
+        required: true 
+    }, 
+    appliedAt: { 
+        type: Date, 
+        default: Date.now 
+    }
+});
+
+const JobApplication = mongoose.model('JobApplication', jobApplicationSchema);
+
+/*Apply for job
+app.post('/apply_job', async (req, res) => {
+    const { jobId, applicantId } = req.body;
+    try {
+        const jobApplication = new JobApplication({ jobId, applicantId });
+        await jobApplication.save();
+        res.status(200).json({ message: 'Job application submitted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: 'An error occurred while submitting the application', error: err.message });
+    }
+});
+*/
+
+app.put('/api/jobs/:id', async (req, res) => {
+    const { id } = req.params;
+    const { title, description } = req.body;
+
+   
+    if (!title || !description) {
+        return res.status(400).json({ message: 'Title and description are required' });
+    }
+
+    try {
+        
+        const updatedJob = await Job.findByIdAndUpdate(
+            id,
+            { title, description },
+            { new: true, runValidators: true } 
+        );
+
+        
+        if (!updatedJob) {
+            return res.status(404).json({ message: 'Job not found' });
+        }
+
+        
+        res.json(updatedJob);
+    } catch (error) {
+        
+        console.error('Error updating job:', error);
+        res.status(400).json({ message: 'Error updating job', error: error.message });
+    }
+});
+
+
+
+app.delete('/api/jobs/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const deletedJob = await Job.findByIdAndDelete(id);
+        if (!deletedJob) {
+            return res.status(404).json({ message: 'Job not found' });
+        }
+        res.json({ message: 'Job deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
+app.post('/api/jobs/:id/apply', async (req, res) => {
+    const { id } = req.params;
+    const { applicantId } = req.body;
+
+    if (!applicantId) {
+        return res.status(400).json({ message: 'Applicant ID is required' });
+    }
+
+    try {
+        
+        const job = await Job.findById(id);
+        if (!job) {
+            return res.status(404).json({ message: 'Job not found' });
+        }
+
+        
+        const existingApplication = await JobApplication.findOne({ jobId: id, applicantId });
+        if (existingApplication) {
+            return res.status(400).json({ message: 'Already applied for this job' });
+        }
+
+        
+        const jobApplication = new JobApplication({ jobId: id, applicantId });
+        await jobApplication.save();
+
+        res.status(200).json({ message: 'Job application submitted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: 'An error occurred while submitting the application', error: err.message });
+    }
+});
+
+
 
 app.post('/donate', async (req, res) => {
     const { amount, rollNo } = req.body;

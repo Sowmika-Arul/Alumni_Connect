@@ -3,9 +3,9 @@
     margin: 0;
     padding: 20px;
     font-family: Arial, sans-serif;
-    background: #1A1A1A; /* Dark background */
-    color: #F4F4F4; /* Light text color */
-    min-height: 100vh;
+    background: #FFFFFF; /* White background */
+    color: #001F3F; /* Dark blue text color */
+    min-height: 100vh; /* Full height */
 }
 
 /* Header styling */
@@ -15,7 +15,7 @@
     color: #FFC107; /* Yellow color */
     font-size: 28px;
     font-weight: bold;
-    border-bottom: 2px solid #FFA500; /* Orange underline */
+    border-bottom: 2px solid #001F3F; /* Dark blue underline */
     padding-bottom: 10px;
     animation: fadeIn 1s ease-in-out;
 }
@@ -23,7 +23,7 @@
 /* Paragraph styling */
 .alumni-details-container p {
     margin: 10px 0;
-    color: #F4F4F4; /* Light text color */
+    color: #001F3F; /* Dark blue text color */
     font-size: 16px;
     line-height: 1.5; /* Improved readability */
     animation: fadeIn 1.5s ease-in-out;
@@ -43,7 +43,7 @@
 
 /* Section heading styling */
 .alumni-details-container h3 {
-    color: #FFA500; /* Orange color */
+    color: #001F3F; /* Dark blue color */
     margin-top: 20px;
     margin-bottom: 10px;
     font-size: 22px;
@@ -70,11 +70,11 @@
 /* Achievements and success stories boxes */
 .achievement-box,
 .success-story-box {
-    background: #2C2C2C; /* Dark gray background */
+    background: #F0F0F0; /* Light gray background for boxes */
     border: 1px solid #FFC107; /* Yellow border */
     border-radius: 5px;
     padding: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Light shadow */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow */
     width: calc(50% - 15px); /* Two boxes per row with a gap */
     box-sizing: border-box;
     opacity: 0; /* Start hidden */
@@ -84,7 +84,7 @@
 /* List items inside the boxes */
 .achievement-box,
 .success-story-box {
-    color: #F4F4F4; /* Light text color */
+    color: #001F3F; /* Dark blue text color */
     line-height: 1.5;
 }
 
@@ -94,7 +94,7 @@
     margin: 30px auto 0 auto;
     padding: 10px 20px;
     background-color: #FFC107; /* Yellow */
-    color: #1A1A1A; /* Dark text */
+    color: #001F3F; /* Dark blue text */
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -104,7 +104,7 @@
 }
 
 .back-button:hover {
-    background-color: #1A1A1A; /* Dark background */
+    background-color: #001F3F; /* Dark blue background */
     color: #FFC107; /* Yellow text */
 }
 

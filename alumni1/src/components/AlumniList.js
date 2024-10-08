@@ -114,25 +114,42 @@ function AlumniList() {
                 </select>
             </div>
 
-            <div className="profile-grid">
-                {filteredProfiles.length > 0 ? (
-                    filteredProfiles.map((profile) => (
-                        <div className="profile-card" key={profile.rollNo}>
-                            <p><strong>Roll No:</strong> {profile.rollNo}</p>
-                            <p><strong>Name:</strong> {profile.name}</p>
-                            <p><strong>Batch:</strong> {profile.batch}</p>
-                            <p><strong>Department:</strong> {profile.department}</p>
-                            <p><strong>Specialization:</strong> {profile.specialization}</p>
-                            <p><strong>Location:</strong> {profile.location}</p>
-                            <p><strong>Industry:</strong> {profile.industry}</p>
-                            <button onClick={() => viewDetails(profile.rollNo)}>View Details</button>
-                            <hr />
-                        </div>
-                    ))
-                ) : (
-                    <p>No profiles available</p>
-                )}
-            </div>
+            <table className="profile-grid">
+                <thead>
+                    <tr>
+                        <th>Roll No</th>
+                        <th>Name</th>
+                        <th>Batch</th>
+                        <th>Department</th>
+                        <th>Specialization</th>
+                        <th>Location</th>
+                        <th>Industry</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {filteredProfiles.length > 0 ? (
+                        filteredProfiles.map((profile) => (
+                            <tr key={profile.rollNo} className="profile-card">
+                                <td>{profile.rollNo}</td>
+                                <td>{profile.name}</td>
+                                <td>{profile.batch}</td>
+                                <td>{profile.department}</td>
+                                <td>{profile.specialization}</td>
+                                <td>{profile.location}</td>
+                                <td>{profile.industry}</td>
+                                <td>
+                                    <button onClick={() => viewDetails(profile.rollNo)}>View Details</button>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="8">No profiles available</td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
         </div>
     );
 }

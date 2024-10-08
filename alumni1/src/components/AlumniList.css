@@ -2,9 +2,9 @@
 .alumni-list-container {
     margin: 0;
     padding: 20px;
-    font-family: Arial, sans-serif;
-    background: #1A1A1A; /* Dark background */
-    color: #F4F4F4; /* Light text color */
+    font-family: 'Arial', sans-serif;
+    background: #FFFFFF; /* White background */
+    color: #1D2951; /* Dark blue text color */
     min-height: 100vh;
 }
 
@@ -12,10 +12,10 @@
 .alumni-list-container h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: #FFC107; /* Yellow color */
-    font-size: 28px;
+    color: #1D2951; /* Dark blue color for the header */
+    font-size: 2.2rem; /* Larger font size */
     font-weight: bold;
-    border-bottom: 2px solid #FFA500; /* Orange underline */
+    border-bottom: 3px solid #1D2951; /* Dark blue underline */
     padding-bottom: 10px;
 }
 
@@ -23,18 +23,19 @@
 .logout-button {
     display: block;
     margin: 0 auto 20px auto;
-    padding: 10px 20px;
-    background-color: #e74c3c;
+    padding: 12px 24px; /* Slightly larger padding */
+    background-color: #1D2951; /* Dark blue background */
     color: #FFFFFF; /* White text */
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+    font-size: 18px; /* Larger font size */
+    transition: background-color 0.3s, transform 0.3s; /* Added transform for hover effect */
 }
 
 .logout-button:hover {
-    background-color: #c0392b;
+    background-color: #152040; /* Darker blue on hover */
+    transform: translateY(-2px); /* Lift effect on hover */
 }
 
 /* Error message styling */
@@ -42,64 +43,7 @@
     color: #FF0000; /* Red for errors */
     text-align: center;
     margin: 20px 0;
-}
-
-/* Alumni profile grid */
-.profile-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    padding: 0;
-    margin: 0 auto;
-    max-width: 1200px;
-}
-
-/* Individual profile card styling */
-.profile-card {
-    background: #2C2C2C; /* Dark gray background */
-    border: 2px solid #FFC107; /* Yellow border */
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Strong shadow */
-    width: calc(33.333% - 20px); /* Adjust to fit 3 cards per row with a gap */
-    box-sizing: border-box;
-}
-
-/* Paragraph styling with added spacing */
-.profile-card p {
-    margin: 10px 0; /* Added spacing between each detail */
-    color: #F4F4F4; /* Light text color */
-    line-height: 1.5; /* Improved readability */
-}
-
-/* Styling for emphasized text */
-.profile-card strong {
-    color: #FFC107; /* Yellow color for strong text */
-}
-
-/* Horizontal rule within cards */
-.profile-card hr {
-    border: 0;
-    border-top: 1px solid #FFC107; /* Yellow horizontal rule */
-    margin: 10px 0;
-}
-
-/* Button styling within cards */
-.profile-card button {
-    background-color: #FFC107; /* Yellow */
-    color: #1A1A1A; /* Dark text */
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.profile-card button:hover {
-    background-color: #1A1A1A; /* Dark background */
-    color: #FFC107; /* Yellow text */
+    font-weight: bold; /* Make error messages stand out */
 }
 
 /* Filters styling */
@@ -117,13 +61,77 @@
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 14px;
-    background-color: #3A3A3A; /* Darker gray background for filters */
-    color: #F4F4F4; /* Light text */
+    background-color: #1D2951; /* Dark blue background for filters */
+    color: #FFFFFF; /* White text */
     width: calc(25% - 20px); /* Adjust width for a responsive layout */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Slight shadow */
+    transition: background-color 0.3s ease; /* Smooth transition */
 }
 
-.filters select option {
-    background-color: #2C2C2C; /* Dark background for options */
-    color: #F4F4F4; /* Light text */
+.filters select:hover {
+    background-color: #152040; /* Darker blue on hover */
+}
+
+/* Table styling */
+.profile-grid {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0; /* Add margin above and below the table */
+}
+
+/* Table header styling */
+.profile-grid thead {
+    background-color: #1D2951; /* Dark blue background */
+    color: #FFFFFF; /* White text for header */
+}
+
+.profile-grid th, .profile-grid td {
+    padding: 12px; /* Cell padding */
+    text-align: left; /* Left align text */
+    border: 1px solid #ccc; /* Light grey border */
+}
+
+/* Table row styling */
+.profile-grid tbody tr:nth-child(even) {
+    background-color: #F0F8FF; /* Light blue for even rows */
+}
+
+.profile-grid tbody tr:nth-child(odd) {
+    background-color: #FFFFFF; /* White for odd rows */
+}
+
+/* Button styling within table */
+.profile-grid button {
+    background-color: #1D2951; /* Dark blue background */
+    color: #FFFFFF; /* White text */
+    border: none;
+    padding: 8px 12px; /* Padding for button */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.profile-grid button:hover {
+    background-color: #152040; /* Darker blue on hover */
+}
+
+/* Responsive styles */
+@media (max-width: 900px) {
+    .filters select {
+        width: calc(45% - 20px); /* Wider dropdowns on smaller screens */
+    }
+
+    .profile-grid {
+        font-size: 14px; /* Adjust font size on smaller screens */
+    }
+}
+
+@media (max-width: 600px) {
+    .filters select {
+        width: 100%; /* Full width dropdowns on small screens */
+    }
+
+    .profile-grid {
+        font-size: 12px; /* Further adjust font size on very small screens */
+    }
 }

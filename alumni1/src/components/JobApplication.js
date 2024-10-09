@@ -93,28 +93,6 @@ const JobApplication = () => {
       });
   };
   
-
-  // Handle editing a job
-  const handleEdit = (job) => {
-    setJobTitle(job.title);
-    setJobDescription(job.description);
-    setEditingJob(job);
-  };
-
-  // Handle deleting a job
-  const handleDelete = (jobId) => {
-    axios.delete(`http://localhost:5050/api/jobs/${jobId}`)
-      .then(() => {
-        setJobs(jobs.filter(job => job._id !== jobId));
-        setSuccessMessage('Job deleted successfully!');
-        setTimeout(() => setSuccessMessage(''), 3000);
-      })
-      .catch(error => {
-        console.error('Error deleting job:', error);
-        alert('Failed to delete the job. Please try again later.');
-      });
-  };
-
   // Filter jobs based on search term
   const filteredJobs = jobs.filter(job =>
     job.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -158,8 +136,6 @@ const JobApplication = () => {
                 <h3>{job.title}</h3>
                 <p>{job.description}</p>
                 <button onClick={() => handleApply(job._id)}>Apply</button>
-                <button onClick={() => handleEdit(job)}>Edit</button>
-                <button onClick={() => handleDelete(job._id)}>Delete</button>
               </li>
             ))}
           </ul>

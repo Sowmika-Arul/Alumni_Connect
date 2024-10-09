@@ -4,13 +4,14 @@ import Login from './components/Login';
 import AlumniList from './components/AlumniList';
 import Home from './components/Home';
 import Profile from './components/Profile';
-import Add from './components/Add_information';
 import AdminHome from './components/AdminHome';
-import AlumniDetails from './components/AlumniDetails';
 import Events from './components/Events';
 import Donate from './components/Donate';
 import './App.css';
 import JobApplication from './components/JobApplication';
+import SuccessStoriesPage from './components/SuccessStoriesPage';
+import AchievementsPage from './components/Achieve';
+import AlumniDetail from './components/Alumni_info';
 
 function App() {
     return (
@@ -20,12 +21,13 @@ function App() {
                 <Route path="/alumni_list" element={<AlumniList />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/add_information" element={<Add />} />
                 <Route path="/adminHome" element={<AdminHome />} />
-                <Route path="/alumni_details/:rollNo" element={<AlumniDetails />} />
+                <Route path="/success-stories" element={<SuccessStoriesPage/>} />
+                <Route path="/achievements" element={<AchievementsPage/>} />
                 <Route path="/jobs" element={<JobApplication />} />
                 <Route path="/events" element={<Events />} />
                 <Route path="/donate" element={<Donate />} />
+                <Route path="/alumni_details/:rollNo" element={<AlumniDetail/>} />
             </Routes>
         </Router>
     );

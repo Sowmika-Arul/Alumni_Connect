@@ -10,15 +10,17 @@ body {
   background-color: #001c4b;
   padding: 5px 20px; /* Reduced padding */
   color: #fff;
+  margin-bottom: 0;
 }
 
 .header-top {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: flex-end;
 }
 
 .logo {
+  margin-right: 950px;
   height: 50px; /* Reduced logo size */
 }
 
@@ -38,14 +40,16 @@ body {
 }
 
 .navbar {
-  background-color: #fff;
-  padding: 10px; /* Reduced padding */
   text-align: center;
+  padding-top: 0;
+  margin-top: 0;
 }
 
 .navbar ul {
   list-style: none;
-  padding: 0;
+  padding: 10px;
+  background-color: grey;
+  margin-top: 0; 
 }
 
 .navbar ul li {
@@ -55,13 +59,12 @@ body {
 
 .navbar ul li a {
   text-decoration: none;
-  color: #001c4b;
+  color:white;
   font-weight: bold;
 }
 
 .navbar ul li a:hover {
-  color: #f0c040;
-  text-decoration: underline;
+  color:#001c4b;
 }
 
 /* Hero Section */

@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header-top">
-        <img src="/images/ab1.png" alt="Logo" className="logo" />
+        <img src="/images/logo1.jpg" alt="Logo" className="logo" />
         <div className="contact-info">
           <span>Call Us: 9874563210</span>
           <span>Email: support@govt.com</span>

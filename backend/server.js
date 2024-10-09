@@ -13,16 +13,20 @@ const PORT = process.env.PORT || 5050;
 
 app.use(express.json());
 app.use(cors());
-const upload = multer({ dest: 'uploads/' });
 
-// Serve uploaded files
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve images from uploads folder
 
-// Ensure the 'uploads' directory exists
-const uploadDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir);
-}
+// File upload configuration
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
+
+const upload = multer({ storage: storage });
 
 const dbURI = process.env.MONGODB_URI;
 
@@ -62,16 +66,6 @@ const profileSchema = new mongoose.Schema({
     email: { type: String },
 }, { collection: 'Alumni_Profile' });
 
-const informationSchema = new mongoose.Schema({
-    rollNo: { type: String, required: true },
-    phoneNumber: { type: String },
-    linkedIn: { type: String },
-    github: { type: String },
-    leetcode: { type: String },
-    achievements: [{ type: String }],
-    successStory: [{ type: String }],
-    pictures: [{ url: { type: String }, }]
-}, { collection: 'Information' });
 
 const eventSchema = new mongoose.Schema({
     name: { type: String, required: true },
@@ -84,7 +78,8 @@ const eventSchema = new mongoose.Schema({
 const donationSchema = new mongoose.Schema({
     rollNo: { type: String, required: true },
     amount: { type: Number, required: true },
-    transactionId: { type: String, required: true },
+    reason: { type: String, required: true },
+    transactionId: { type: String, required: true },   
     timestamp: { type: Date, default: Date.now }
 }, { collection: 'Donations' });
 
@@ -93,13 +88,44 @@ const jobSchema = new mongoose.Schema({
     description: { type: String, required: true },
 });
 
+// Define Achievement Schema
+const achievementSchema = new mongoose.Schema({
+    rollNo: { type: String, required: true },
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    date: { type: Date, default: Date.now },
+    imageUrl: { type: String } // optional field for image URL
+}, { collection: 'achievements' });
+
+// Define Success Story Schema
+const successStorySchema = new mongoose.Schema({
+    rollNo: { type: String, required: true },
+    title: { type: String, required: true },
+    story: { type: String, required: true },
+    author: { type: String, required: true },
+    date: { type: Date, required: true },
+    imageUrl: { type: String } // optional field for image URL
+}, { collection: 'success_stories' });
+
+// Define Social Media Links Schema
+const socialMediaLinksSchema = new mongoose.Schema({
+    facebook: { type: String },
+    twitter: { type: String },
+    linkedin: { type: String },
+    instagram: { type: String },
+    youtube: { type: String },
+    website: { type: String }
+}, { collection: 'social_media_links' });
+
 const User = mongoose.model('User', userSchema);
 const Admin = mongoose.model('Admin', adminSchema);
 const Profile = mongoose.model('Profile', profileSchema);
-const Information = mongoose.model('Information', informationSchema);
 const Event = mongoose.model('Event', eventSchema);
 const Donation = mongoose.model('Donation', donationSchema);
 const Job = mongoose.model('Job', jobSchema);
+const Achievement = mongoose.model('Achievement', achievementSchema);
+const SuccessStory = mongoose.model('SuccessStory', successStorySchema);
+const SocialMediaLinks = mongoose.model('SocialMediaLinks', socialMediaLinksSchema);
 
 
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -178,64 +204,124 @@ app.put('/profile/:rollNo', async (req, res) => {
     }
 });
 
-// Get information by rollNo
 app.get('/get_information/:rollNo', async (req, res) => {
+    const rollNo = req.params.rollNo;
+
+    try {
+        // Query the database for achievements and success stories by roll number
+        const achievements = await Achievement.find({ rollNo }); // Replace with correct query syntax for your DB
+        const successStories = await SuccessStory.find({ rollNo }); // Replace with correct query syntax
+
+        res.json({
+            achievements: achievements || [], 
+            successStories: successStories || []
+        });
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching achievements and success stories' });
+    }
+});
+
+// Add Achievement
+app.post('/add_achievement/:rollNo', upload.single('image'), async (req, res) => {
+    const { title, description, date } = req.body; // Extract fields from the request body
     const { rollNo } = req.params;
+    console.log(rollNo);
+    // Validate required fields
+    if (!title || !description) {
+        return res.status(400).send('Title and description are required.');
+    }
+
+    const newAchievement = new Achievement({
+        rollNo,
+        title,
+        description,
+        date: date ? new Date(date) : new Date(), 
+        imageUrl: req.file ? `uploads/${req.file.filename}` : null, // Save the image path if uploaded
+    });
+
     try {
-        const data = await Information.findOne({ rollNo });
-        if (data) {
-            res.json(data);
-        } else {
-            res.status(404).send('Information not found');
-        }
-    } catch (err) {
-        res.status(500).send('Server error');
+        // Save the new achievement to the database
+        await newAchievement.save();
+        // Respond with the newly created achievement
+        res.status(201).json({ achievements: [newAchievement] });
+    } catch (error) {
+        console.error('Error saving achievement:', error);
+        res.status(500).send('Server error while saving achievement.');
     }
 });
 
-app.post('/add_information', upload.array('pictures', 10), async (req, res) => {
-    const { rollNo, phoneNumber, linkedIn, github, leetcode, achievements, successStory } = req.body;
-    const pictures = req.files.map(file => ({ url: file.path }));
+app.post('/add_success_story/:rollNo', upload.single('image'), async (req, res) => {
+    const { title, story, author } = req.body; // Get the fields from the form data
+    const { rollNo } = req.params;
+
+    // Validate required fields
+    if (!title || !story) {
+        return res.status(400).send('Title, story, author, and date are required.');
+    }
+
+    const newStory = new SuccessStory({
+        rollNo,
+        title,
+        story,
+        author,
+        date: new Date(), // Use current date
+        imageUrl: req.file ? `uploads/${req.file.filename}` : null, // Save the image path if uploaded
+    });
 
     try {
-        let info = await Information.findOne({ rollNo });
+        // Save the new story to the database
+        await newStory.save();
+        // Respond with the newly created story
+        res.status(201).json({ successStories: [newStory] });
+    } catch (error) {
+        console.error('Error saving success story:', error);
+        res.status(500).send('Server error while saving success story.');
+    }
+});
 
-        if (info) {
-            // Update existing record
-            info.phoneNumber = phoneNumber;
-            info.linkedIn = linkedIn;
-            info.github = github;
-            info.leetcode = leetcode;
-            if (achievements) {
-                info.achievements = Array.isArray(achievements) ? achievements : [achievements];
-            }
-            if (successStory) {
-                info.successStory = Array.isArray(successStory) ? successStory : [successStory];
-            }
-            info.pictures = [...info.pictures, ...pictures];
-        } else {
-            // Create new record
-            info = new Information({
+
+// Add Social Media Links
+app.put('/add_social_links/:rollNo', async (req, res) => {
+    try {
+        const { linkedin, github, leetcode } = req.body;
+        const profile = await Profile.findOne({ rollNo: req.params.rollNo });
+        if (!profile) return res.status(404).json({ message: 'Profile not found' });
+
+        profile.socialLinks = { linkedin, github, leetcode };
+        await profile.save();
+
+        res.json({ socialLinks: profile.socialLinks });
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating social links', error });
+    }
+});
+
+app.get('/details/:rollNo', async (req, res) => {
+    const { rollNo } = req.params;
+    console.log(rollNo);
+
+    try {
+        const achievements = await Achievement.find({ rollNo }).lean();
+        const successStories = await SuccessStory.find({ rollNo }).lean();
+
+        // Log the data being sent in the response
+        console.log('Achievements:', achievements);
+        console.log('Success Stories:', successStories);
+
+        // Return both achievements and success stories in a single response
+        res.json({
+            profile: {
                 rollNo,
-                phoneNumber,
-                linkedIn,
-                github,
-                leetcode,
-                achievements: Array.isArray(achievements) ? achievements : [achievements],
-                successStory: Array.isArray(successStory) ? successStory : [successStory],
-                pictures
-            });
-        }
-
-        await info.save();
-        res.status(200).send('Information saved successfully');
+                achievements,
+                successStories
+            }
+        });
     } catch (err) {
-        console.error(err);
-        res.status(500).send('Server error');
+        console.error('Server error:', err); // Log the error
+        res.status(500).json({ message: 'Server error' });
     }
 });
-
-
 
 app.get('/events', async (req, res) => {
     try {
@@ -367,10 +453,11 @@ app.delete('/api/jobs/:id', async (req, res) => {
 });
 
 app.post('/donate', async (req, res) => {
-    const { amount, rollNo } = req.body;
+    const { amount, rollNo, reason } = req.body;
 
-    if (!amount || !rollNo) {
-        return res.status(400).json({ message: 'Donation amount and roll number are required' });
+    // Validate input fields
+    if (!amount || !rollNo || !reason) {
+        return res.status(400).json({ message: 'Donation amount, roll number, and reason are required' });
     }
 
     const create_payment_json = {
@@ -379,7 +466,7 @@ app.post('/donate', async (req, res) => {
             payment_method: 'paypal'
         },
         redirect_urls: {
-            return_url: `http://localhost:${PORT}/success?rollNo=${encodeURIComponent(rollNo)}`,
+            return_url: `http://localhost:${PORT}/success?rollNo=${encodeURIComponent(rollNo)}&reason=${encodeURIComponent(reason)}`,
             cancel_url: `http://localhost:${PORT}/cancel`
         },
         transactions: [{
@@ -414,7 +501,8 @@ app.post('/donate', async (req, res) => {
 app.get('/success', async (req, res) => {
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
-    const rollNo = req.query.rollNo || 'Anonymous'; 
+    const rollNo = req.query.rollNo || 'Anonymous'; // Default to 'Anonymous' if no roll number provided
+    const reason = req.query.reason || 'No reason provided'; // Added reason from query parameters
 
     // Fetch the payment details to get the amount
     paypal.payment.get(paymentId, function (error, payment) {
@@ -422,7 +510,7 @@ app.get('/success', async (req, res) => {
             console.error('Error fetching payment details:', error);
             return res.status(500).json({ message: 'Payment fetch failed' });
         } else {
-            const amount = payment.transactions[0].amount.total; 
+            const amount = payment.transactions[0].amount.total; // Get the total amount from the fetched payment details
 
             const execute_payment_json = {
                 payer_id: payerId,
@@ -434,20 +522,22 @@ app.get('/success', async (req, res) => {
                 }]
             };
 
+            // Execute the payment
             paypal.payment.execute(paymentId, execute_payment_json, async function (error, payment) {
                 if (error) {
                     console.error('PayPal payment execution error:', error.response);
                     return res.status(500).json({ message: 'Payment failed' });
                 } else {
-                    // Store the donation details with the rollNo
+                    // Store the donation details with the rollNo and reason
                     const donation = new Donation({
                         rollNo: rollNo,
                         amount: payment.transactions[0].amount.total,
+                        reason: reason, // Save the reason in the database
                         transactionId: payment.id
                     });
 
                     try {
-                        await donation.save();
+                        await donation.save(); // Save donation details to the database
                         res.json({ message: 'Thank you for your donation!' });
                     } catch (err) {
                         res.status(500).json({ message: 'Error saving donation details', error: err.message });

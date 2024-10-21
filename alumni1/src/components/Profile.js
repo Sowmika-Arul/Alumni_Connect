@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Profile.css';
+import '../styles/Profile.css';
 
 const Profile = () => {
     const [profile, setProfile] = useState(null);
@@ -27,13 +27,13 @@ const Profile = () => {
 
         const fetchProfileData = async () => {
             try {
-                const profileResponse = await fetch(`http://localhost:5050/profile/${rollNo}`);
+                const profileResponse = await fetch(`http://localhost:5050/api/profile/${rollNo}`);
                 if (!profileResponse.ok) throw new Error(`Error ${profileResponse.status}: ${profileResponse.statusText}`);
                 const profileData = await profileResponse.json();
                 setProfile(profileData.profile);
                 setLoadingProfile(false);
 
-                const infoResponse = await fetch(`http://localhost:5050/get_information/${rollNo}`);
+                const infoResponse = await fetch(`http://localhost:5050/api/details/${rollNo}`);
                 if (!infoResponse.ok) throw new Error(`Error ${infoResponse.status}: ${infoResponse.statusText}`);
                 const infoData = await infoResponse.json();
                 setAchievements(infoData.achievements || []);

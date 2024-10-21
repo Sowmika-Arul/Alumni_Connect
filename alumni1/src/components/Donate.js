@@ -29,7 +29,7 @@ function Donate() {
         }
 
         try {
-            const response = await fetch('http://localhost:5050/donate', {
+            const response = await fetch('http://localhost:5050/api/donate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

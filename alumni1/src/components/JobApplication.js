@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './JobApplication.css';
+import '../styles/JobApplication.css';
 
 const JobApplication = () => {
   const [jobs, setJobs] = useState([]);
@@ -13,7 +13,7 @@ const JobApplication = () => {
 
   useEffect(() => {
     // Fetch user profile to get userId
-    axios.get('http://localhost:5050/api/user/profile')
+    axios.get('http://localhost:5050/api/profile')
       .then(response => {
         console.log('Profile Response:', response.data); // Log response to ensure correctness
         setUserId(response.data.userId);
@@ -31,7 +31,7 @@ const JobApplication = () => {
       .catch(error => console.error('Error fetching jobs:', error));
       
     // Fetch user profile to get userId
-    axios.get('http://localhost:5050/api/user/profile')
+    axios.get('http://localhost:5050/api/profile')
       .then(response => {
         console.log('Profile Response:', response.data); // Log response to ensure correctness
         setUserId(response.data.userId);
@@ -81,7 +81,7 @@ const JobApplication = () => {
         return;
     }
   
-    axios.post(`http://localhost:5050/api/jobs/${jobId}/apply`, { applicantId: userId })
+    axios.post(`http://localhost:5050/api/jobs/${jobId}`, { applicantId: userId })
       .then(response => {
         console.log('Application response:', response.data); // Log the response for debugging
         setSuccessMessage('Successfully applied for the job!');

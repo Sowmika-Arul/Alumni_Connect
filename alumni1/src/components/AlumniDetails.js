@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import './AlumniDetails.css'; // Import the CSS file
+import '../styles/AlumniDetails.css'; // Import the CSS file
 
 function AlumniDetails() {
     const { rollNo } = useParams();
@@ -11,7 +11,7 @@ function AlumniDetails() {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await fetch(`http://localhost:5050/get_information/${rollNo}`);
+                const response = await fetch(`http://localhost:5050/api/details/${rollNo}`);
 
                 if (response.ok) {
                     const data = await response.json();

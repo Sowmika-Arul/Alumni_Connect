@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import './Alumni_info.css';
+import '../styles/Alumni_info.css';
 
 function AlumniDetails() {
     const { rollNo } = useParams(); // Get the roll number from the URL
@@ -11,7 +11,7 @@ function AlumniDetails() {
     useEffect(() => {
         const fetchProfileDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:5050/details/${rollNo}`);
+                const response = await fetch(`http://localhost:5050/api/details/${rollNo}`);
                 if (response.ok) {
                     const data = await response.json();
                     setProfile(data.profile || { achievements: [], successStories: [] });

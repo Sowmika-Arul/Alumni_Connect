@@ -1,7 +1,7 @@
 // src/Events.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Events.css';
+import '../styles/Events.css';
 
 
 const Events = () => {
@@ -13,7 +13,7 @@ const Events = () => {
 
     const fetchEvents = async () => {
         try {
-            const response = await fetch('http://localhost:5050/events');
+            const response = await fetch('http://localhost:5050/api/events');
             const data = await response.json();
             setEvents(data.events);
         } catch (err) {

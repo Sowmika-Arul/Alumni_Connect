@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './AlumniList.css';
+import '../styles/AlumniList.css';
 
 function AlumniList() {
     const [profiles, setProfiles] = useState([]);
@@ -17,7 +17,7 @@ function AlumniList() {
     useEffect(() => {
         const fetchProfiles = async () => {
             try {
-                const response = await fetch('http://localhost:5050/alumni_list');
+                const response = await fetch('http://localhost:5050/api/alumni_list');
 
                 if (response.ok) {
                     const data = await response.json();

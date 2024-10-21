@@ -7,7 +7,6 @@ import Profile from './components/Profile';
 import AdminHome from './components/AdminHome';
 import Events from './components/Events';
 import Donate from './components/Donate';
-import './App.css';
 import JobApplication from './components/JobApplication';
 import SuccessStoriesPage from './components/SuccessStoriesPage';
 import AchievementsPage from './components/Achieve';

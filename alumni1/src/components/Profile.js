@@ -36,8 +36,8 @@ const Profile = () => {
                 const infoResponse = await fetch(`http://localhost:5050/api/details/${rollNo}`);
                 if (!infoResponse.ok) throw new Error(`Error ${infoResponse.status}: ${infoResponse.statusText}`);
                 const infoData = await infoResponse.json();
-                setAchievements(infoData.achievements || []);
-                setSuccessStories(infoData.successStories || []);
+                setAchievements(infoData.profile.achievements || []);
+                setSuccessStories(infoData.profile.successStories || []);
                 // setSocialLinks(infoData.socialLinks || { linkedin: '', github: '', leetcode: '' });
                 setLoadingData(false);
             } catch (error) {
@@ -173,6 +173,7 @@ const Profile = () => {
                     </div>
                 ))
             ) : (
+                
                 <p>No success stories available. Add the first one!</p>
             )}
             <input

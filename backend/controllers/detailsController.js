@@ -7,9 +7,6 @@ const getDetails = async (req, res) => {
     try {
         const profileDetails = await detailsService.getProfileDetails(rollNo);
 
-        // Log the data being sent in the response
-        console.log('Profile Details:', profileDetails);
-
         res.json({ profile: profileDetails });
     } catch (err) {
         console.error('Server error:', err);

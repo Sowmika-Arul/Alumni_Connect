@@ -1,6 +1,6 @@
 // src/services/detailsService.js
-const Achievement = require('../models/achievementModel'); // Adjust the path to your Achievement model
-const SuccessStory = require('../models/successStoryModel'); // Adjust the path to your SuccessStory model
+const Achievement = require('../models/achievementModel'); 
+const SuccessStory = require('../models/successStoryModel'); 
 
 const getProfileDetails = async (rollNo) => {
     const achievements = await Achievement.find({ rollNo }).lean();

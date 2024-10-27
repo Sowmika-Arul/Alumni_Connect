@@ -17,6 +17,8 @@ const Profile = () => {
     const [newLinkedIn, setNewLinkedIn] = useState('');
     const [newGithub, setNewGithub] = useState('');
     const [newLeetcode, setNewLeetcode] = useState('');
+    const [newTwitter, setNewTwitter] = useState('');
+    const [newPortfolio, setNewPortfolio] = useState('');
 
     useEffect(() => {
         const rollNo = localStorage.getItem('rollNo');
@@ -108,6 +110,8 @@ const Profile = () => {
                 linkedin: newLinkedIn || socialLinks.linkedin,
                 github: newGithub || socialLinks.github,
                 leetcode: newLeetcode || socialLinks.leetcode,
+                twitter: newTwitter || socialLinks.twitter,
+                portfolio: newPortfolio || socialLinks.portfolio
             };
 
             const response = await fetch(`http://localhost:5050/api/add_social_links/${rollNo}`, {
@@ -144,7 +148,9 @@ const Profile = () => {
     const resetSocialLinkFields = () => {
         setNewLinkedIn(''); // Reset LinkedIn URL
         setNewGithub(''); // Reset GitHub URL
-        setNewLeetcode(''); // Reset LeetCode URL
+        setNewLeetcode('');
+        setNewTwitter('');
+        setNewPortfolio(''); // Reset LeetCode URL
     };
 
     // Render functions for different sections
@@ -247,6 +253,16 @@ const Profile = () => {
                         <a href={socialLinks.leetcode} target="_blank" rel="noopener noreferrer">LeetCode</a>
                     </li>
                 )}
+                {socialLinks.twitter && (
+                    <li>
+                        <a href={socialLinks.twitter} target="_blank" rel="noopener noreferrer">Twitter</a>
+                    </li>
+                )}
+                {socialLinks.portfolio && (
+                    <li>
+                        <a href={socialLinks.portfolio} target="_blank" rel="noopener noreferrer">Portfolio</a>
+                    </li>
+                )}
             </ul>
             <h4>Add/Update Social Links:</h4>
             <input
@@ -266,6 +282,18 @@ const Profile = () => {
                 value={newLeetcode}
                 onChange={(e) => setNewLeetcode(e.target.value)}
                 placeholder="LeetCode URL"
+            />
+            <input
+                type="text"
+                value={newTwitter}
+                onChange={(e) => setNewTwitter(e.target.value)}
+                placeholder="Twitter URL"
+            />
+            <input
+                type="text"
+                value={newPortfolio}
+                onChange={(e) => setNewPortfolio(e.target.value)}
+                placeholder="Portfolio URL"
             />
             <button onClick={handleAddSocialLinks}>Save Social Links</button>
         </div>

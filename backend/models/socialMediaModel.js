@@ -2,12 +2,12 @@
 const mongoose = require('mongoose');
 
 const socialMediaSchema = new mongoose.Schema({
+    rollNo: { type: String, required: true, unique: true }, 
     leetcode: { type: String },
-    twitter: { type: String },
     linkedin: { type: String },
-    instagram: { type: String },
-    youtube: { type: String },
-    website: { type: String }
+    github: { type: String },
+    twitter: { type: String },
+    portfolio: { type: String }
 }, { collection: 'social_media_links' });
 
 const SocialMedia = mongoose.model('SocialMedia', socialMediaSchema);

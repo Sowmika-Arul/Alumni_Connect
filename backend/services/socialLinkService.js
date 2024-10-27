@@ -1,16 +1,24 @@
 // src/services/socialLinksService.js
-const Profile = require('../models/socialMediaModel'); // Adjust the path to your Profile model
+const SocialMedia = require('../models/socialMediaModel'); // Ensure this is the correct path to your model
 
 const updateSocialLinks = async (rollNo, socialLinks) => {
-    const profile = await Profile.findOne({ rollNo });
+    // Find the existing social media links by rollNo
+    let profile = await SocialMedia.findOne({ rollNo });
+    
     if (!profile) {
-        throw new Error('Profile not found');
+        // If no profile exists, create a new one
+        profile = new SocialMedia({ rollNo, ...socialLinks });
+    } else {
+        // Update the existing profile's social links
+        profile.leetcode = socialLinks.leetcode || profile.leetcode;
+        profile.linkedin = socialLinks.linkedin || profile.linkedin;
+        profile.github = socialLinks.github || profile.github;
+        profile.twitter = socialLinks.twitter || profile.twitter;
+        profile.portfolio = socialLinks.portfolio || profile.portfolio;
     }
 
-    // Update the profile's social links
-    profile.socialLinks = socialLinks;
     await profile.save();
-    return profile.socialLinks;
+    return profile; 
 };
 
 module.exports = {

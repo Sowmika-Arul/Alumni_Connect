@@ -59,7 +59,7 @@ const Profile = () => {
             if (newImage) formData.append('image', newImage); // Include image if exists
             formData.append('date', new Date().toISOString()); // Set the date to now
 
-            const response = await fetch(`http://localhost:5050/add_achievement/${rollNo}`, {
+            const response = await fetch(`http://localhost:5050/api/add_achievement/${rollNo}`, {
                 method: 'POST',
                 body: formData,
             });
@@ -85,7 +85,7 @@ const Profile = () => {
             formData.append('date', new Date().toISOString());
             if (newImage) formData.append('image', newImage);
 
-            const response = await fetch(`http://localhost:5050/add_success_story/${rollNo}`, {
+            const response = await fetch(`http://localhost:5050/api/add_success_story/${rollNo}`, {
                 method: 'POST',
                 body: formData,
             });
@@ -110,7 +110,7 @@ const Profile = () => {
                 leetcode: newLeetcode || socialLinks.leetcode,
             };
 
-            const response = await fetch(`http://localhost:5050/add_social_links/${rollNo}`, {
+            const response = await fetch(`http://localhost:5050/api/add_social_links/${rollNo}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -169,7 +169,7 @@ const Profile = () => {
                     <div className="card" key={index}>
                         <h4>{story.title}</h4>
                         <p>{story.story}</p>
-                        {story.imageUrl && <img src={story.imageUrl} alt="Success Story" />}
+                        <img src={`http://localhost:5050/${story.imageUrl}`} alt="Success Story" style={{height:'50%', width:'50%'}} />
                     </div>
                 ))
             ) : (
@@ -203,7 +203,7 @@ const Profile = () => {
                     <div className="card" key={index}>
                         <h4>{achievement.title}</h4> {/* Display title */}
                         <p>{achievement.description}</p> {/* Display description */}
-                        {achievement.imageUrl && <img src={achievement.imageUrl} alt="Achievement" />} {/* Display image */}
+                        <img src={`http://localhost:5050/${achievement.imageUrl}`} alt="Success Story" style={{height:'50%' , width:'50%'}} />
                     </div>
                 ))
             ) : (

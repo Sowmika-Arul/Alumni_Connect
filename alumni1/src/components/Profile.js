@@ -5,7 +5,7 @@ const Profile = () => {
     const [profile, setProfile] = useState(null);
     const [achievements, setAchievements] = useState([]);
     const [successStories, setSuccessStories] = useState([]);
-    const [socialLinks, setSocialLinks] = useState({ linkedin: '', github: '', leetcode: '' });
+    const [socialLinks, setSocialLinks] = useState({ linkedin: '', github: '', leetcode: '', twitter: '',portfolio:''});
     const [activeTab, setActiveTab] = useState("successStories");
     const [loadingProfile, setLoadingProfile] = useState(true);
     const [loadingData, setLoadingData] = useState(true);
@@ -26,7 +26,6 @@ const Profile = () => {
             console.error('Roll number not found in local storage');
             return;
         }
-
         const fetchProfileData = async () => {
             try {
                 const profileResponse = await fetch(`http://localhost:5050/api/profile/${rollNo}`);
@@ -34,19 +33,30 @@ const Profile = () => {
                 const profileData = await profileResponse.json();
                 setProfile(profileData.profile);
                 setLoadingProfile(false);
-
+        
                 const infoResponse = await fetch(`http://localhost:5050/api/details/${rollNo}`);
                 if (!infoResponse.ok) throw new Error(`Error ${infoResponse.status}: ${infoResponse.statusText}`);
                 const infoData = await infoResponse.json();
                 setAchievements(infoData.profile.achievements || []);
                 setSuccessStories(infoData.profile.successStories || []);
-                // setSocialLinks(infoData.socialLinks || { linkedin: '', github: '', leetcode: '' });
+
+        // Access social links from the social_media_links array
+        const socialMediaLinks = infoData.profile?.social_media_links[0] || {};
+        console.log('Social Media Links:', socialMediaLinks); 
+
+        setSocialLinks({
+            linkedin: socialMediaLinks.linkedin || '',
+            github: socialMediaLinks.github || '',
+            leetcode: socialMediaLinks.leetcode || '',
+            twitter: socialMediaLinks.twitter || '',
+            portfolio: socialMediaLinks.portfolio || ''
+        });
                 setLoadingData(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
                 setError('Failed to fetch profile data. Please try again later.');
             }
-        };
+        };        
 
         fetchProfileData();
     }, []);
@@ -94,7 +104,8 @@ const Profile = () => {
 
             if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
             const updatedData = await response.json();
-            setSuccessStories(updatedData.successStories); // Update success stories
+            console.log('Achievements updated:', updatedData.achievements);
+console.log('Success stories updated:', updatedData.successStories);
             resetSuccessStoryFields();
         } catch (error) {
             console.error('Error adding success story:', error);
@@ -265,36 +276,36 @@ const Profile = () => {
                 )}
             </ul>
             <h4>Add/Update Social Links:</h4>
-            <input
-                type="text"
-                value={newLinkedIn}
-                onChange={(e) => setNewLinkedIn(e.target.value)}
-                placeholder="LinkedIn URL"
-            />
-            <input
-                type="text"
-                value={newGithub}
-                onChange={(e) => setNewGithub(e.target.value)}
-                placeholder="GitHub URL"
-            />
-            <input
-                type="text"
-                value={newLeetcode}
-                onChange={(e) => setNewLeetcode(e.target.value)}
-                placeholder="LeetCode URL"
-            />
-            <input
-                type="text"
-                value={newTwitter}
-                onChange={(e) => setNewTwitter(e.target.value)}
-                placeholder="Twitter URL"
-            />
-            <input
-                type="text"
-                value={newPortfolio}
-                onChange={(e) => setNewPortfolio(e.target.value)}
-                placeholder="Portfolio URL"
-            />
+        <input
+            type="text"
+            value={socialLinks.linkedin} // Populate with existing value
+            onChange={(e) => setSocialLinks({ ...socialLinks, linkedin: e.target.value })}
+            placeholder="LinkedIn URL"
+        />
+        <input
+            type="text"
+            value={socialLinks.github} // Populate with existing value
+            onChange={(e) => setSocialLinks({ ...socialLinks, github: e.target.value })}
+            placeholder="GitHub URL"
+        />
+        <input
+            type="text"
+            value={socialLinks.leetcode} // Populate with existing value
+            onChange={(e) => setSocialLinks({ ...socialLinks, leetcode: e.target.value })}
+            placeholder="LeetCode URL"
+        />
+        <input
+            type="text"
+            value={socialLinks.twitter} // Populate with existing value
+            onChange={(e) => setSocialLinks({ ...socialLinks, twitter: e.target.value })}
+            placeholder="Twitter URL"
+        />
+        <input
+            type="text"
+            value={socialLinks.portfolio} // Populate with existing value
+            onChange={(e) => setSocialLinks({ ...socialLinks, portfolio: e.target.value })} 
+            placeholder="Portfolio URL"
+        />
             <button onClick={handleAddSocialLinks}>Save Social Links</button>
         </div>
     );

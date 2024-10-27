@@ -1,10 +1,10 @@
-/* Profile Container */
+
 .profile-container {
     width: 100%;
-    font-family: 'Arial', sans-serif; /* Universal font for consistency */
+    font-family: 'Arial', sans-serif; 
 }
 
-/* Header Image */
+
 .header-image {
     position: relative;
     width: 100%;
@@ -16,20 +16,20 @@
     object-fit:fill;
 }
 
-/* Profile Content */
+
 .profile-content {
     display: flex;
     justify-content: space-between;
     padding: 20px;
-    background-color: #f8f9fa; /* Light background for contrast */
+    background-color: #f8f9fa;
 }
 
-/* Profile Left Section */
+
 .profile-left {
     height:500px;
     width: 25%;
-    margin-top: -60px; /* Adjust to start halfway down the image */
-    background-color: #ffffff; /* White background for profile info */
+    margin-top: -60px;
+    background-color: #ffffff; 
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
@@ -44,8 +44,8 @@
 .personal-info h2 {
     font-size: 24px;
     margin-bottom: 15px;
-    text-align: left; /* Align headings to the left */
-    color: #343a40; /* Darker color for headings */
+    text-align: left; 
+    color: #343a40; 
 }
 
 .personal-info p {
@@ -203,7 +203,20 @@ button:hover {
     margin-bottom: 10px;
 }
 
-/* Additional styles for responsiveness */
+.input,
+input[type="text"],
+textarea {
+    width: 100%; /* Maintain full width */
+    max-width: 970px; /* Set a max width as needed */
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+
 @media (max-width: 768px) {
     .profile-left,
     .profile-right {
@@ -231,7 +244,7 @@ button:hover {
     }
 }
 
-/* Achievements and Success Stories Section */
+
 .achievements,
 .success-stories {
     margin-top: 20px; /* Space above sections */
@@ -241,7 +254,7 @@ button:hover {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
-/* Section Title Styles */
+
 .achievements h3,
 .success-stories h3 {
     font-size: 24px; /* Font size for section titles */
@@ -249,7 +262,7 @@ button:hover {
     margin-bottom: 15px; /* Space below section titles */
 }
 
-/* Achievement and Success Story Item Styles */
+
 .achievement-item,
 .success-story-item {
     border: 1px solid #dee2e6; /* Light border */
@@ -260,13 +273,13 @@ button:hover {
     transition: box-shadow 0.3s; /* Smooth shadow transition */
 }
 
-/* Hover Effect for Items */
+
 .achievement-item:hover,
 .success-story-item:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
 }
 
-/* Item Title Styles */
+
 .achievement-item h4,
 .success-story-item h4 {
     font-size: 20px; /* Font size for item titles */
@@ -274,7 +287,6 @@ button:hover {
     margin-bottom: 10px; /* Space below item titles */
 }
 
-/* Item Description Styles */
 .achievement-item p,
 .success-story-item p {
     font-size: 16px; /* Font size for item descriptions */
@@ -282,7 +294,7 @@ button:hover {
     line-height: 1.5; /* Improved line height for readability */
 }
 
-/* Image Styles */
+
 .achievement-item img,
 .success-story-item img {
     max-width: 100%; /* Responsive image */
@@ -290,7 +302,7 @@ button:hover {
     margin-top: 10px; /* Space above images */
 }
 
-/* Form Input Styles */
+
 input[type="text"],
 textarea {
     width: 100%; /* Full width */
@@ -302,18 +314,18 @@ textarea {
     font-size: 16px; /* Font size */
 }
 
-/* Button Styles */
+
 button {
-    background-color: #28a745; /* Success button color */
-    color: white; /* Text color */
-    border: none; /* Remove border */
-    padding: 10px 15px; /* Inner padding */
-    border-radius: 4px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor */
-    transition: background-color 0.3s; /* Smooth transition */
+    background-color: #28a745; 
+    color: white; 
+    border: none; 
+    padding: 10px 15px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
 }
 
 button:hover {
-    background-color: #218838; /* Darker color on hover */
+    background-color: #218838; 
 }
 

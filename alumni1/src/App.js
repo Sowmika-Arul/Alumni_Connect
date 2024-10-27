@@ -8,8 +8,6 @@ import AdminHome from './components/AdminHome';
 import Events from './components/Events';
 import Donate from './components/Donate';
 import JobApplication from './components/JobApplication';
-import SuccessStoriesPage from './components/SuccessStoriesPage';
-import AchievementsPage from './components/Achieve';
 import AlumniDetail from './components/Alumni_info';
 
 function App() {
@@ -21,8 +19,6 @@ function App() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/adminHome" element={<AdminHome />} />
-                <Route path="/success-stories" element={<SuccessStoriesPage/>} />
-                <Route path="/achievements" element={<AchievementsPage/>} />
                 <Route path="/jobs" element={<JobApplication />} />
                 <Route path="/events" element={<Events />} />
                 <Route path="/donate" element={<Donate />} />

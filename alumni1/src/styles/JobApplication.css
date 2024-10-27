@@ -110,23 +110,24 @@
 }
 
 .job-list h3 {
-  color: #FFD700; /* Yellow for job titles */
+  color: #0e205b; /* Yellow for job titles */
   margin: 0; /* Reset margin */
 }
 
 .job-list button {
-  padding: 5px 10px;
-  background-color: #FFD700; /* Yellow */
-  color: #001F3F; /* Dark blue text */
+  padding: 10px 20px;
+  background-color: #ff6e07; /* Yellow */
+  color:#0e205b ; /* Dark blue text */
   border: none;
   cursor: pointer;
-  border-radius: 5px; /* Rounded corners */
+  border-radius: 18px; /* Rounded corners */
   margin: 5px; 
   transition: background-color 0.3s ease; /* Smooth transition */
 }
 
 .job-list button:hover {
-  background-color: #FFC107; /* Slightly lighter yellow on hover */
+  background-color:#0e205b;
+  color:#FFD700; /* Slightly lighter yellow on hover */
 }
 
 /* Success Message */

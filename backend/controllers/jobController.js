@@ -1,5 +1,4 @@
-// src/controllers/jobController.js
-const jobService = require('../services/jobService');
+const jobService = require('../services/jobService.js'); // Replacing import with require
 
 const getJobs = async (req, res) => {
     try {
@@ -11,10 +10,14 @@ const getJobs = async (req, res) => {
 };
 
 const createJob = async (req, res) => {
-    const { title, description } = req.body;
+    const { title, description, email } = req.body;
+
+    if (!title || !description || !email) {
+        return res.status(400).json({ message: 'Title, description, and email are required' });
+    }
 
     try {
-        const newJob = await jobService.createJob({ title, description });
+        const newJob = await jobService.createJob({ title, description, email });
         res.status(201).json(newJob);
     } catch (error) {
         res.status(400).json({ message: error.message });

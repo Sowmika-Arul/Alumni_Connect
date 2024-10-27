@@ -9,8 +9,8 @@ const createPayment = async (amount, rollNo, reason, PORT) => {
             payment_method: 'paypal'
         },
         redirect_urls: {
-            return_url: `http://localhost:${PORT}/success?rollNo=${encodeURIComponent(rollNo)}&reason=${encodeURIComponent(reason)}`,
-            cancel_url: `http://localhost:${PORT}/cancel`
+            return_url: `http://localhost:5050/api/success?rollNo=${encodeURIComponent(rollNo)}&reason=${encodeURIComponent(reason)}`,
+            cancel_url: `http://localhost:5050/api/cancel`
         },
         transactions: [{
             item_list: {

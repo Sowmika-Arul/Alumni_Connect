@@ -35,10 +35,12 @@ function Donate() {
                     'Content-Type': 'application/json',
                     'x-auth-rollno': rollNo, // Assuming you use roll number as part of the auth
                 },
-                body: JSON.stringify({ rollNo, amount, reason }), // Include reason in the body
+                body: JSON.stringify({ rollNo, amount, reason }),
+                 // Include reason in the body
             });
 
             const data = await response.json();
+            console.log(data);
 
             if (response.ok) {
                 setSuccess('Donation successful! Redirecting...');

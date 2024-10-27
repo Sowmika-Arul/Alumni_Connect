@@ -41,6 +41,11 @@ paypal.configure({
     }
 });
 
+donationRoutes.get('/success', (req, res) => {
+    // Handle the request here
+    res.send('Success page loaded');
+});
+
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB successfully.'))
     .catch((err) => console.error('Error connecting to MongoDB:', err.message));
@@ -55,6 +60,7 @@ app.use('/api', achievementRoutes);
 app.use('/api', successStoryRoutes);
 app.use('/api', socialLinksRoutes);
 app.use('/api', detailsRoutes);
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

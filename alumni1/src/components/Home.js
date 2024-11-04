@@ -45,7 +45,7 @@ const MainContent = () => {
   return (
     <main className="main-content">
       <section className="hero">
-        <h1>WELCOME TO OUR UNIVERSITY</h1>
+        <h1 style={{color: 'white'}}>WELCOME TO OUR UNIVERSITY</h1>
         <button onClick={handleSchemesClick} className="cta-btn">Explore Schemes</button>
       </section>
 

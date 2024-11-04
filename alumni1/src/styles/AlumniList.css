@@ -1,4 +1,5 @@
-/* General container styling */
+/* AlumniList.css */
+
 .alumni-list-container {
     margin: 0;
     padding: 20px;
@@ -46,30 +47,36 @@
     font-weight: bold; /* Make error messages stand out */
 }
 
+/* Flex container for filters and table */
+.alumni-list-content {
+    display: flex;
+    justify-content: space-between;
+}
+
 /* Filters styling */
 .filters {
-    margin-bottom: 20px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
+    flex-direction: column; /* Stack filters vertically */
+    gap: 20px; /* Space between filter groups */
+    width: 25%; /* Adjust width for filters */
+    margin-right: 20px; /* Space between filters and table */
 }
 
-/* Styling for dropdown filters */
-.filters select {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    background-color: #1D2951; /* Dark blue background for filters */
-    color: #FFFFFF; /* White text */
-    width: calc(25% - 20px); /* Adjust width for a responsive layout */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Slight shadow */
-    transition: background-color 0.3s ease; /* Smooth transition */
+/* Filter group styling */
+.filter-group {
+    margin-bottom: 15px; /* Space below each filter group */
 }
 
-.filters select:hover {
-    background-color: #152040; /* Darker blue on hover */
+.filter-group h4 {
+    margin-bottom: 5px; /* Space below the title */
+}
+
+/* Checkbox label styling */
+label {
+    display: flex;
+    align-items: center; /* Center checkbox with label text */
+    margin: 5px 0; /* Space between checkbox items */
+    cursor: pointer; /* Change cursor on hover */
 }
 
 /* Table styling */
@@ -117,18 +124,19 @@
 
 /* Responsive styles */
 @media (max-width: 900px) {
-    .filters select {
-        width: calc(45% - 20px); /* Wider dropdowns on smaller screens */
+    .filters {
+        width: 40%; /* Adjust filter width on smaller screens */
     }
-
+    
     .profile-grid {
         font-size: 14px; /* Adjust font size on smaller screens */
     }
 }
 
 @media (max-width: 600px) {
-    .filters select {
-        width: 100%; /* Full width dropdowns on small screens */
+    .filters {
+        width: 100%; /* Full width filters on small screens */
+        margin-right: 0; /* Remove right margin */
     }
 
     .profile-grid {

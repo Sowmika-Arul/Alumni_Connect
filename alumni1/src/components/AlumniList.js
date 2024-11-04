@@ -7,10 +7,10 @@ function AlumniList() {
     const [filteredProfiles, setFilteredProfiles] = useState([]);
     const [error, setError] = useState('');
     const [filters, setFilters] = useState({
-        department: '',
-        specialization: '',
-        batch: '',
-        location: ''
+        departments: [],
+        specializations: [],
+        batches: [],
+        locations: []
     });
     const navigate = useNavigate();
 
@@ -43,19 +43,31 @@ function AlumniList() {
         navigate(`/alumni_details/${rollNo}`);
     };
 
-    const handleFilterChange = (e) => {
-        const { name, value } = e.target;
-        setFilters(prevFilters => ({ ...prevFilters, [name]: value }));
+    const handleFilterChange = (category, value) => {
+        setFilters((prevFilters) => {
+            const currentValues = prevFilters[category];
+            if (currentValues.includes(value)) {
+                return {
+                    ...prevFilters,
+                    [category]: currentValues.filter((v) => v !== value)
+                };
+            } else {
+                return {
+                    ...prevFilters,
+                    [category]: [...currentValues, value]
+                };
+            }
+        });
     };
 
     useEffect(() => {
         const applyFilters = () => {
             const filtered = profiles.filter(profile => {
                 return (
-                    (filters.department === '' || profile.department.includes(filters.department)) &&
-                    (filters.specialization === '' || profile.specialization.includes(filters.specialization)) &&
-                    (filters.batch === '' || profile.batch.toString().includes(filters.batch)) &&
-                    (filters.location === '' || profile.location.includes(filters.location))
+                    (filters.departments.length === 0 || filters.departments.includes(profile.department)) &&
+                    (filters.specializations.length === 0 || filters.specializations.includes(profile.specialization)) &&
+                    (filters.batches.length === 0 || filters.batches.includes(profile.batch.toString())) &&
+                    (filters.locations.length === 0 || filters.locations.includes(profile.location))
                 );
             });
             setFilteredProfiles(filtered);
@@ -64,7 +76,7 @@ function AlumniList() {
         applyFilters();
     }, [filters, profiles]);
 
-    // Extract unique values for dropdowns
+    // Extract unique values for checkbox filters
     const uniqueDepartments = [...new Set(profiles.map(profile => profile.department))];
     const uniqueSpecializations = [...new Set(profiles.map(profile => profile.specialization))];
     const uniqueBatches = [...new Set(profiles.map(profile => profile.batch))];
@@ -76,80 +88,103 @@ function AlumniList() {
             <button className="logout-button" onClick={handleLogout}>Logout</button>
             {error && <p className="error-message">{error}</p>}
 
-            <div className="filters">
-                <select name="department" value={filters.department} onChange={handleFilterChange}>
-                    <option value="">All Departments</option>
-                    {uniqueDepartments.map(department => (
-                        <option key={department} value={department}>
-                            {department}
-                        </option>
-                    ))}
-                </select>
+            <div className="alumni-list-content">
+                <div className="filters">
+                    <h3>Filters</h3>
+                    <div className="filter-group">
+                        <h4>Department</h4>
+                        {uniqueDepartments.map(department => (
+                            <label key={department}>
+                                <input 
+                                    type="checkbox" 
+                                    checked={filters.departments.includes(department)} 
+                                    onChange={() => handleFilterChange('departments', department)} 
+                                />
+                                {department}
+                            </label>
+                        ))}
+                    </div>
 
-                <select name="specialization" value={filters.specialization} onChange={handleFilterChange}>
-                    <option value="">All Specializations</option>
-                    {uniqueSpecializations.map(specialization => (
-                        <option key={specialization} value={specialization}>
-                            {specialization}
-                        </option>
-                    ))}
-                </select>
+                    <div className="filter-group">
+                        <h4>Specialization</h4>
+                        {uniqueSpecializations.map(specialization => (
+                            <label key={specialization}>
+                                <input 
+                                    type="checkbox" 
+                                    checked={filters.specializations.includes(specialization)} 
+                                    onChange={() => handleFilterChange('specializations', specialization)} 
+                                />
+                                {specialization}
+                            </label>
+                        ))}
+                    </div>
 
-                <select name="batch" value={filters.batch} onChange={handleFilterChange}>
-                    <option value="">All Batches</option>
-                    {uniqueBatches.map(batch => (
-                        <option key={batch} value={batch}>
-                            {batch}
-                        </option>
-                    ))}
-                </select>
+                    <div className="filter-group">
+                        <h4>Batch</h4>
+                        {uniqueBatches.map(batch => (
+                            <label key={batch}>
+                                <input 
+                                    type="checkbox" 
+                                    checked={filters.batches.includes(batch.toString())} 
+                                    onChange={() => handleFilterChange('batches', batch.toString())} 
+                                />
+                                {batch}
+                            </label>
+                        ))}
+                    </div>
 
-                <select name="location" value={filters.location} onChange={handleFilterChange}>
-                    <option value="">All Locations</option>
-                    {uniqueLocations.map(location => (
-                        <option key={location} value={location}>
-                            {location}
-                        </option>
-                    ))}
-                </select>
-            </div>
+                    <div className="filter-group">
+                        <h4>Location</h4>
+                        {uniqueLocations.map(location => (
+                            <label key={location}>
+                                <input 
+                                    type="checkbox" 
+                                    checked={filters.locations.includes(location)} 
+                                    onChange={() => handleFilterChange('locations', location)} 
+                                />
+                                {location}
+                            </label>
+                        ))}
+                    </div>
+                </div>
 
-            <table className="profile-grid">
-                <thead>
-                    <tr>
-                        <th>Roll No</th>
-                        <th>Name</th>
-                        <th>Batch</th>
-                        <th>Department</th>
-                        <th>Specialization</th>
-                        <th>Location</th>
-                        <th>Industry</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredProfiles.length > 0 ? (
-                        filteredProfiles.map((profile) => (
-                            <tr key={profile.rollNo} className="profile-card">
-                                <td>{profile.rollNo}</td>
-                                <td>{profile.name}</td>
-                                <td>{profile.batch}</td>
-                                <td>{profile.department}</td>
-                                <td>{profile.specialization}</td>
-                                <td>{profile.location}</td>
-                                <td>{profile.industry}</td>
-                                <td>
-                                    <button onClick={() => viewDetails(profile.rollNo)}>View Details</button>
-                                </td>
-                            </tr>
-                        ))
-                    ) : (
+                <table className="profile-grid">
+                    <thead>
                         <tr>
-                            <td colSpan="8">No profiles available</td>
+                            <th>Roll No</th>
+                            <th>Name</th>
+                            <th>Batch</th>
+                            <th>Department</th>
+                            <th>Specialization</th>
+                            <th>Location</th>
+                            <th>Industry</th>
+                            <th>Actions</th>
                         </tr>
-                    )}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {filteredProfiles.length > 0 ? (
+                            filteredProfiles.map((profile) => (
+                                <tr key={profile.rollNo} className="profile-card">
+                                    <td>{profile.rollNo}</td>
+                                    <td>{profile.name}</td>
+                                    <td>{profile.batch}</td>
+                                    <td>{profile.department}</td>
+                                    <td>{profile.specialization}</td>
+                                    <td>{profile.location}</td>
+                                    <td>{profile.industry}</td>
+                                    <td>
+                                        <button onClick={() => viewDetails(profile.rollNo)}>View Details</button>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="8">No profiles available</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

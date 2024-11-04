@@ -2,19 +2,21 @@
 const donationService = require('../services/donationService');
 
 const donate = async (req, res) => {
-    const { amount, rollNo, reason } = req.body;
+    const { amount, rollNo,  donorName, reason } = req.body;
     console.log(req.body);
 
-    if (!amount || !rollNo || !reason) {
-        console.error('Validation Error: Missing required fields for donation:', { amount, rollNo, reason });
-        return res.status(400).json({ message: 'Donation amount, roll number, and reason are required' });
+    if (!amount || !rollNo || !donorName || !reason) {
+        console.error('Validation Error: Missing required fields for donation:', { amount, rollNo, donorName, reason });
+        return res.status(400).json({ message: 'Donation amount, roll number, name, and reason are required' });
     }
 
     try {
-        const approvalUrl = await donationService.createPayment(amount, rollNo, reason, process.env.PORT || 3000);
+        const { approvalUrl, transactionId } = await donationService.createPayment(amount, rollNo, donorName, reason, process.env.PORT || 3000);
+        
+        await donationService.saveDonation(rollNo, donorName, amount, reason, transactionId);
         res.json({ forwardLink: approvalUrl });
     } catch (error) {
-        console.error('PayPal payment creation error:', error); // Log the error details
+        console.error('PayPal payment creation error:', error);
         res.status(500).json({ message: 'Error creating PayPal payment', error: error.message });
     }
 };
@@ -24,7 +26,8 @@ const paymentSuccess = async (req, res) => {
     const paymentId = req.query.paymentId;
     const rollNo = req.query.rollNo || 'Anonymous';
     const reason = req.query.reason || 'No reason provided';
-    console.log(rollNo,paymentId,reason);
+    const donorName = req.query.donorName || 'Anonymous'; // Ensure donorName is defined
+    console.log(rollNo, paymentId, reason, donorName);
 
     if (!payerId || !paymentId) {
         console.error('Error: Missing PayerID or paymentId in the request:', { payerId, paymentId });
@@ -42,10 +45,10 @@ const paymentSuccess = async (req, res) => {
         const amount = payment.transactions[0].amount.total;
         const transactionId = payment.id;
 
-        await donationService.saveDonation(rollNo, amount, reason, transactionId);
+        await donationService.saveDonation(rollNo, donorName, amount, reason, transactionId);
         res.json({ message: 'Thank you for your donation!' });
     } catch (error) {
-        console.error('Payment success error:', error); // Log the error details
+        console.error('Payment success error:', error);
         res.status(500).json({ message: 'Payment failed', error: error.message });
     }
 };

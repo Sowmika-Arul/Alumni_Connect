@@ -10,6 +10,7 @@ function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
 
+
         try {
             const response = await fetch('http://localhost:5050/api/login', {
                 method: 'POST',
@@ -23,6 +24,8 @@ function Login() {
 
             if (response.ok) {
                 localStorage.setItem('rollNo', rollNo);
+                localStorage.setItem('userName', data.name);
+                console.log(data.name); // Store the user's name
 
                 if (data.message === 'Login successful') {
                     // Redirect to the alumni home page

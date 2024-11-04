@@ -9,6 +9,8 @@ import Events from './components/Events';
 import Donate from './components/Donate';
 import JobApplication from './components/JobApplication';
 import AlumniDetail from './components/Alumni_info';
+import Transaction from './components/Transaction';
+
 
 function App() {
     return (
@@ -23,6 +25,7 @@ function App() {
                 <Route path="/events" element={<Events />} />
                 <Route path="/donate" element={<Donate />} />
                 <Route path="/alumni_details/:rollNo" element={<AlumniDetail/>} />
+                <Route path="/transaction" element={<Transaction/>} />
             </Routes>
         </Router>
     );

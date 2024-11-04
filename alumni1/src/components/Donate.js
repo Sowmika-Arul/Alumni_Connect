@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 function Donate() {
     const [amount, setAmount] = useState('');
-    const [reason, setReason] = useState(''); // New state for reason
+    const [reason, setReason] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
@@ -11,18 +11,22 @@ function Donate() {
         e.preventDefault();
 
         const rollNo = localStorage.getItem('rollNo');
-        console.log(rollNo); // Retrieve the roll number from local storage
+        const donorName = localStorage.getItem('userName'); // Retrieve name from local storage
+        console.log('Roll No:', rollNo, 'Donor Name:', donorName); // Log for debugging
 
-        if (!rollNo) {
+        // Check if user is logged in
+        if (!rollNo || !donorName) {
             setError('Please log in to make a donation.');
             return;
         }
 
+        // Validate donation amount
         if (isNaN(amount) || amount <= 0) {
             setError('Please enter a valid donation amount.');
             return;
         }
 
+        // Validate reason for donation
         if (reason.trim() === '') {
             setError('Please provide a reason for your donation.');
             return;
@@ -35,12 +39,11 @@ function Donate() {
                     'Content-Type': 'application/json',
                     'x-auth-rollno': rollNo, // Assuming you use roll number as part of the auth
                 },
-                body: JSON.stringify({ rollNo, amount, reason }),
-                 // Include reason in the body
+                body: JSON.stringify({ rollNo, donorName, amount, reason }), // Include donor name in the body
             });
 
             const data = await response.json();
-            console.log(data);
+            console.log('API Response:', data);
 
             if (response.ok) {
                 setSuccess('Donation successful! Redirecting...');
@@ -49,7 +52,8 @@ function Donate() {
                 setError(data.message || 'Error processing donation');
             }
         } catch (err) {
-            setError('An error occurred');
+            console.error('Fetch error:', err);
+            setError('An error occurred while processing your donation.');
         }
     };
 
@@ -58,8 +62,8 @@ function Donate() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '100vh', // Make sure the container takes the full viewport height
-            backgroundColor: '#f0f0f0', // Optional background color for the page
+            height: '100vh',
+            backgroundColor: '#f0f0f0',
         },
         formContainer: {
             width: '350px',
@@ -67,7 +71,6 @@ function Donate() {
             background: '#fafad2',
             borderRadius: '10px',
             boxShadow: '0 0 20px rgba(0, 0, 0, 0.2)',
-            transition: 'transform 0.3s, box-shadow 0.3s',
         },
         formContainerH2: {
             marginBottom: '20px',
@@ -90,8 +93,6 @@ function Donate() {
             fontSize: '16px',
             background: 'transparent',
             color: '#333',
-            outline: 'none',
-            transition: 'border-color 0.3s',
         },
         submitButton: {
             width: '100%',
@@ -101,7 +102,6 @@ function Donate() {
             border: 'none',
             borderRadius: '5px',
             cursor: 'pointer',
-            transition: 'background-color 0.3s',
         },
         errorMessage: {
             color: 'red',

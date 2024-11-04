@@ -2,20 +2,27 @@
 const paypal = require('paypal-rest-sdk');
 const Donation = require('../models/donationModel'); // Ensure this path points to your Donation model
 
-const createPayment = async (amount, rollNo, reason, PORT) => {
+// PayPal configuration
+paypal.configure({
+    'mode': 'sandbox', // Change to 'live' for production
+    'client_id': process.env.PAYPAL_CLIENT_ID,
+    'client_secret': process.env.PAYPAL_CLIENT_SECRET
+});
+
+const createPayment = async (amount, rollNo, donorName, reason, PORT) => {
     const create_payment_json = {
         intent: 'sale',
         payer: {
             payment_method: 'paypal'
         },
         redirect_urls: {
-            return_url: `http://localhost:5050/api/success?rollNo=${encodeURIComponent(rollNo)}&reason=${encodeURIComponent(reason)}`,
-            cancel_url: `http://localhost:5050/api/cancel`
+            return_url: `http://localhost:${PORT}/api/success?rollNo=${encodeURIComponent(rollNo)}&reason=${encodeURIComponent(reason)}&donorName=${encodeURIComponent(donorName)}`,
+            cancel_url: `http://localhost:${PORT}/api/cancel`
         },
         transactions: [{
             item_list: {
                 items: [{
-                    name: `Donation by ${rollNo}`,
+                    name: `Donation by ${donorName}`,
                     sku: '001',
                     price: amount,
                     currency: 'USD',
@@ -36,7 +43,8 @@ const createPayment = async (amount, rollNo, reason, PORT) => {
                 reject(error);
             } else {
                 const approvalUrl = payment.links.find(link => link.rel === 'approval_url').href;
-                resolve(approvalUrl);
+                const transactionId = payment.id;
+                resolve({ approvalUrl, transactionId });
             }
         });
     });
@@ -71,9 +79,17 @@ const executePayment = async (payerId, paymentId) => {
     });
 };
 
-const saveDonation = async (rollNo, amount, reason, transactionId) => {
+const saveDonation = async (rollNo, donorName, amount, reason, transactionId) => {
+    // Check if the donation already exists
+    const existingDonation = await Donation.findOne({ transactionId });
+    if (existingDonation) {
+        console.log('Duplicate donation attempt:', { rollNo, donorName, amount, reason, transactionId });
+        return; // Or handle as necessary, e.g., throw an error or return a message
+    }
+
     const donation = new Donation({
         rollNo,
+        name: donorName,
         amount,
         reason,
         transactionId

@@ -13,8 +13,7 @@ const donate = async (req, res) => {
     try {
         const { approvalUrl, transactionId } = await donationService.createPayment(amount, rollNo, donorName, reason, process.env.PORT || 3000);
         
-        await donationService.saveDonation(rollNo, donorName, amount, reason, transactionId);
-        res.json({ forwardLink: approvalUrl });
+        res.json({ forwardLink: approvalUrl, transactionId  });
     } catch (error) {
         console.error('PayPal payment creation error:', error);
         res.status(500).json({ message: 'Error creating PayPal payment', error: error.message });

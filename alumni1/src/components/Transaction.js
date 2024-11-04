@@ -1,5 +1,6 @@
 // src/components/Transactions.js
 import React, { useEffect, useState } from 'react';
+import '../styles/Transactions.css';
 
 const Transactions = () => {
     const [transactions, setTransactions] = useState([]);
@@ -30,7 +31,7 @@ const Transactions = () => {
 
     return (
         <div>
-            <h1>Transaction Details</h1>
+            <h1>Donations by Alumni</h1>
             <table border="1">
                 <thead>
                     <tr>

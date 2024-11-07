@@ -211,7 +211,7 @@ function Login() {
             <div style={styles.content}>
                 <div style={styles.backgroundOverlay}>
                     <div style={styles.textSection}>
-                        <h1 style={styles.textSectionH1}>Alumni Connect</h1>
+                    <h1 style={{ ...styles.textSectionH1, textAlign: 'left' }}>Alumni Connect</h1>
                         <p style={styles.textSectionP}>
                             You get an opportunity to connect with your alumni.<br /><br />
                             Interact and gain knowledge.

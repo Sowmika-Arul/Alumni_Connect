@@ -8,7 +8,6 @@ const getProfileDetails = async (rollNo) => {
     const achievements = await Achievement.find({ rollNo }).lean();
     const successStories = await SuccessStory.find({ rollNo }).lean();
     const social_media_links = await socialMedia.find({ rollNo }).lean();
-    // console.log(social_media_links);
 
     return {
         rollNo,

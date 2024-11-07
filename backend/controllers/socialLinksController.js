@@ -3,12 +3,12 @@ const socialLinksService = require('../services/socialLinkService'); // Ensure t
 
 const updateSocialLinks = async (req, res) => {
     const { rollNo } = req.params;
-    const { leetcode, linkedin, github, twitter, portfolio } = req.body; // Destructure body for convenience
+    const { leetcode, linkedin, github, portfolio, resume } = req.body; // Destructure body for convenience
     console.log(req.body);
 
     try {
         // Call the service to update social links
-        const updatedSocialLinks = await socialLinksService.updateSocialLinks(rollNo, { leetcode, linkedin, github, twitter, portfolio });
+        const updatedSocialLinks = await socialLinksService.updateSocialLinks(rollNo, { leetcode, linkedin, github, portfolio, resume });
         res.json({ socialLinks: updatedSocialLinks });
     } catch (error) {
         if (error.message === 'Profile not found') {

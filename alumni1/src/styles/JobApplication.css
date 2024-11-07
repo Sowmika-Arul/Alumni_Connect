@@ -100,9 +100,21 @@
   padding: 0;
 }
 
-.job-list li {
-  border-bottom: 1px solid #001F3F; /* Dark blue border for separation */
+/* .job-list li {
+  border-bottom: 1px solid #001F3F; 
   padding: 10px 0;
+} */
+
+.job-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  border: 1px solid #001F3F;
+  border-radius: 8px;
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .job-list li:last-child {
@@ -116,8 +128,8 @@
 
 .job-list button {
   padding: 10px 20px;
-  background-color: #ff6e07; /* Yellow */
-  color:#0e205b ; /* Dark blue text */
+  background-color: #0e205b; /* Yellow */
+  color:#FFD700; /* Dark blue text */
   border: none;
   cursor: pointer;
   border-radius: 18px; /* Rounded corners */
@@ -136,4 +148,20 @@
   margin-top: 10px;
   font-weight: bold;
   text-align: center; /* Center the success message */
+}
+
+.job-details {
+  flex: 1; /* Take up remaining space */
+}
+
+.job-details h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.job-details p {
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: #666;
 }

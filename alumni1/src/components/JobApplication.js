@@ -124,21 +124,23 @@ const JobApplication = () => {
       </div>
      
       <div className="job-list">
-        <h2>Available Jobs</h2>
-        {filteredJobs.length > 0 ? (
-          <ul>
+    <h2>Available Jobs</h2>
+    {filteredJobs.length > 0 ? (
+        <ul>
             {filteredJobs.map(job => (
-              <li key={job._id}>
-                <h3>{job.title}</h3>
-                <p>{job.description}</p>
-                <button onClick={() => handleApply(job)}>Apply</button>
-              </li>
+                <li key={job._id}>
+                    <div className="job-details">
+                        <h3>{job.title}</h3>
+                        <p>{job.description}</p>
+                    </div>
+                    <button className="apply-button" onClick={() => handleApply(job)}>Apply</button>
+                </li>
             ))}
-          </ul>
-        ) : (
-          <p>No jobs available</p>
-        )}
-      </div>
+        </ul>
+    ) : (
+        <p>No jobs available</p>
+    )}
+</div>
     </div>
   );
 };

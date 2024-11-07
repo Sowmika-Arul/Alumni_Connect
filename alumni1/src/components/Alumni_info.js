@@ -4,7 +4,7 @@ import '../styles/Alumni_info.css';
 
 function AlumniDetails() {
     const { rollNo } = useParams(); // Get the roll number from the URL
-    const [profile, setProfile] = useState({ achievements: [], successStories: [] });
+    const [profile, setProfile] = useState({ achievements: [], successStories: [], social_media_links: [] });
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
@@ -14,7 +14,7 @@ function AlumniDetails() {
                 const response = await fetch(`http://localhost:5050/api/details/${rollNo}`);
                 if (response.ok) {
                     const data = await response.json();
-                    setProfile(data.profile || { achievements: [], successStories: [] });
+                    setProfile(data.profile || { achievements: [], successStories: [], social_media_links: [] });
                 } else {
                     setError('Failed to fetch alumni details');
                 }
@@ -77,6 +77,24 @@ function AlumniDetails() {
                     </ul>
                 ) : (
                     <p>No success stories available.</p>
+                )}
+            </div>
+
+            {/* Social Media Links Card */}
+            <div className="social-media-container">
+                <h3 className="card-title">Social Media Links</h3>
+                {Array.isArray(profile.social_media_links) && profile.social_media_links.length > 0 ? (
+                    <ul className="social-media-list">
+                        {profile.social_media_links.map((link, index) => (
+                            <li key={index} className="social-media-item">
+                                <a href={link.url} target="_blank" rel="noopener noreferrer">
+                                    {link.platform} {/* Display the platform name */}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>No social media links available.</p>
                 )}
             </div>
 

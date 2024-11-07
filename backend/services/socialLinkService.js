@@ -13,8 +13,8 @@ const updateSocialLinks = async (rollNo, socialLinks) => {
         profile.leetcode = socialLinks.leetcode || profile.leetcode;
         profile.linkedin = socialLinks.linkedin || profile.linkedin;
         profile.github = socialLinks.github || profile.github;
-        profile.twitter = socialLinks.twitter || profile.twitter;
         profile.portfolio = socialLinks.portfolio || profile.portfolio;
+        profile.resume = socialLinks.resume || profile.resume;
     }
 
     await profile.save();

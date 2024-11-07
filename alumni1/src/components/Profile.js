@@ -5,7 +5,7 @@ const Profile = () => {
     const [profile, setProfile] = useState(null);
     const [achievements, setAchievements] = useState([]);
     const [successStories, setSuccessStories] = useState([]);
-    const [socialLinks, setSocialLinks] = useState({ linkedin: '', github: '', leetcode: '', twitter: '',portfolio:''});
+    const [socialLinks, setSocialLinks] = useState({ linkedin: '', github: '', leetcode: '', resume: '',portfolio:''});
     const [activeTab, setActiveTab] = useState("successStories");
     const [loadingProfile, setLoadingProfile] = useState(true);
     const [loadingData, setLoadingData] = useState(true);
@@ -17,7 +17,7 @@ const Profile = () => {
     const [newLinkedIn, setNewLinkedIn] = useState('');
     const [newGithub, setNewGithub] = useState('');
     const [newLeetcode, setNewLeetcode] = useState('');
-    const [newTwitter, setNewTwitter] = useState('');
+    const [newResume, setNewResume] = useState('');
     const [newPortfolio, setNewPortfolio] = useState('');
 
     useEffect(() => {
@@ -48,8 +48,8 @@ const Profile = () => {
             linkedin: socialMediaLinks.linkedin || '',
             github: socialMediaLinks.github || '',
             leetcode: socialMediaLinks.leetcode || '',
-            twitter: socialMediaLinks.twitter || '',
-            portfolio: socialMediaLinks.portfolio || ''
+            resume: socialMediaLinks.resume || '',
+            portfolio: socialMediaLinks.portfolio || '',
         });
                 setLoadingData(false);
             } catch (error) {
@@ -121,8 +121,8 @@ console.log('Success stories updated:', updatedData.successStories);
                 linkedin: newLinkedIn || socialLinks.linkedin,
                 github: newGithub || socialLinks.github,
                 leetcode: newLeetcode || socialLinks.leetcode,
-                twitter: newTwitter || socialLinks.twitter,
-                portfolio: newPortfolio || socialLinks.portfolio
+                portfolio: newPortfolio || socialLinks.portfolio,
+                resume: newResume || socialLinks.resume
             };
 
             const response = await fetch(`http://localhost:5050/api/add_social_links/${rollNo}`, {
@@ -160,8 +160,8 @@ console.log('Success stories updated:', updatedData.successStories);
         setNewLinkedIn(''); // Reset LinkedIn URL
         setNewGithub(''); // Reset GitHub URL
         setNewLeetcode('');
-        setNewTwitter('');
-        setNewPortfolio(''); // Reset LeetCode URL
+        setNewPortfolio('');
+        setNewResume(''); // Reset LeetCode URL
     };
 
     // Render functions for different sections
@@ -184,13 +184,20 @@ console.log('Success stories updated:', updatedData.successStories);
             {successStories.length > 0 ? (
                 successStories.map((story, index) => (
                     <div className="card" key={index}>
-                        <h4>{story.title}</h4>
-                        <p>{story.story}</p>
-                        <img src={`http://localhost:5050/${story.imageUrl}`} alt="Success Story" style={{height:'50%', width:'50%'}} />
+                        <div className="card-content">
+                            <div className="text-content">
+                                <h4>{story.title}</h4>
+                                <p>{story.story}</p>
+                            </div>
+                            {story.imageUrl && (
+                                <div className="image-content">
+                                    <img src={`http://localhost:5050/${story.imageUrl}`} alt="Success Story" />
+                                </div>
+                            )}
+                        </div>
                     </div>
                 ))
             ) : (
-                
                 <p>No success stories available. Add the first one!</p>
             )}
             <input
@@ -211,16 +218,24 @@ console.log('Success stories updated:', updatedData.successStories);
             <button onClick={handleAddSuccessStory}>Add Success Story</button>
         </div>
     );
-
+    
     const renderAchievements = () => (
         <div>
             <h3>Achievements</h3>
             {achievements.length > 0 ? (
                 achievements.map((achievement, index) => (
                     <div className="card" key={index}>
-                        <h4>{achievement.title}</h4> {/* Display title */}
-                        <p>{achievement.description}</p> {/* Display description */}
-                        <img src={`http://localhost:5050/${achievement.imageUrl}`} alt="Success Story" style={{height:'50%' , width:'50%'}} />
+                        <div className="card-content">
+                            <div className="text-content">
+                                <h4>{achievement.title}</h4>
+                                <p>{achievement.description}</p>
+                            </div>
+                            {achievement.imageUrl && (
+                                <div className="image-content">
+                                    <img src={`http://localhost:5050/${achievement.imageUrl}`} alt="Achievement" />
+                                </div>
+                            )}
+                        </div>
                     </div>
                 ))
             ) : (
@@ -229,21 +244,21 @@ console.log('Success stories updated:', updatedData.successStories);
             <input
                 type="text"
                 value={newTitle}
-                onChange={(e) => setNewTitle(e.target.value)} // Title input
-                placeholder="Title of the Achievement" // Update placeholder for clarity
+                onChange={(e) => setNewTitle(e.target.value)}
+                placeholder="Title of the Achievement"
             />
             <textarea
                 value={newAchievement}
-                onChange={(e) => setNewAchievement(e.target.value)} // Description input
+                onChange={(e) => setNewAchievement(e.target.value)}
                 placeholder="Add a new achievement description"
             />
             <input
                 type="file"
-                onChange={(e) => setNewImage(e.target.files[0])} // Image input
+                onChange={(e) => setNewImage(e.target.files[0])}
             />
             <button onClick={handleAddAchievement}>Add Achievement</button>
         </div>
-    );
+    );    
 
     const renderSocialLinks = () => (
         <div className="card">
@@ -264,14 +279,14 @@ console.log('Success stories updated:', updatedData.successStories);
                         <a href={socialLinks.leetcode} target="_blank" rel="noopener noreferrer">LeetCode</a>
                     </li>
                 )}
-                {socialLinks.twitter && (
-                    <li>
-                        <a href={socialLinks.twitter} target="_blank" rel="noopener noreferrer">Twitter</a>
-                    </li>
-                )}
                 {socialLinks.portfolio && (
                     <li>
                         <a href={socialLinks.portfolio} target="_blank" rel="noopener noreferrer">Portfolio</a>
+                    </li>
+                )}
+                {socialLinks.resume && (
+                    <li>
+                        <a href={socialLinks.resume} target="_blank" rel="noopener noreferrer">Resume</a>
                     </li>
                 )}
             </ul>
@@ -296,15 +311,15 @@ console.log('Success stories updated:', updatedData.successStories);
         />
         <input
             type="text"
-            value={socialLinks.twitter} // Populate with existing value
-            onChange={(e) => setSocialLinks({ ...socialLinks, twitter: e.target.value })}
-            placeholder="Twitter URL"
-        />
-        <input
-            type="text"
             value={socialLinks.portfolio} // Populate with existing value
             onChange={(e) => setSocialLinks({ ...socialLinks, portfolio: e.target.value })} 
             placeholder="Portfolio URL"
+        />
+         <input
+            type="text"
+            value={socialLinks.resume} // Populate with existing value
+            onChange={(e) => setSocialLinks({ ...socialLinks, resume: e.target.value })}
+            placeholder="Resume URL"
         />
             <button onClick={handleAddSocialLinks}>Save Social Links</button>
         </div>
@@ -313,7 +328,7 @@ console.log('Success stories updated:', updatedData.successStories);
     return (
         <div className="profile-container">
             <div className="header-image">
-                <img src="/images/new1.avif" alt="Header" />
+                <img src="/images/deepai1.jpg" alt="Header" />
             </div>
 
             <div className="profile-content">

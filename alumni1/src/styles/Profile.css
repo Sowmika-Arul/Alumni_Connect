@@ -27,7 +27,7 @@
 
 
 .profile-left {
-    height:500px;
+    height:550px;
     width: 25%;
     margin-top: -60px;
     background-color: #ffffff; 
@@ -187,6 +187,7 @@ button {
     border: none;
     border-radius: 5px;
     padding: 10px;
+    margin-left: 25px;
     cursor: pointer;
     font-size: 16px; /* Consistent font size */
     transition: background-color 0.3s; /* Smooth transition */

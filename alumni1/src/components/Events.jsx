@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Events.css';
-
+import Navbar from './Navbar.js';
 
 const Events = () => {
     const [events, setEvents] = useState([]);
@@ -27,6 +27,7 @@ const Events = () => {
     };
     return (
         <div className="events">
+            <Navbar/>
             <h1>Upcoming Events</h1>
             <button className="logout-button" onClick={handleLogout}>Logout</button>
             {events.length > 0 ? (

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Navbar from './Navbar.js';
 import '../styles/AlumniList.css';
 
 function AlumniList() {
@@ -84,8 +85,18 @@ function AlumniList() {
 
     return (
         <div className="alumni-list-container">
+        <Navbar/>
             <h2>Alumni List</h2>
-            <button className="logout-button" onClick={handleLogout}>Logout</button>
+            <button className="logout-button" onClick={handleLogout} style={{display: 'block',
+    margin: '0 auto 20px auto',
+    padding: '10px 20px', 
+    backgroundColor: '#1D2951',
+    color: 'FFFFFF',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontSize: '18px',
+    transition: 'background-color 0.3s, transform 0.3s' }}>Logout</button>
             {error && <p className="error-message">{error}</p>}
 
             <div className="alumni-list-content">

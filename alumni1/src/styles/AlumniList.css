@@ -4,34 +4,32 @@
     margin: 0;
     padding: 20px;
     font-family: 'Arial', sans-serif;
-    background: #FFFFFF; /* White background */
-    color: #1D2951; /* Dark blue text color */
+    background: #FFFFFF; 
+    color: #1D2951; 
     min-height: 100vh;
 }
 
-/* Header styling */
 .alumni-list-container h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: #1D2951; /* Dark blue color for the header */
-    font-size: 2.2rem; /* Larger font size */
+    color: #1D2951; 
+    font-size: 2.2rem; 
     font-weight: bold;
-    border-bottom: 3px solid #1D2951; /* Dark blue underline */
+    border-bottom: 3px solid #1D2951; 
     padding-bottom: 10px;
 }
 
-/* Logout button styling */
 .logout-button {
     display: block;
     margin: 0 auto 20px auto;
-    padding: 12px 24px; /* Slightly larger padding */
-    background-color: #1D2951; /* Dark blue background */
-    color: #FFFFFF; /* White text */
+    padding: 12px 24px; 
+    background-color: #1D2951; 
+    color: #FFFFFF; 
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 18px; /* Larger font size */
-    transition: background-color 0.3s, transform 0.3s; /* Added transform for hover effect */
+    font-size: 18px;
+    transition: background-color 0.3s, transform 0.3s; 
 }
 
 .logout-button:hover {

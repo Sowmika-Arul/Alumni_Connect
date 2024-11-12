@@ -14,6 +14,7 @@ const donationRoutes = require('./routes/donationRoutes');
 const achievementRoutes = require('./routes/achievementRoutes');
 const socialLinksRoutes = require('./routes/socialLinksRoutes');
 const detailsRoutes = require('./routes/detailsRoutes');
+const updateProfileRoutes = require('./routes/Updateprofile');
 
 
 const app = express();
@@ -60,6 +61,7 @@ app.use('/api', achievementRoutes);
 app.use('/api', successStoryRoutes);
 app.use('/api', socialLinksRoutes);
 app.use('/api', detailsRoutes);
+app.use('/api', updateProfileRoutes);
 
 
 app.listen(PORT, () => {

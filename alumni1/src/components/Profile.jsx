@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Profile.css';
+import Navbar from './Navbar.js';
 
 const Profile = () => {
     const [profile, setProfile] = useState(null);
@@ -19,6 +20,17 @@ const Profile = () => {
     const [newLeetcode, setNewLeetcode] = useState('');
     const [newResume, setNewResume] = useState('');
     const [newPortfolio, setNewPortfolio] = useState('');
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedProfile, setEditedProfile] = useState({
+    name: profile?.name || '',
+    email: profile?.email || '',
+    department: profile?.department || '',
+    specialization: profile?.specialization || '',
+    location: profile?.location || '',
+    industry: profile?.industry || '',
+    batch: profile?.batch || ''
+});
+  
 
     useEffect(() => {
         const rollNo = localStorage.getItem('rollNo');
@@ -52,6 +64,18 @@ const Profile = () => {
             portfolio: socialMediaLinks.portfolio || '',
         });
                 setLoadingData(false);
+
+                // Update editedProfile state after profile data is fetched
+            setEditedProfile({
+                name: profileData.profile?.name || '',
+                email: profileData.profile?.email || '',
+                department: profileData.profile?.department || '',
+                specialization: profileData.profile?.specialization || '',
+                location: profileData.profile?.location || '',
+                industry: profileData.profile?.industry || '',
+                batch: profileData.profile?.batch || '',
+            });
+            
             } catch (error) {
                 console.error('Error fetching data:', error);
                 setError('Failed to fetch profile data. Please try again later.');
@@ -61,6 +85,116 @@ const Profile = () => {
         fetchProfileData();
     }, []);
 
+    const handleSaveProfile = async () => {
+        const rollNo = localStorage.getItem('rollNo');
+        try {
+            const response = await fetch(`http://localhost:5050/api/edit_profile/${rollNo}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(editedProfile),
+            });
+    
+            if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+            const updatedProfile = await response.json();
+            setProfile(updatedProfile.profile); // Update profile state with new data
+            setIsEditing(false); // Exit editing mode
+        } catch (error) {
+            console.error('Error saving profile:', error);
+            setError('Failed to save changes. Please try again.');
+        }
+    };
+    
+
+    const renderProfileInfo = () => {
+        if (isEditing) {
+            return (
+                <div>
+                    <h3>Edit Profile</h3>
+                    <input
+                        type="text"
+                        value={editedProfile.name}
+                        onChange={(e) => setEditedProfile({ ...editedProfile, name: e.target.value })}
+                        placeholder="Name"
+                        style={{width:'310px'}}
+                    />
+                    <input
+                        type="text"
+                        value={editedProfile.email}
+                        onChange={(e) => setEditedProfile({ ...editedProfile, email: e.target.value })}
+                        placeholder="Email"
+                        style={{width:'310px'}}
+                    />
+                    <input
+                        type="text"
+                        value={editedProfile.department}
+                        onChange={(e) => setEditedProfile({ ...editedProfile, department: e.target.value })}
+                        placeholder="Department"
+                        style={{width:'310px'}}
+                    />
+                    <input
+                        type="text"
+                        value={editedProfile.specialization}
+                        onChange={(e) => setEditedProfile({ ...editedProfile, specialization: e.target.value })}
+                        placeholder="Specialization"
+                        style={{width:'310px'}}
+                    />
+                    <input
+                        type="text"
+                        value={editedProfile.location}
+                        onChange={(e) => setEditedProfile({ ...editedProfile, location: e.target.value })}
+                        placeholder="Location"
+                        style={{width:'310px'}}
+                    />
+                    <input
+                        type="text"
+                        value={editedProfile.industry}
+                        onChange={(e) => setEditedProfile({ ...editedProfile, industry: e.target.value })}
+                        placeholder="Industry"
+                        style={{width:'310px'}}
+                    />
+                    <input
+                        type="text"
+                        value={editedProfile.batch}
+                        onChange={(e) => setEditedProfile({ ...editedProfile, batch: e.target.value })}
+                        placeholder="Batch"
+                        style={{width:'310px'}}
+                    />
+                    <button onClick={handleSaveProfile}>Save Changes</button>
+                    <button onClick={() => setIsEditing(false)}>Cancel</button>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <h2>Personal Information</h2>
+                    {loadingProfile ? (
+                        <p>Loading profile...</p>
+                    ) : (
+                        <>
+                            {profile ? (
+                                <>
+                                    {profile.photo && (
+                                        <img src={profile.photo} alt={`${profile.name}'s Profile`} className="profile-picture" />
+                                    )}
+                                    <p><strong>Name:</strong> {profile.name}</p>
+                                    <p><strong>Email:</strong> {profile.email}</p>
+                                    <p><strong>Batch:</strong> {profile.batch}</p>
+                                    <p><strong>Department:</strong> {profile.department}</p>
+                                    <p><strong>Specialization:</strong> {profile.specialization}</p>
+                                    <p><strong>Location:</strong> {profile.location}</p>
+                                    <p><strong>Industry:</strong> {profile.industry}</p>
+                                </>
+                            ) : <p>No profile data available.</p>}
+                            <button onClick={() => setIsEditing(true)}>Edit Profile</button>
+                        </>
+                    )}
+                </div>
+            );
+        }
+    };
+    
     // Function to handle adding achievements
     const handleAddAchievement = async () => {
         const rollNo = localStorage.getItem('rollNo');
@@ -327,37 +461,15 @@ console.log('Success stories updated:', updatedData.successStories);
 
     return (
         <div className="profile-container">
+            <Navbar/>
             <div className="header-image">
                 <img src="/images/deepai1.jpg" alt="Header" />
             </div>
 
             <div className="profile-content">
                 <div className="profile-left">
-                    <div className="personal-info">
-                        <h2>Personal Information</h2>
-                        {loadingProfile ? (
-                            <p>Loading profile...</p>
-                        ) : (
-                            <>
-                                {profile ? (
-                                    <>
-                                        {profile.photo && (
-                                            <img src={profile.photo} alt={`${profile.name}'s Profile`} className="profile-picture" />
-                                        )}
-                                        <p><strong>Name:</strong> {profile.name}</p>
-                                        <p><strong>Batch:</strong> {profile.batch}</p>
-                                        <p><strong>Registration Number:</strong> {profile.rollNo}</p>
-                                        <p><strong>Email:</strong> {profile.email}</p>
-                                        <p><strong>Department:</strong> {profile.department}</p>
-                                        <p><strong>Specialization:</strong> {profile.specialization}</p>
-                                        <p><strong>Location:</strong> {profile.location}</p>
-                                        <p><strong>Industry:</strong> {profile.industry}</p>
-                                    </>
-                                ) : <p>No profile data available.</p>}
-                            </>
-                        )}
+                {renderProfileInfo()}
                     </div>
-                </div>
 
                 <div className="profile-right">
                     <div className="nav">

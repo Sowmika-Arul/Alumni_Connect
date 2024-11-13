@@ -162,7 +162,7 @@ const Profile = () => {
                         style={{width:'310px'}}
                     />
                     <button onClick={handleSaveProfile}>Save Changes</button>
-                    <button onClick={() => setIsEditing(false)}>Cancel</button>
+                    <button onClick={() => setIsEditing(false)} style={{ marginLeft: '25px'}}>Cancel</button>
                 </div>
             );
         } else {

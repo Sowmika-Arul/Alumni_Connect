@@ -4,7 +4,11 @@ import '../styles/Alumni_info.css';
 
 function AlumniDetails() {
     const { rollNo } = useParams(); // Get the roll number from the URL
-    const [profile, setProfile] = useState({ achievements: [], successStories: [], social_media_links: [] });
+    const [profile, setProfile] = useState({
+        achievements: [],
+        successStories: [],
+        social_media_links: []  // Initialize as an empty array
+    });
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
@@ -14,6 +18,7 @@ function AlumniDetails() {
                 const response = await fetch(`http://localhost:5050/api/details/${rollNo}`);
                 if (response.ok) {
                     const data = await response.json();
+                    console.log("Fetched Profile Data: ", data); // Log the fetched data to check its structure
                     setProfile(data.profile || { achievements: [], successStories: [], social_media_links: [] });
                 } else {
                     setError('Failed to fetch alumni details');
@@ -30,6 +35,9 @@ function AlumniDetails() {
     const handleBack = () => {
         navigate('/alumni_list'); // Navigate back to alumni list
     };
+
+    // Get the first object in the social_media_links array, if it exists
+    const socialMediaLinks = profile.social_media_links[0] || {};
 
     if (error) {
         return <p className="error-message">{error}</p>;
@@ -83,19 +91,47 @@ function AlumniDetails() {
             {/* Social Media Links Card */}
             <div className="social-media-container">
                 <h3 className="card-title">Social Media Links</h3>
-                {Array.isArray(profile.social_media_links) && profile.social_media_links.length > 0 ? (
-                    <ul className="social-media-list">
-                        {profile.social_media_links.map((link, index) => (
-                            <li key={index} className="social-media-item">
-                                <a href={link.url} target="_blank" rel="noopener noreferrer">
-                                    {link.platform} {/* Display the platform name */}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p>No social media links available.</p>
-                )}
+                <ul className="social-media-list">
+                    {socialMediaLinks.leetcode && (
+                        <li className="social-media-item">
+                            <a href={socialMediaLinks.leetcode} target="_blank" rel="noopener noreferrer">
+                                Leetcode
+                            </a>
+                        </li>
+                    )}
+                    {socialMediaLinks.linkedin && (
+                        <li className="social-media-item">
+                            <a href={socialMediaLinks.linkedin} target="_blank" rel="noopener noreferrer">
+                                LinkedIn
+                            </a>
+                        </li>
+                    )}
+                    {socialMediaLinks.github && (
+                        <li className="social-media-item">
+                            <a href={socialMediaLinks.github} target="_blank" rel="noopener noreferrer">
+                                GitHub
+                            </a>
+                        </li>
+                    )}
+                    {socialMediaLinks.portfolio && (
+                        <li className="social-media-item">
+                            <a href={socialMediaLinks.portfolio} target="_blank" rel="noopener noreferrer">
+                                Portfolio
+                            </a>
+                        </li>
+                    )}
+                    {socialMediaLinks.resume && (
+                        <li className="social-media-item">
+                            <a href={socialMediaLinks.resume} target="_blank" rel="noopener noreferrer">
+                                Resume
+                            </a>
+                        </li>
+                    )}
+                    {/* Show "No social media links" if all links are missing */}
+                    {Object.keys(socialMediaLinks).length === 0 && (
+                        <p>No social media links available.</p>
+                    )}
+                </ul>
             </div>
 
             <button className="back-button" onClick={handleBack}>Back to Alumni List</button>

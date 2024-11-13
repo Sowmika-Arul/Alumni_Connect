@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from './Navbar.js';
 
 function Donate() {
     const [amount, setAmount] = useState('');
@@ -116,6 +117,8 @@ function Donate() {
     };
 
     return (
+        <div>
+        <Navbar/>
         <div style={styles.pageContainer}>
             <div style={styles.formContainer}>
                 <h2 style={styles.formContainerH2}>Make a Donation</h2>
@@ -149,6 +152,7 @@ function Donate() {
                     {success && <p style={styles.successMessage}>{success}</p>}
                 </form>
             </div>
+        </div>
         </div>
     );
 }

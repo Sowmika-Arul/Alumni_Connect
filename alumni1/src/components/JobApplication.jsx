@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/JobApplication.css';
+import Navbar from './Navbar.js';
 
 const JobApplication = () => {
   const [jobs, setJobs] = useState([]);
@@ -89,6 +90,7 @@ const JobApplication = () => {
   return (
     
     <div className="job-application-page">
+      <Navbar/>
        <div className="job-search">
         <h2>Search Jobs</h2>
         <input

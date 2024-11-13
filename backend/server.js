@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const multer = require('multer');
 const paypal = require('paypal-rest-sdk');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRoutes');
@@ -15,6 +16,7 @@ const achievementRoutes = require('./routes/achievementRoutes');
 const socialLinksRoutes = require('./routes/socialLinksRoutes');
 const detailsRoutes = require('./routes/detailsRoutes');
 const updateProfileRoutes = require('./routes/Updateprofile');
+const Video = require('./models/Video');
 
 
 const app = express();
@@ -62,6 +64,48 @@ app.use('/api', successStoryRoutes);
 app.use('/api', socialLinksRoutes);
 app.use('/api', detailsRoutes);
 app.use('/api', updateProfileRoutes);
+
+// Configure Multer for file uploads
+const storage = multer.diskStorage({
+    destination: './uploads/',
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    }
+});
+const upload = multer({ storage });
+
+// Video Upload Route
+app.post('/upload', upload.single('video'), async (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'No video file uploaded' });
+    }
+    try {
+        const newVideo = new Video({
+            title: req.body.title,
+            description: req.body.description,
+            videoUrl: `/uploads/${req.file.filename}`
+        });
+        await newVideo.save();
+        // Send the video URL in the response
+        res.status(201).json({
+            message: 'Video uploaded successfully!',
+            videoUrl: `/uploads/${req.file.filename}` // Returning the video URL here
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to upload video' });
+    }
+});
+
+// Fetch All Videos Route
+app.get('/videos', async (req, res) => {
+    try {
+        const videos = await Video.find();
+        res.json(videos);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch videos' });
+    }
+});
 
 
 app.listen(PORT, () => {

@@ -250,6 +250,9 @@ function Login() {
                             <button type="submit" style={styles.submitButton}>Login</button>
                             {error && <p>{error}</p>}
                         </form>
+                        <p>
+                            <a href="/forgot-password" style={styles.buttonLink}>Forgot Password?</a>
+                        </p>
                     </div>
                 </div>
             </div>

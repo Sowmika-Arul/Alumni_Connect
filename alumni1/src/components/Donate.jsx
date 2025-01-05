@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Navbar from './Navbar.js';
+import Navbar from './Navbar.jsx';
 
 function Donate() {
     const [amount, setAmount] = useState('');
@@ -67,7 +67,7 @@ function Donate() {
             backgroundColor: '#f0f0f0',
         },
         formContainer: {
-            width: '350px',
+            width: '400px',
             padding: '30px',
             background: '#fafad2',
             borderRadius: '10px',
@@ -76,6 +76,12 @@ function Donate() {
         formContainerH2: {
             marginBottom: '20px',
             color: '#333',
+            textAlign: 'center',
+        },
+        description: {
+            marginBottom: '20px',
+            color: '#555',
+            fontSize: '14px',
             textAlign: 'center',
         },
         inputGroup: {
@@ -118,41 +124,46 @@ function Donate() {
 
     return (
         <div>
-        <Navbar/>
-        <div style={styles.pageContainer}>
-            <div style={styles.formContainer}>
-                <h2 style={styles.formContainerH2}>Make a Donation</h2>
-                <form onSubmit={handleDonate}>
-                    <div style={styles.inputGroup}>
-                        <label htmlFor="amount" style={styles.inputGroupLabel}>Donation Amount:</label>
-                        <input
-                            type="number"
-                            id="amount"
-                            name="amount"
-                            value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
-                            required
-                            style={styles.inputGroupInput}
-                        />
-                    </div>
-                    <div style={styles.inputGroup}>
-                        <label htmlFor="reason" style={styles.inputGroupLabel}>Reason for Donation:</label>
-                        <input
-                            type="text"
-                            id="reason"
-                            name="reason"
-                            value={reason}
-                            onChange={(e) => setReason(e.target.value)}
-                            required
-                            style={styles.inputGroupInput}
-                        />
-                    </div>
-                    <button type="submit" style={styles.submitButton}>Donate</button>
-                    {error && <p style={styles.errorMessage}>{error}</p>}
-                    {success && <p style={styles.successMessage}>{success}</p>}
-                </form>
+            <Navbar />
+            <div style={styles.pageContainer}>
+                <div style={styles.formContainer}>
+                    <h2 style={styles.formContainerH2}>Make a Donation</h2>
+                    <p style={styles.description}>
+                        Your support makes a real difference. Contributions help fund scholarships, alumni events, and
+                        important initiatives that enrich our community. Together, we can give back and empower the
+                        future.
+                    </p>
+                    <form onSubmit={handleDonate}>
+                        <div style={styles.inputGroup}>
+                            <label htmlFor="amount" style={styles.inputGroupLabel}>Donation Amount:</label>
+                            <input
+                                type="number"
+                                id="amount"
+                                name="amount"
+                                value={amount}
+                                onChange={(e) => setAmount(e.target.value)}
+                                required
+                                style={styles.inputGroupInput}
+                            />
+                        </div>
+                        <div style={styles.inputGroup}>
+                            <label htmlFor="reason" style={styles.inputGroupLabel}>Reason for Donation:</label>
+                            <input
+                                type="text"
+                                id="reason"
+                                name="reason"
+                                value={reason}
+                                onChange={(e) => setReason(e.target.value)}
+                                required
+                                style={styles.inputGroupInput}
+                            />
+                        </div>
+                        <button type="submit" style={styles.submitButton}>Donate</button>
+                        {error && <p style={styles.errorMessage}>{error}</p>}
+                        {success && <p style={styles.successMessage}>{success}</p>}
+                    </form>
+                </div>
             </div>
-        </div>
         </div>
     );
 }

@@ -3,9 +3,11 @@ const userService = require('../services/userService');
 const login = async (req, res) => {
     const { rollNo, password } = req.body;
 
+
     try {
         const result = await userService.loginUser(rollNo, password);
         res.status(200).json(result); 
+
     } catch (err) {
         console.error('Error during login:', err); 
         if (err.message === 'Invalid roll number or password') {

@@ -1,5 +1,6 @@
 const jobService = require('../services/jobService.js'); // Replacing import with require
 
+// Get all jobs
 const getJobs = async (req, res) => {
     try {
         const jobs = await jobService.getAllJobs();
@@ -9,31 +10,45 @@ const getJobs = async (req, res) => {
     }
 };
 
+// Create a new job
 const createJob = async (req, res) => {
-    const { title, description, email } = req.body;
+    const { title, description, email, jobType, location, subLocation } = req.body;
 
-    if (!title || !description || !email) {
-        return res.status(400).json({ message: 'Title, description, and email are required' });
+    // Validate required fields
+    if (!title || !description || !email || !jobType || !location) {
+        return res.status(400).json({ message: 'Title, description, email, job type, and location are required' });
+    }
+
+    // If location is "On-site", subLocation is required
+    if (location === 'On-site' && !subLocation) {
+        return res.status(400).json({ message: 'Sub-location is required for On-site jobs' });
     }
 
     try {
-        const newJob = await jobService.createJob({ title, description, email });
+        const newJob = await jobService.createJob({ title, description, email, jobType, location, subLocation });
         res.status(201).json(newJob);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 };
 
+// Update an existing job
 const updateJob = async (req, res) => {
     const { id } = req.params;
-    const { title, description } = req.body;
+    const { title, description, jobType, location, subLocation } = req.body;
 
-    if (!title || !description) {
-        return res.status(400).json({ message: 'Title and description are required' });
+    // Validate required fields
+    if (!title || !description || !jobType || !location) {
+        return res.status(400).json({ message: 'Title, description, job type, and location are required' });
+    }
+
+    // If location is "On-site", subLocation is required
+    if (location === 'On-site' && !subLocation) {
+        return res.status(400).json({ message: 'Sub-location is required for On-site jobs' });
     }
 
     try {
-        const updatedJob = await jobService.updateJobById(id, { title, description });
+        const updatedJob = await jobService.updateJobById(id, { title, description, jobType, location, subLocation });
 
         if (!updatedJob) {
             return res.status(404).json({ message: 'Job not found' });
@@ -45,6 +60,7 @@ const updateJob = async (req, res) => {
     }
 };
 
+// Delete a job
 const deleteJob = async (req, res) => {
     const { id } = req.params;
 

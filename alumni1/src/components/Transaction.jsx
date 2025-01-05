@@ -1,6 +1,7 @@
 // src/components/Transactions.js
 import React, { useEffect, useState } from 'react';
 import '../styles/Transactions.css';
+import Navbar from './Navbar.jsx';
 
 const Transactions = () => {
     const [transactions, setTransactions] = useState([]);
@@ -31,6 +32,7 @@ const Transactions = () => {
 
     return (
         <div>
+            <Navbar/>
             <h1>Donations by Alumni</h1>
             <table border="1">
                 <thead>

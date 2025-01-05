@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/Alumni_info.css';
+import Navbar from './Navbar.jsx';
 
 function AlumniDetails() {
     const { rollNo } = useParams(); // Get the roll number from the URL
@@ -44,6 +45,8 @@ function AlumniDetails() {
     }
 
     return (
+        <div>
+            <Navbar/>
         <div className="alumni-details-wrapper">
             <h2 className="details-title">Achievements and Success Stories of Alumni</h2>
             <p className="details-description">
@@ -135,6 +138,7 @@ function AlumniDetails() {
             </div>
 
             <button className="back-button" onClick={handleBack}>Back to Alumni List</button>
+        </div>
         </div>
     );
 }

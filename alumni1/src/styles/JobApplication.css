@@ -1,98 +1,126 @@
-/* JobApplication.css */
-
+/* General Layout */
 .job-application-page {
+  display: flex;
   padding: 20px;
-  background-color: #FFFFFF; /* White background */
-  color: #000000; /* Default text color */
-  font-family: 'Arial', sans-serif; /* Set a clean font */
-  max-width: 800px; /* Limit overall width of the page */
-  margin: 0 auto; /* Center the page */
-  border: 1px solid #001F3F; /* Add a dark blue border */
-  border-radius: 10px; /* Round the corners */
+  background-color: #FFFFFF;
+  color: #000000;
+  font-family: 'Arial', sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  border: 1px solid #001F3F;
+  border-radius: 10px;
+  gap: 30px; /* Added space between filter and job list sections */
 }
 
-/* Job Post Form */
+/* Filter Section */
+.filter-container {
+  width: 30%;
+  padding: 20px;
+  background-color: #F0F0F0;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.filter-container h2 {
+  color: #001F3F;
+  text-align: center;
+}
+
+.filter-section {
+  margin-bottom: 20px;
+}
+
+.filter-section h3 {
+  color: #001F3F;
+  margin-bottom: 10px;
+}
+
+.filter-section label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.filter-section input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+/* Job Type and Location Filters on Same Line */
+.filter-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Job Post Form Section */
+.job-post-container {
+  width: 65%;
+  margin-left: 5%;
+  padding: 20px;
+}
+
 .job-post-form {
   margin-bottom: 20px;
-  background-color: #F0F0F0; /* Dark blue background */
+  background-color: #F0F0F0;
   padding: 20px;
-  border-radius: 10px; /* Round corners */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .job-post-form h2 {
-  color:#001F3F; /* Yellow for headings */
+  color: #001F3F;
   margin-bottom: 15px;
-  text-align: center; /* Center the heading */
+  text-align: center;
 }
 
 .job-post-form input,
-.job-post-form textarea {
+.job-post-form textarea,
+.job-post-form select {
   display: block;
-  width: 97%; /* Full width within the form */
+  width: 97%;
   margin-bottom: 10px;
-  padding: 12px; /* Slightly larger padding */
-  border: 1px solid #001F3F; /* Yellow border */
-  border-radius: 5px; /* Rounded corners */
-  background-color: #F0F0F0; /* Light gray background */
-  color: #000; /* Dark text color */
-  font-size: 16px; /* Increase font size for readability */
+  padding: 12px;
+  border: 1px solid #001F3F;
+  border-radius: 5px;
+  background-color: #F0F0F0;
+  color: #000;
+  font-size: 16px;
+}
+
+.job-post-form select {
+  background-color: #F0F0F0;
+  color: #000;
+  border: 1px solid #001F3F;
 }
 
 .job-post-form button {
-  padding: 12px 20px; /* Adjust button padding */
-  background-color: #001F3F; /* Yellow background */
-  color:#FFD700; /* Dark blue text */
+  padding: 12px 20px;
+  background-color: #001F3F;
+  color: #FFD700;
   border: none;
   cursor: pointer;
-  border-radius: 5px; /* Rounded corners */
-  margin-top: 10px; /* Space above button */
-  transition: background-color 0.3s ease; /* Smooth transition */
-  font-size: 16px; /* Increase button font size */
-  width: 100%; /* Full width for buttons */
+  border-radius: 5px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+  width: 100%;
 }
 
 .job-post-form button:hover {
-  background-color:#183553; /* Slightly lighter yellow on hover */
+  background-color: #183553;
 }
 
-/* Job Search */
-.job-search {
-  margin-bottom: 20px;
-  background-color: #F0F0F0; /* Light gray background for search */
-  padding: 20px;
-  border-radius: 10px; /* Round corners */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-}
-
-.job-search h2 {
-  color: #001F3F; /* Dark blue for heading */
-  text-align: center; /* Center the heading */
-  margin-bottom: 15px; /* Space below heading */
-}
-
-.job-search input {
-  display: block;
-  width: 95%; /* Full width within the search container */
-  padding: 12px; /* Adjust input padding */
-  border: 1px solid #001F3F; /* Dark blue border */
-  border-radius: 5px; /* Rounded corners */
-  background-color: #FFFFFF; /* White background */
-  color: #000; /* Dark text color */
-  font-size: 16px; /* Increase font size */
-}
-
-/* Job List */
+/* Job List Section */
 .job-list {
-  background-color: #F0F0F0; /* Light gray background */
+  background-color: #F0F0F0;
   padding: 20px;
-  border-radius: 10px; /* Round corners */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .job-list h2 {
-  color: #001F3F; /* Dark blue for heading */
-  text-align: center; /* Center the heading */
+  color: #001F3F;
+  text-align: center;
 }
 
 .job-list ul {
@@ -100,68 +128,93 @@
   padding: 0;
 }
 
-/* .job-list li {
-  border-bottom: 1px solid #001F3F; 
-  padding: 10px 0;
-} */
-
 .job-list li {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 15px;
-  border: 1px solid #001F3F;
+  border: 1px solid #001F3F; /* Border around each job */
   border-radius: 8px;
   background-color: #ffffff;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px; /* Increased margin between job listings */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow around each job */
 }
 
 .job-list li:last-child {
-  border-bottom: none; /* Remove border from last item */
+  border-bottom: none;
 }
 
 .job-list h3 {
-  color: #0e205b; /* Yellow for job titles */
-  margin: 0; /* Reset margin */
+  color: #0e205b;
+  margin: 0;
+}
+
+.job-list .apply-button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: 20px;
 }
 
 .job-list button {
   padding: 10px 20px;
-  background-color: #0e205b; /* Yellow */
-  color:#FFD700; /* Dark blue text */
+  background-color: #0e205b;
+  color: #FFD700;
   border: none;
   cursor: pointer;
-  border-radius: 18px; /* Rounded corners */
-  margin: 5px; 
-  transition: background-color 0.3s ease; /* Smooth transition */
+  border-radius: 18px;
+  /* margin: 5px; */
+  margin-top: -120px;
+  transition: background-color 0.3s ease;
 }
 
 .job-list button:hover {
-  background-color:#0e205b;
-  color:#FFD700; /* Slightly lighter yellow on hover */
+  background-color: #183553;
 }
 
 /* Success Message */
 .success-message {
-  color: #FFD700; /* Yellow for success messages */
+  color: #FFD700;
   margin-top: 10px;
   font-weight: bold;
-  text-align: center; /* Center the success message */
+  text-align: center;
 }
 
-.job-details {
-  flex: 1; /* Take up remaining space */
+/* Additional styling for form elements */
+.job-post-form select,
+.job-post-form input[type="email"],
+.job-post-form textarea {
+  border: 1px solid #001F3F;
+  background-color: #F0F0F0;
 }
 
-.job-details h3 {
-  margin: 0;
-  font-size: 18px;
-  color: #333;
+.job-post-form select {
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 16px;
 }
 
-.job-details p {
-  margin: 5px 0 0;
-  font-size: 14px;
-  color: #666;
+.job-post-form input[type="email"] {
+  padding: 12px;
+  border-radius: 5px;
+}
+
+.job-post-form textarea {
+  padding: 12px;
+  height: 150px;
+}
+
+.filter-container select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #001F3F;
+  background-color: #F0F0F0;
+}
+
+.filter-row select {
+  width: 48%; /* Ensures both dropdowns fit side by side */
+  padding: 12px;
+  margin-bottom: 10px;
 }

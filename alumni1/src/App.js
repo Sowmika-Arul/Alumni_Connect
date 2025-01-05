@@ -13,6 +13,8 @@ import Transaction from './components/Transaction';
 import ForgotPassword from './components/ForgotPassword';
 import Videolist from './components/VideoList';
 import VideoUpload from './components/VideoUpload';
+import Projects from './components/ProjectUpload';
+import Innovatives from './components/Innovatives';
 
 function App() {
     return (
@@ -31,6 +33,8 @@ function App() {
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/videolist" element={<Videolist />} />
                 <Route path="/videoupload" element={<VideoUpload />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/innovatives" element={<Innovatives />} />
             </Routes>
         </Router>
     );

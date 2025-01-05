@@ -1,6 +1,6 @@
 /* General container styling */
 .alumni-details-wrapper {
-    max-width: 900px; /* Increased width for a more spacious design */
+    width: 700px; /* Increased width for a more spacious design */
     margin: 40px auto; /* Center the container with more space from top */
     padding: 30px;
     border-radius: 10px; /* Rounded corners */
@@ -85,12 +85,12 @@
 
 .achievement-image,
 .story-image {
-    width: 100%; /* Full width for images */
-    max-width: 600px; /* Limit max width for better control */
+    width: 100%; 
+    max-width: 600px; 
     height: auto;
     border-radius: 8px;
     margin-top: 15px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Add shadow around images */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); 
 }
 
 .achievement-description,

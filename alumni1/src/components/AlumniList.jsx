@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from './Navbar.js';
+import Navbar from './Navbar.jsx';
 import '../styles/AlumniList.css';
 
 function AlumniList() {
@@ -11,7 +11,8 @@ function AlumniList() {
         departments: [],
         specializations: [],
         batches: [],
-        locations: []
+        locations: [],
+        industries: [] // New filter for industries
     });
     const navigate = useNavigate();
 
@@ -61,6 +62,16 @@ function AlumniList() {
         });
     };
 
+    const clearFilters = () => {
+        setFilters({
+            departments: [],
+            specializations: [],
+            batches: [],
+            locations: [],
+            industries: []
+        });
+    };
+
     useEffect(() => {
         const applyFilters = () => {
             const filtered = profiles.filter(profile => {
@@ -68,7 +79,8 @@ function AlumniList() {
                     (filters.departments.length === 0 || filters.departments.includes(profile.department)) &&
                     (filters.specializations.length === 0 || filters.specializations.includes(profile.specialization)) &&
                     (filters.batches.length === 0 || filters.batches.includes(profile.batch.toString())) &&
-                    (filters.locations.length === 0 || filters.locations.includes(profile.location))
+                    (filters.locations.length === 0 || filters.locations.includes(profile.location)) &&
+                    (filters.industries.length === 0 || filters.industries.includes(profile.industry))
                 );
             });
             setFilteredProfiles(filtered);
@@ -82,21 +94,24 @@ function AlumniList() {
     const uniqueSpecializations = [...new Set(profiles.map(profile => profile.specialization))];
     const uniqueBatches = [...new Set(profiles.map(profile => profile.batch))];
     const uniqueLocations = [...new Set(profiles.map(profile => profile.location))];
+    const uniqueIndustries = [...new Set(profiles.map(profile => profile.industry))];
 
     return (
         <div className="alumni-list-container">
-        <Navbar/>
+            <Navbar />
             <h2>Alumni List</h2>
-            <button className="logout-button" onClick={handleLogout} style={{display: 'block',
-    margin: '0 auto 20px auto',
-    padding: '10px 20px', 
-    backgroundColor: '#1D2951',
-    color: 'FFFFFF',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    fontSize: '18px',
-    transition: 'background-color 0.3s, transform 0.3s' }}>Logout</button>
+            <button className="logout-button" onClick={handleLogout} style={{
+                display: 'block',
+                margin: '0 auto 20px auto',
+                padding: '10px 20px',
+                backgroundColor: '#1D2951',
+                color: 'white',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '18px',
+                transition: 'background-color 0.3s, transform 0.3s'
+            }}>Logout</button>
             {error && <p className="error-message">{error}</p>}
 
             <div className="alumni-list-content">
@@ -157,6 +172,34 @@ function AlumniList() {
                             </label>
                         ))}
                     </div>
+
+                    <div className="filter-group">
+                        <h4>Industry</h4>
+                        {uniqueIndustries.map(industry => (
+                            <label key={industry}>
+                                <input 
+                                    type="checkbox" 
+                                    checked={filters.industries.includes(industry)} 
+                                    onChange={() => handleFilterChange('industries', industry)} 
+                                />
+                                {industry}
+                            </label>
+                        ))}
+                    </div>
+
+                    <button onClick={clearFilters} className="clear-filters-button" style={{
+                        marginTop: '5px',
+                        backgroundColor: '#D9534F',
+                        color: 'white',
+                        marginRight: '150px',
+                        border: 'none',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        fontSize: '16px',
+                        transition: 'background-color 0.3s, transform 0.3s'
+                    }}>
+                        Clear Filters
+                    </button>
                 </div>
 
                 <table className="profile-grid">

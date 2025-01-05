@@ -17,6 +17,7 @@ const socialLinksRoutes = require('./routes/socialLinksRoutes');
 const detailsRoutes = require('./routes/detailsRoutes');
 const updateProfileRoutes = require('./routes/Updateprofile');
 const Video = require('./models/Video');
+const Project = require('./models/projectModel'); 
 
 
 const app = express();
@@ -79,17 +80,31 @@ app.post('/upload', upload.single('video'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: 'No video file uploaded' });
     }
+
     try {
+        const { title, description, userName, domain } = req.body; // Extract domain from the request body
+
+        // Ensure domain is provided
+        if (!domain) {
+            return res.status(400).json({ error: 'Domain is required' });
+        }
+
+        // Create a new video entry with the provided data
         const newVideo = new Video({
-            title: req.body.title,
-            description: req.body.description,
-            videoUrl: `/uploads/${req.file.filename}`
+            title,
+            description,
+            videoUrl: `/uploads/${req.file.filename}`,
+            userName, // Store the user's name
+            domain,   // Store the domain
         });
+
+        // Save the new video entry to the database
         await newVideo.save();
-        // Send the video URL in the response
+
+        // Send the response back with a success message and video URL
         res.status(201).json({
             message: 'Video uploaded successfully!',
-            videoUrl: `/uploads/${req.file.filename}` // Returning the video URL here
+            videoUrl: `/uploads/${req.file.filename}`,
         });
     } catch (error) {
         console.error(error);
@@ -97,13 +112,66 @@ app.post('/upload', upload.single('video'), async (req, res) => {
     }
 });
 
-// Fetch All Videos Route
+// Video List Route
 app.get('/videos', async (req, res) => {
     try {
-        const videos = await Video.find();
+        const { domain } = req.query; // Get the domain from the query params
+
+        let filter = {};
+        if (domain) {
+            filter.domain = domain; // Filter videos by domain if provided
+        }
+
+        const videos = await Video.find(filter); // Fetch filtered videos from the database
         res.json(videos);
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch videos' });
+    }
+});
+
+
+// Endpoint to upload a project
+app.post('/api/upload_project', upload.single('image'), async (req, res) => {
+    try {
+        const { projectName, domain, description, percentageCompleted, endUser, teamLeaderName, emailId, department } = req.body;
+        const imageUrl = req.file ? req.file.path : '';
+
+        const newProject = new Project({
+            projectName,
+            domain,
+            description,
+            imageUrl,
+            percentageCompleted,
+            endUser,
+            teamLeaderName,
+            emailId,
+            department,
+        });
+
+        await newProject.save();
+        res.status(200).json({ message: 'Project uploaded successfully!' });
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to upload project', error: err });
+    }
+});
+
+// Get all projects
+app.get('/api/projects', async (req, res) => {
+    try {
+        const projects = await Project.find(); // Fetch all projects from the database
+        res.status(200).json({ projects });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch projects' });
+    }
+});
+
+// Endpoint to fetch unique domains
+app.get('/domains', async (req, res) => {
+    try {
+        const domains = await Video.distinct('domain'); // Get distinct domains
+        res.json(domains);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch domains' });
     }
 });
 

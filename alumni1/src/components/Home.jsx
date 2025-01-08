@@ -31,6 +31,9 @@ const Navbar = () => {
         <li><a href="/donate">Donation</a></li>
         <li><a href="/profile">Profile</a></li>
         <li><Link to="/jobs">Job</Link></li> 
+        <li ><Link to="/videolist">Learn & Grow</Link></li> 
+         <li><Link to="/videoupload">Share Knowledge</Link></li> 
+        <li><Link to="/innovatives">Innovations</Link></li> 
         <li><a href="/">Logout</a></li>
       </ul>
     </nav>

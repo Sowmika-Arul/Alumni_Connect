@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar.jsx';
 
@@ -6,10 +6,12 @@ function VideoUpload() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [video, setVideo] = useState(null);
-    const [domain, setDomain] = useState(''); // New state for domain
+    const [domain, setDomain] = useState('');
     const [message, setMessage] = useState('');
     const [videoUrl, setVideoUrl] = useState('');
     const [userName, setUserName] = useState('');
+
+    const fileInputRef = useRef(null); // Ref for the file input
 
     React.useEffect(() => {
         const storedUserName = localStorage.getItem('userName');
@@ -20,19 +22,34 @@ function VideoUpload() {
 
     const handleUpload = async (e) => {
         e.preventDefault();
+
+        // Prepare form data
         const formData = new FormData();
         formData.append('title', title);
         formData.append('description', description);
         formData.append('video', video);
         formData.append('userName', userName);
-        formData.append('domain', domain); // Append the domain field
+        formData.append('domain', domain);
 
         try {
+            // Make a POST request to upload the video
             const response = await axios.post('http://localhost:5050/upload', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' }
+                headers: { 'Content-Type': 'multipart/form-data' },
             });
+
             setMessage(response.data.message);
             setVideoUrl(response.data.videoUrl);
+
+            // Reset the form
+            setTitle('');
+            setDescription('');
+            setDomain('');
+            setVideo(null);
+
+            // Clear the file input
+            if (fileInputRef.current) {
+                fileInputRef.current.value = '';
+            }
         } catch (error) {
             setMessage('Failed to upload video');
         }
@@ -47,19 +64,22 @@ function VideoUpload() {
                     <input
                         type="text"
                         placeholder="Title"
+                        value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         required
                         style={styles.input}
                     />
                     <textarea
                         placeholder="Description"
+                        value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         required
                         style={styles.textarea}
                     ></textarea>
                     <input
                         type="text"
-                        placeholder="Domain" // New input for domain
+                        placeholder="Domain"
+                        value={domain}
                         onChange={(e) => setDomain(e.target.value)}
                         required
                         style={styles.input}
@@ -70,6 +90,7 @@ function VideoUpload() {
                         onChange={(e) => setVideo(e.target.files[0])}
                         required
                         style={styles.fileInput}
+                        ref={fileInputRef} // Attach the ref
                     />
                     <button type="submit" style={styles.uploadButton}>Upload</button>
                 </form>

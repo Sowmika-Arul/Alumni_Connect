@@ -15,7 +15,7 @@
 
 .events h1 {
   color: #baf7ff; /* Cool blue for headings */
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   font-size: 3em; /* Larger font size for the heading */
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Add a subtle text shadow for depth */
 }
@@ -63,7 +63,7 @@
 .events li h2 {
   color: #8eeffc; /* Cool blue for event titles */
   margin: 0;
-  font-size: 2em; /* Larger font size for titles */
+  font-size: 1.5em; /* Larger font size for titles */
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Subtle text shadow for depth */
 }
 
@@ -82,7 +82,7 @@
 
 .logout-button {
   position: absolute;
-  top: 20px; /* Adjust distance from the top as needed */
+  top: 5px; /* Adjust distance from the top as needed */
   right: 20px; /* Adjust distance from the right as needed */
   background-color: #8eeffc; /* Cool blue for button */
   color: black; /* Black text */
@@ -98,6 +98,22 @@
   background-color: #1be4ff; /* Slightly darker blue on hover */
   transform: scale(1.05); /* Slightly scale up on hover */
 }
+
+.event-details {
+  display: flex; /* Use Flexbox for alignment */
+  justify-content: space-around; /* Space items evenly */
+  align-items: center; /* Center align items vertically */
+  color: #fffcfc; /* Light gray for text */
+  font-size: 1.1em; /* Slightly larger text for better readability */
+  gap: 10px; /* Add spacing between elements */
+  flex-wrap: wrap; /* Ensure wrapping on smaller screens */
+}
+
+.event-details span {
+  margin: 5px; /* Remove margin for tight alignment */
+  padding: 7px; /* Remove padding */
+}
+
 
 /* Media query for responsiveness */
 @media (max-width: 768px) {

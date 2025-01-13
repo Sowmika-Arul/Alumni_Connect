@@ -1,6 +1,6 @@
 /* General container styling */
 .alumni-details-wrapper {
-    width: 700px; /* Increased width for a more spacious design */
+    width: 900px; /* Increased width for a more spacious design */
     margin: 40px auto; /* Center the container with more space from top */
     padding: 30px;
     border-radius: 10px; /* Rounded corners */
@@ -51,7 +51,7 @@
     margin: 0;
 }
 
-.achievement-item,
+
 .story-item {
     background-color: #fff;
     padding: 20px;
@@ -62,7 +62,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Soft shadow for items */
 }
 
-.achievement-item:hover,
+.achievement-list:hover,
 .story-item:hover {
     transform: translateY(-5px); /* Lift the item on hover */
     background-color: #f1f1f1; /* Slightly darker on hover */

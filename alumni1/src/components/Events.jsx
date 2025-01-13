@@ -26,23 +26,28 @@ const Events = () => {
         navigate('/');
     };
     return (
+        <div>   
+             <Navbar/>
         <div className="events">
             <h1>Upcoming Events</h1>
             <button className="logout-button" onClick={handleLogout}>Logout</button>
             {events.length > 0 ? (
                 <ul>
                     {events.map(event => (
-                        <li key={event._id}>
-                            <h2>{event.name}</h2>
-                            <p>Date: {new Date(event.date).toLocaleDateString()}</p>
-                            <p>Venue: {event.venue}</p>
-                            <p>Time: {event.time}</p>
-                        </li>
-                    ))}
+    <li key={event._id}>
+        <h2>{event.name}</h2>
+        <div className="event-details">
+            <span>Date: {new Date(event.date).toLocaleDateString()}</span>
+            <span> | Venue: {event.venue}</span>
+            <span> | Time: {event.time}</span>
+        </div>
+    </li>
+))}
                 </ul>
             ) : (
                 <p className="no-events">No events found.</p>
             )}
+        </div>
         </div>
     );
 };

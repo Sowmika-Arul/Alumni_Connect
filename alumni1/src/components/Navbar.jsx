@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     const navStyles = {
-        padding: '10px',
+        padding: '20px',
         display: 'flex',
         justifyContent: 'space-around',
         alignItems: 'center'

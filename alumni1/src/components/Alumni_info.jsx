@@ -59,10 +59,16 @@ function AlumniDetails() {
                 {Array.isArray(profile.achievements) && profile.achievements.length > 0 ? (
                     <ul className="achievements-list">
                         {profile.achievements.map((achievement, index) => (
-                            <li key={index} className="achievement-item">
+                            <li key={index} style={{ backgroundColor: "#fff",
+    padding: "20px",
+    borderRadius: "8px",
+    border: "1px solid #ddd",
+    transition: "transform 0.3s ease, background-color 0.3s ease",
+    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+     marginBottom: "20px"}}>
                                 <div className="author-name">{achievement.author}</div>
                                 <div className="achievement-title"><strong>{achievement.title}</strong></div>
-                                {achievement.imageUrl && <img src={achievement.imageUrl} alt={achievement.title} className="achievement-image" />}
+                                {/* {achievement.imageUrl && <img src={achievement.imageUrl} alt={achievement.title} className="achievement-image" />} */}
                                 <div className="achievement-description">{achievement.description}</div>
                             </li>
                         ))}

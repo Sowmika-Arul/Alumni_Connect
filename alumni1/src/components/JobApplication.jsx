@@ -32,7 +32,7 @@ const JobApplication = () => {
 
     if (storedRollNo) {
       // Fetch user profile based on roll number
-      axios.get(`http://localhost:5050/api/profile/${storedRollNo}`)
+      axios.get(`https://alumni-connect-5ad6.onrender.com/api/profile/${storedRollNo}`)
         .then(response => {
           const profile = response.data;
           console.log('Fetched profile:', profile); // Debugging line to check profile data
@@ -60,7 +60,7 @@ const JobApplication = () => {
   }, []);
 
   useEffect(() => {
-    axios.get('http://localhost:5050/api/jobs')
+    axios.get('https://alumni-connect-5ad6.onrender.com/api/jobs')
       .then(response => setJobs(response.data))
       .catch(error => console.error('Error fetching jobs:', error));
   }, []);
@@ -86,7 +86,7 @@ const JobApplication = () => {
     };
 
     if (editingJob) {
-      axios.put(`http://localhost:5050/api/jobs/${editingJob._id}`, newJobData)
+      axios.put(`https://alumni-connect-5ad6.onrender.com/api/jobs/${editingJob._id}`, newJobData)
         .then(response => {
           const updatedJobs = jobs.map(job => job._id === response.data._id ? response.data : job);
           setJobs(updatedJobs);
@@ -96,7 +96,7 @@ const JobApplication = () => {
         })
         .catch(error => console.error('Error updating job:', error));
     } else {
-      axios.post('http://localhost:5050/api/jobs', newJobData)
+      axios.post('https://alumni-connect-5ad6.onrender.com/api/jobs', newJobData)
         .then(response => {
           setJobs([...jobs, response.data]);
           resetForm();

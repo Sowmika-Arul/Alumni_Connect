@@ -19,7 +19,7 @@ function AlumniList() {
     useEffect(() => {
         const fetchProfiles = async () => {
             try {
-                const response = await fetch('http://localhost:5050/api/alumni_list');
+                const response = await fetch('https://alumni-connect-5ad6.onrender.com/api/alumni_list');
 
                 if (response.ok) {
                     const data = await response.json();

@@ -9,7 +9,7 @@ const AchievementsPage = () => {
     useEffect(() => {
         const fetchAchievements = async () => {
             try {
-                const response = await fetch(`http://localhost:5050/achievements`);
+                const response = await fetch(`https://alumni-connect-5ad6.onrender.com/achievements`);
                 if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
                 const data = await response.json();
                 setAchievements(data.achievements || []);

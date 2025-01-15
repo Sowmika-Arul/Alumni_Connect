@@ -40,13 +40,13 @@ const Profile = () => {
         }
         const fetchProfileData = async () => {
             try {
-                const profileResponse = await fetch(`http://localhost:5050/api/profile/${rollNo}`);
+                const profileResponse = await fetch(`https://alumni-connect-5ad6.onrender.com/api/profile/${rollNo}`);
                 if (!profileResponse.ok) throw new Error(`Error ${profileResponse.status}: ${profileResponse.statusText}`);
                 const profileData = await profileResponse.json();
                 setProfile(profileData.profile);
                 setLoadingProfile(false);
         
-                const infoResponse = await fetch(`http://localhost:5050/api/details/${rollNo}`);
+                const infoResponse = await fetch(`https://alumni-connect-5ad6.onrender.com/api/details/${rollNo}`);
                 if (!infoResponse.ok) throw new Error(`Error ${infoResponse.status}: ${infoResponse.statusText}`);
                 const infoData = await infoResponse.json();
                 setAchievements(infoData.profile.achievements || []);
@@ -88,7 +88,7 @@ const Profile = () => {
     const handleSaveProfile = async () => {
         const rollNo = localStorage.getItem('rollNo');
         try {
-            const response = await fetch(`http://localhost:5050/api/edit_profile/${rollNo}`, {
+            const response = await fetch(`https://alumni-connect-5ad6.onrender.com/api/edit_profile/${rollNo}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -207,7 +207,7 @@ const Profile = () => {
             if (newImage) formData.append('image', newImage); // Include image if exists
             formData.append('date', new Date().toISOString()); // Set the date to now
 
-            const response = await fetch(`http://localhost:5050/api/add_achievement/${rollNo}`, {
+            const response = await fetch(`https://alumni-connect-5ad6.onrender.com/api/add_achievement/${rollNo}`, {
                 method: 'POST',
                 body: formData,
             });
@@ -233,7 +233,7 @@ const Profile = () => {
             formData.append('date', new Date().toISOString());
             if (newImage) formData.append('image', newImage);
 
-            const response = await fetch(`http://localhost:5050/api/add_success_story/${rollNo}`, {
+            const response = await fetch(`https://alumni-connect-5ad6.onrender.com/api/add_success_story/${rollNo}`, {
                 method: 'POST',
                 body: formData,
             });
@@ -261,7 +261,7 @@ console.log('Success stories updated:', updatedData.successStories);
                 resume: newResume || socialLinks.resume
             };
 
-            const response = await fetch(`http://localhost:5050/api/add_social_links/${rollNo}`, {
+            const response = await fetch(`https://alumni-connect-5ad6.onrender.com/api/add_social_links/${rollNo}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -327,7 +327,7 @@ console.log('Success stories updated:', updatedData.successStories);
                             </div>
                             {story.imageUrl && (
                                 <div className="image-content">
-                                    <img src={`http://localhost:5050/${story.imageUrl}`} alt="Success Story" />
+                                    <img src={`https://alumni-connect-5ad6.onrender.com/${story.imageUrl}`} alt="Success Story" />
                                 </div>
                             )}
                         </div>
@@ -368,7 +368,7 @@ console.log('Success stories updated:', updatedData.successStories);
                             </div>
                             {achievement.imageUrl && (
                                 <div className="image-content">
-                                    <img src={`http://localhost:5050/${achievement.imageUrl}`} alt="Achievement" />
+                                    <img src={`https://alumni-connect-5ad6.onrender.com/${achievement.imageUrl}`} alt="Achievement" />
                                 </div>
                             )}
                         </div>

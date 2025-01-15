@@ -11,7 +11,7 @@ const Transactions = () => {
     useEffect(() => {
         const fetchTransactions = async () => {
             try {
-                const response = await fetch('http://localhost:5050/api/transactions');
+                const response = await fetch('https://alumni-connect-5ad6.onrender.com/api/transactions');
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }

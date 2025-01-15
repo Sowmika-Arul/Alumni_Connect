@@ -18,7 +18,7 @@ function AdminHome() {
 
     const fetchEvents = async () => {
         try {
-            const response = await fetch('http://localhost:5050/api/events');
+            const response = await fetch('https://alumni-connect-5ad6.onrender.com/api/events');
             const data = await response.json();
             setEvents(data.events);
         } catch (err) {
@@ -35,7 +35,7 @@ function AdminHome() {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:5050/api/events', {
+            const response = await fetch('https://alumni-connect-5ad6.onrender.com/api/events', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -60,7 +60,7 @@ function AdminHome() {
         if (!editingEvent) return;
 
         try {
-            const response = await fetch(`http://localhost:5050/api/events/${editingEvent._id}`, {
+            const response = await fetch(`https://alumni-connect-5ad6.onrender.com/api/events/${editingEvent._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -81,7 +81,7 @@ function AdminHome() {
 
     const handleDeleteEvent = async (id) => {
         try {
-            const response = await fetch(`http://localhost:5050/api/events/${id}`, {
+            const response = await fetch(`https://alumni-connect-5ad6.onrender.com/api/events/${id}`, {
                 method: 'DELETE'
             });
 

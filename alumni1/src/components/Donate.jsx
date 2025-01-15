@@ -30,7 +30,7 @@ function Donate() {
         }
 
         try {
-            const response = await fetch('http://localhost:5050/api/donate', {
+            const response = await fetch('https://alumni-connect-5ad6.onrender.com/api/donate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -142,7 +142,7 @@ const AddInformation = () => {
 
         const fetchInformation = async () => {
             try {
-                const response = await fetch(`http://localhost:5050/get_information/${rollNo}`);
+                const response = await fetch(`https://alumni-connect-5ad6.onrender.com/get_information/${rollNo}`);
                 if (response.ok) {
                     const data = await response.json();
                     setFormData({
@@ -231,7 +231,7 @@ const AddInformation = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:5050/add_information', {
+            const response = await fetch('https://alumni-connect-5ad6.onrender.com/add_information', {
                 method: 'POST',
                 body: formDataObj,
             });

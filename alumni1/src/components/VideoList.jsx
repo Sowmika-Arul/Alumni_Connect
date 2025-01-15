@@ -9,7 +9,7 @@ function VideoList() {
 
     // Fetch videos from the backend (with optional domain filtering)
     const fetchVideos = async (domain = '') => {
-        let url = 'http://localhost:5050/videos';
+        let url = 'https://alumni-connect-5ad6.onrender.com/videos';
         if (domain) {
             url += `?domain=${domain}`; // Add domain query parameter to the URL if filtering
         }
@@ -24,7 +24,7 @@ function VideoList() {
     // Fetch list of unique domains for the filter
     const fetchDomains = async () => {
         try {
-            const response = await axios.get('http://localhost:5050/domains');
+            const response = await axios.get('https://alumni-connect-5ad6.onrender.com/domains');
             setDomains(response.data);
         } catch (error) {
             console.error("Error fetching domains:", error);
@@ -76,7 +76,7 @@ function VideoList() {
                             </p>
                             <div style={styles.videoWrapper}>
                                 <video controls width="600" style={styles.video}>
-                                    <source src={`http://localhost:5050${video.videoUrl}`} type="video/mp4" />
+                                    <source src={`https://alumni-connect-5ad6.onrender.com${video.videoUrl}`} type="video/mp4" />
                                     Your browser does not support the video tag.
                                 </video>
                             </div>

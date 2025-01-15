@@ -45,7 +45,7 @@ function ProjectUpload() {
 
         try {
             // Make a POST request to the server to upload the project
-            const response = await fetch('http://localhost:5050/api/upload_project', {
+            const response = await fetch('https://alumni-connect-5ad6.onrender.com/api/upload_project', {
                 method: 'POST',
                 body: formData,
             });

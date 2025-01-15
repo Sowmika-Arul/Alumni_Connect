@@ -13,7 +13,7 @@ const Events = () => {
 
     const fetchEvents = async () => {
         try {
-            const response = await fetch('http://localhost:5050/api/events');
+            const response = await fetch('https://alumni-connect-5ad6.onrender.com/api/events');
             const data = await response.json();
             setEvents(data.events);
         } catch (err) {

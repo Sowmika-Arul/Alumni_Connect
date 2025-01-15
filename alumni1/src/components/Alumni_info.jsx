@@ -16,7 +16,7 @@ function AlumniDetails() {
     useEffect(() => {
         const fetchProfileDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:5050/api/details/${rollNo}`);
+                const response = await fetch(`https://alumni-connect-5ad6.onrender.com/api/details/${rollNo}`);
                 if (response.ok) {
                     const data = await response.json();
                     console.log("Fetched Profile Data: ", data); // Log the fetched data to check its structure
@@ -69,7 +69,7 @@ function AlumniDetails() {
                                 <div className="author-name">{achievement.author}</div>
                                 <div className="achievement-title"><strong>{achievement.title}</strong></div>
                                 <center><img
-        src={`http://localhost:5050/${achievement.imageUrl}`}
+        src={`https://alumni-connect-5ad6.onrender.com/${achievement.imageUrl}`}
         alt={achievement.title}
         className="achievement-image"
     /></center>
@@ -94,7 +94,7 @@ function AlumniDetails() {
                                 <div className="author-name">{story.author}</div>
                                 {story.imageUrl && (
     <center><img
-        src={`http://localhost:5050/${story.imageUrl}`}
+        src={`https://alumni-connect-5ad6.onrender.com/${story.imageUrl}`}
         alt={story.title}
         className="story-image"
     /></center>

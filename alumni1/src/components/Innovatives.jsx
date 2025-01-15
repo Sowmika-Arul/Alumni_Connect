@@ -10,7 +10,7 @@ function ProjectsPage() {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const response = await fetch('http://localhost:5050/api/projects');
+                const response = await fetch('https://alumni-connect-5ad6.onrender.com/api/projects');
                 if (!response.ok) {
                     throw new Error('Failed to fetch projects');
                 }

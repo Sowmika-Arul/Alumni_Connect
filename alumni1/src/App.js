@@ -10,7 +10,6 @@ import Donate from './components/Donate';
 import JobApplication from './components/JobApplication';
 import AlumniDetail from './components/Alumni_info';
 import Transaction from './components/Transaction';
-import ForgotPassword from './components/ForgotPassword';
 import Videolist from './components/VideoList';
 import VideoUpload from './components/VideoUpload';
 import Projects from './components/ProjectUpload';
@@ -30,7 +29,6 @@ function App() {
                 <Route path="/donate" element={<Donate />} />
                 <Route path="/alumni_details/:rollNo" element={<AlumniDetail/>} />
                 <Route path="/transaction" element={<Transaction/>} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/videolist" element={<Videolist />} />
                 <Route path="/videoupload" element={<VideoUpload />} />
                 <Route path="/projects" element={<Projects />} />

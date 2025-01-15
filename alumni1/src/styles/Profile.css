@@ -83,10 +83,11 @@
 }
 
 .nav button {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
     flex-grow: 1;
     padding: 12px; /* Increased padding for better touch targets */
     margin-right: 10px; /* Increased margin for spacing */
-    font-size: 16px;
+    font-size: 22px;
     background-color: #34d5db; /* Button background color */
     color: white; /* Button text color */
     border: none;
@@ -106,7 +107,7 @@
 
 /* Content Styles */
 .content {
-    font-size: 16px;
+    font-size: 20px;
     line-height: 1.5; /* Improved line height for readability */
 }
 
@@ -207,8 +208,8 @@ button:hover {
 .input,
 input[type="text"],
 textarea {
-    width: 100%; /* Maintain full width */
-    max-width: 970px; /* Set a max width as needed */
+    width: 100px; /* Maintain full width */
+    max-width: 1130px; /* Set a max width as needed */
     padding: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -317,7 +318,6 @@ textarea {
     font-size: 16px; /* Font size */
 }
 
-
 button {
     background-color: #28a745; 
     color: white; 
@@ -372,6 +372,7 @@ textarea {
     border: 1px solid #ddd;
     border-radius: 4px;
 }
+
 
 button {
     margin-top: 1rem;

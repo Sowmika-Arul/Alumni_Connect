@@ -68,6 +68,11 @@ function AlumniDetails() {
      marginBottom: "20px"}}>
                                 <div className="author-name">{achievement.author}</div>
                                 <div className="achievement-title"><strong>{achievement.title}</strong></div>
+                                <center><img
+        src={`http://localhost:5050/${achievement.imageUrl}`}
+        alt={achievement.title}
+        className="achievement-image"
+    /></center>
                                 {/* {achievement.imageUrl && <img src={achievement.imageUrl} alt={achievement.title} className="achievement-image" />} */}
                                 <div className="achievement-description">{achievement.description}</div>
                             </li>
@@ -87,7 +92,13 @@ function AlumniDetails() {
                             <li key={index} className="story-item">
                                 <div className="story-title"><strong>{story.title}</strong></div>
                                 <div className="author-name">{story.author}</div>
-                                {story.imageUrl && <img src={story.imageUrl} alt={story.title} className="story-image" />}
+                                {story.imageUrl && (
+    <center><img
+        src={`http://localhost:5050/${story.imageUrl}`}
+        alt={story.title}
+        className="story-image"
+    /></center>
+)}
                                 <div className="story-description">{story.story}</div>
                             </li>
                         ))}

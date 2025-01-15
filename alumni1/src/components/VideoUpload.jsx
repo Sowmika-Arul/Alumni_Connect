@@ -11,7 +11,7 @@ function VideoUpload() {
     const [videoUrl, setVideoUrl] = useState('');
     const [userName, setUserName] = useState('');
 
-    const fileInputRef = useRef(null); // Ref for the file input
+    const fileInputRef = useRef(null);
 
     React.useEffect(() => {
         const storedUserName = localStorage.getItem('userName');
@@ -32,7 +32,6 @@ function VideoUpload() {
         formData.append('domain', domain);
 
         try {
-            // Make a POST request to upload the video
             const response = await axios.post('http://localhost:5050/upload', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
@@ -46,7 +45,6 @@ function VideoUpload() {
             setDomain('');
             setVideo(null);
 
-            // Clear the file input
             if (fileInputRef.current) {
                 fileInputRef.current.value = '';
             }
@@ -59,7 +57,7 @@ function VideoUpload() {
         <div>
             <Navbar />
             <div style={styles.container}>
-                <h2 style={styles.heading}>Upload Mentoring Video</h2>
+                <h2 style={styles.heading}>Upload Your Mentoring Video</h2>
                 <form onSubmit={handleUpload} style={styles.form}>
                     <input
                         type="text"
@@ -84,21 +82,25 @@ function VideoUpload() {
                         required
                         style={styles.input}
                     />
+                    <label htmlFor="file" style={styles.customFileInputLabel}>
+                        Choose Video File
+                    </label>
                     <input
+                        id="file"
                         type="file"
                         accept="video/*"
                         onChange={(e) => setVideo(e.target.files[0])}
                         required
                         style={styles.fileInput}
-                        ref={fileInputRef} // Attach the ref
+                        ref={fileInputRef}
                     />
-                    <button type="submit" style={styles.uploadButton}>Upload</button>
+                    <button type="submit" style={styles.uploadButton}>Upload Video</button>
                 </form>
                 {message && <p style={styles.message}>{message}</p>}
                 {videoUrl && (
                     <div style={styles.videoContainer}>
-                        <h3>Uploaded Video:</h3>
-                        <video width="400" controls style={styles.videoPlayer}>
+                        <h3 style={styles.videoHeading}>Uploaded Video:</h3>
+                        <video width="100%" controls style={styles.videoPlayer}>
                             <source src={`http://localhost:5050${videoUrl}`} type="video/mp4" />
                             Your browser does not support the video tag.
                         </video>
@@ -111,70 +113,96 @@ function VideoUpload() {
 
 const styles = {
     container: {
-        padding: '20px',
+        padding: '40px',
         fontFamily: 'Arial, sans-serif',
-        backgroundColor: '#f4f4f4',
-        borderRadius: '10px',
-        width: '40%',
-        margin: '100px 450px',
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+        backgroundColor: '#ffffff',
+        borderRadius: '8px',
+        width: '50%',
+        margin: '50px auto',
+        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+        color: '#333',
     },
     heading: {
         textAlign: 'center',
-        color: '#333',
-        marginBottom: '20px',
         fontSize: '24px',
+        fontWeight: '600',
+        color: '#333',
+        marginBottom: '30px',
     },
     form: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        gap: '20px',
     },
     input: {
         padding: '12px',
-        marginBottom: '12px',
-        width: '80%',
         borderRadius: '8px',
+        width: '80%',
         border: '1px solid #ccc',
         fontSize: '16px',
         outline: 'none',
+        transition: 'all 0.3s ease',
     },
     textarea: {
         padding: '12px',
-        marginBottom: '12px',
+        borderRadius: '8px',
         width: '80%',
         height: '120px',
-        borderRadius: '8px',
         border: '1px solid #ccc',
         fontSize: '16px',
         outline: 'none',
+        transition: 'all 0.3s ease',
     },
     fileInput: {
-        marginBottom: '20px',
-        padding: '8px',
-        borderRadius: '8px',
+        display: 'none', // Hide the default file input
+    },
+    customFileInputLabel: {
+        padding: '12px 20px',
+        backgroundColor: '#f7f7f7',
         border: '1px solid #ccc',
-        outline: 'none',
+        borderRadius: '8px',
+        width: '80%',
+        textAlign: 'center',
+        cursor: 'pointer',
+        fontSize: '16px',
+        transition: 'background-color 0.3s ease, border-color 0.3s ease',
+    },
+    customFileInputLabelHover: {
+        backgroundColor: '#e7e7e7',
+        borderColor: '#888',
     },
     uploadButton: {
-        padding: '12px 20px',
-        backgroundColor: '#001c4b',
+        padding: '12px 24px',
+        backgroundColor: '#007bff',
         color: '#fff',
         border: 'none',
         borderRadius: '8px',
         cursor: 'pointer',
         width: '80%',
-        fontSize: '16px',
+        fontSize: '18px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        transition: 'background-color 0.3s ease, transform 0.2s ease',
+    },
+    uploadButtonHover: {
+        backgroundColor: '#0056b3',
+        transform: 'scale(1.05)',
     },
     message: {
         textAlign: 'center',
-        color: 'green',
-        fontWeight: 'bold',
         fontSize: '16px',
+        marginTop: '20px',
+        color: '#28a745',
     },
     videoContainer: {
         textAlign: 'center',
         marginTop: '20px',
+    },
+    videoHeading: {
+        fontSize: '20px',
+        fontWeight: '500',
+        color: '#333',
+        marginBottom: '10px',
     },
     videoPlayer: {
         borderRadius: '8px',

@@ -1,6 +1,6 @@
 /* General container styling */
 .alumni-details-wrapper {
-    width: 900px; /* Increased width for a more spacious design */
+    width: 800px; /* Increased width for a more spacious design */
     margin: 40px auto; /* Center the container with more space from top */
     padding: 30px;
     border-radius: 10px; /* Rounded corners */
@@ -85,9 +85,8 @@
 
 .achievement-image,
 .story-image {
-    width: 100%; 
-    max-width: 600px; 
-    height: auto;
+    max-width:auto; 
+    height: 400px;
     border-radius: 8px;
     margin-top: 15px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); 

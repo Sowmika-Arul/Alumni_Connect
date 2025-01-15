@@ -1,0 +1,94 @@
+/* Main Container */
+.container {
+    display: flex;
+    height: 100vh;
+    background-color: #e6f7ff;
+    align-items: center;
+}
+
+/* Image Section Styling */
+.image-section {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e6f7ff;
+}
+
+.image {
+    max-width: 80%;
+    height: 70%;
+    border-radius: 10px;
+}
+
+/* Form Section Styling */
+.form-section {
+    width: 30%;
+    padding: 50px;
+    height: 60%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+h2 {
+    color: #333333;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.form-section p {
+    margin-bottom: 40px;
+    line-height: 25px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555555;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #b5651d;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #9c4f17;
+}
+
+/* Error & Success Messages */
+.error {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.success {
+    color: green;
+    margin-top: 10px;
+    text-align: center;
+}

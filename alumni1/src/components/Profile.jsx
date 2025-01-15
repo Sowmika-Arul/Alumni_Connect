@@ -115,7 +115,7 @@ const Profile = () => {
                     <input
                         type="text"
                         value={editedProfile.name}
-                        onChange={(e) => setEditedProfile({ ...editedProfile, name: e.target.value })}
+                      disabled
                         placeholder="Name"
                         style={{width:'310px'}}
                     />
@@ -129,7 +129,7 @@ const Profile = () => {
                     <input
                         type="text"
                         value={editedProfile.department}
-                        onChange={(e) => setEditedProfile({ ...editedProfile, department: e.target.value })}
+                        disabled
                         placeholder="Department"
                         style={{width:'310px'}}
                     />
@@ -157,7 +157,7 @@ const Profile = () => {
                     <input
                         type="text"
                         value={editedProfile.batch}
-                        onChange={(e) => setEditedProfile({ ...editedProfile, batch: e.target.value })}
+                      disabled
                         placeholder="Batch"
                         style={{width:'310px'}}
                     />
@@ -170,7 +170,9 @@ const Profile = () => {
                 <div>
                     <h2>Personal Information</h2>
                     {loadingProfile ? (
-                        <p>Loading profile...</p>
+                        <p>Loading profile...
+                            The verification process is going on updated soon.
+                        </p>
                     ) : (
                         <>
                             {profile ? (
@@ -387,6 +389,9 @@ console.log('Success stories updated:', updatedData.successStories);
                 placeholder="Add a new achievement description"
             />
             <input
+            style = {
+                {width : "98%"}
+            }
                 type="file"
                 onChange={(e) => setNewImage(e.target.files[0])}
             />
@@ -427,23 +432,35 @@ console.log('Success stories updated:', updatedData.successStories);
             <h4>Add/Update Social Links:</h4>
         <input
             type="text"
+            style = {
+                {width : "95%"}
+            }
             value={socialLinks.linkedin} // Populate with existing value
             onChange={(e) => setSocialLinks({ ...socialLinks, linkedin: e.target.value })}
             placeholder="LinkedIn URL"
         />
         <input
             type="text"
+            style = {
+                {width : "95%"}
+            }
             value={socialLinks.github} // Populate with existing value
             onChange={(e) => setSocialLinks({ ...socialLinks, github: e.target.value })}
             placeholder="GitHub URL"
         />
         <input
             type="text"
+            style = {
+                {width : "95%"}
+            }
             value={socialLinks.leetcode} // Populate with existing value
             onChange={(e) => setSocialLinks({ ...socialLinks, leetcode: e.target.value })}
             placeholder="LeetCode URL"
         />
         <input
+            style = {
+                {width : "95%"}
+            }
             type="text"
             value={socialLinks.portfolio} // Populate with existing value
             onChange={(e) => setSocialLinks({ ...socialLinks, portfolio: e.target.value })} 
@@ -451,11 +468,18 @@ console.log('Success stories updated:', updatedData.successStories);
         />
          <input
             type="text"
+            style = {
+                {width : "95%"}
+            }
             value={socialLinks.resume} // Populate with existing value
             onChange={(e) => setSocialLinks({ ...socialLinks, resume: e.target.value })}
             placeholder="Resume URL"
         />
-            <button onClick={handleAddSocialLinks}>Save Social Links</button>
+            <button
+            style = {
+                {width : "97%"}
+            }
+             onClick={handleAddSocialLinks}>Save Social Links</button>
         </div>
     );
 

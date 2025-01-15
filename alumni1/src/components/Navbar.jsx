@@ -22,7 +22,7 @@ const Navbar = () => {
     const linkStyles = {
         color: 'black',
         textDecoration: 'none',
-        fontWeight: 'bold'
+        fontWeight: 'bolder'
     };
 
     return (

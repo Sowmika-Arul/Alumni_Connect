@@ -26,15 +26,15 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <ul>
-        <li><a href="/alumni_list">Our Alumni</a></li>
+        <li><Link to="/alumni_list">Our Alumni</Link></li>
         <li><Link to="/events">Events</Link></li>
-        <li><a href="/donate">Donation</a></li>
-        <li><a href="/profile">Profile</a></li>
+        <li><Link to="/donate">Donation</Link></li>
+        <li><Link to="/profile">Profile</Link></li>
         <li><Link to="/jobs">Job</Link></li> 
         <li ><Link to="/videolist">Learn & Grow</Link></li> 
          <li><Link to="/videoupload">Share Knowledge</Link></li> 
         <li><Link to="/innovatives">Innovations</Link></li> 
-        <li><a href="/">Logout</a></li>
+        <li><Link to="/">Logout</Link></li>
       </ul>
     </nav>
   );

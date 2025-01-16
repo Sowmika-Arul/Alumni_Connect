@@ -28,10 +28,10 @@ const Navbar = () => {
     return (
         <nav style={navStyles}>
             <ul style={ulStyles}>
-                <li style={liStyles}><a href="/alumni_list" style={linkStyles}>Our Alumni</a></li>
+                <li style={liStyles}><Link to="/alumni_list" style={linkStyles}>Our Alumni</Link></li>
                 <li style={liStyles}><Link to="/events" style={linkStyles}>Events</Link></li>
-                <li style={liStyles}><a href="/donate" style={linkStyles}>Donate</a></li>
-                <li style={liStyles}><a href="/profile" style={linkStyles}>Profile</a></li>
+                <li style={liStyles}><Link to="/donate" style={linkStyles}>Donate</Link></li>
+                <li style={liStyles}><Link to="/profile" style={linkStyles}>Profile</Link></li>
                 <li style={liStyles}><Link to="/jobs" style={linkStyles}>Job</Link></li> 
                 <li style={liStyles}><Link to="/transaction" style={linkStyles}>Give Backs</Link></li> 
                 <li style={liStyles}><Link to="/videolist" style={linkStyles}>Learn & Grow</Link></li> 

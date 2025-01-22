@@ -27,7 +27,7 @@ app.use(express.json());
 
 // Allow requests from the frontend origin
 const corsOptions = {
-    origin: 'https://alumni-connect-1-deda.onrender.com', // Add your frontend origin here
+    origin: ['https://alumni-connect-1-deda.onrender.com', 'http://localhost:3000'], 
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
 };

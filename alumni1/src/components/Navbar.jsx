@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 const Navbar = () => {
     const navStyles = {
@@ -25,6 +27,13 @@ const Navbar = () => {
         fontWeight: 'bolder'
     };
 
+ const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem('userProfile');
+        navigate('/');
+    };
+
     return (
         <nav style={navStyles}>
             <ul style={ulStyles}>
@@ -37,6 +46,18 @@ const Navbar = () => {
                 <li style={liStyles}><Link to="/videolist" style={linkStyles}>Learn & Grow</Link></li> 
                 <li style={liStyles}><Link to="/videoupload" style={linkStyles}>Share Knowledge</Link></li> 
                 <li style={liStyles}><Link to="/innovatives" style={linkStyles}>Innovations</Link></li> 
+                <button className="logout-button" onClick={handleLogout} style={{
+                display: 'block',
+                margin: '0 auto 20px auto',
+                padding: '10px 20px',
+                backgroundColor: '#1D2951',
+                color: 'white',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '18px',
+                transition: 'background-color 0.3s, transform 0.3s'
+            }}>Logout</button>
             </ul>
         </nav>
     );

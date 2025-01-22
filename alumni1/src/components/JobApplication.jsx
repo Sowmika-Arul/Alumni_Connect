@@ -108,10 +108,10 @@ const JobApplication = () => {
   };
 
   const handleApply = (job) => {
-    if (!userId) {
-      alert('User not logged in');
-      return;
-    }
+    // if (!userId) {
+    //   alert('User not logged in');
+    //   return;
+    // }
 
     if (job.email) {
       const mailtoLink = `mailto:${job.email}?subject=Job Application for ${job.title}&body=Hello, I would like to apply for the ${job.title} position.`;

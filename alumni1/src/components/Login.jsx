@@ -12,7 +12,7 @@ function Login() {
 
 
         try {
-            const response = await fetch('https://alumni-connect-5ad6.onrender.com/api/login', {
+            const response = await fetch('http://localhost:5050/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -24,6 +24,7 @@ function Login() {
 
             if (response.ok) {
                 localStorage.setItem('rollNo', rollNo);
+                console.log(rollNo);
                 localStorage.setItem('userName', data.name);
                 console.log(data.name); 
 
@@ -197,10 +198,10 @@ function Login() {
     return (
         <div style={styles.body}>
             <div style={styles.header}>
-                <img src="/images/ab1.png" alt="Department of School Education - Government of Tamil Nadu" style={styles.headerImg} />
+                <img src="/images/TamilNadu_Logo.svg" alt="Department of School Education - Government of Tamil Nadu" style={styles.headerImg} />
                 <div style={styles.headerText}>
                     <h1 style={styles.headerTextH1}>Department of School Education</h1>
-                    <p style={styles.headerTextP}>Government of Gujarat</p>
+                    <p style={styles.headerTextP}>Government of TamilNadu</p>
                 </div>
             </div>
 

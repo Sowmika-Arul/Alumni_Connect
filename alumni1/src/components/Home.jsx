@@ -6,11 +6,11 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header-top">
-        <img src="/images/logo1.jpg" alt="Logo" className="logo" />
+        <img src="/images/TamilNadu_Logo.svg" alt="Logo" className="logo" />
         <div className="contact-info">
           <span>Call Us: 9874563210</span>
           <span>Email: support@govt.com</span>
-          <span>Location: Gujarat</span>
+          <span>Location: TamilNadu</span>
         </div>
         <div className="social-media">
           <a href="mailto:support@govt.com"><i className="fa-solid fa-envelope"></i></a>

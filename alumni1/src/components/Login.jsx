@@ -25,13 +25,11 @@ function Login() {
             if (response.ok) {
                 localStorage.setItem('rollNo', rollNo);
                 localStorage.setItem('userName', data.name);
-                console.log(data.name); // Store the user's name
+                console.log(data.name); 
 
                 if (data.message === 'Login successful') {
-                    // Redirect to the alumni home page
                     navigate('/home');
                 } else if (data.message === 'Admin login successful') {
-                    // Redirect to the admin home page
                     navigate('/adminHome');
                 }
             } else {

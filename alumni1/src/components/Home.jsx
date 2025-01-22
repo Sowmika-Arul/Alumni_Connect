@@ -55,7 +55,6 @@ const MainContent = () => {
       <section className="testimonials">
         <h2>Alumni Success Stories</h2>
         <div className="testimonial-slider">
-          {/* You can add rotating testimonials here */}
           <blockquote>"Thanks to the university's alumni network, I landed my dream job!" - John Doe</blockquote>
           <blockquote>"The mentorship programs helped me grow my career." - Jane Smith</blockquote>
         </div>

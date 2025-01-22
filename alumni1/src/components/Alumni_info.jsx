@@ -4,11 +4,11 @@ import '../styles/Alumni_info.css';
 import Navbar from './Navbar.jsx';
 
 function AlumniDetails() {
-    const { rollNo } = useParams(); // Get the roll number from the URL
+    const { rollNo } = useParams(); 
     const [profile, setProfile] = useState({
         achievements: [],
         successStories: [],
-        social_media_links: []  // Initialize as an empty array
+        social_media_links: []  
     });
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -19,13 +19,13 @@ function AlumniDetails() {
                 const response = await fetch(`https://alumni-connect-5ad6.onrender.com/api/details/${rollNo}`);
                 if (response.ok) {
                     const data = await response.json();
-                    console.log("Fetched Profile Data: ", data); // Log the fetched data to check its structure
+                    console.log("Fetched Profile Data: ", data); 
                     setProfile(data.profile || { achievements: [], successStories: [], social_media_links: [] });
                 } else {
                     setError('Failed to fetch alumni details');
                 }
             } catch (err) {
-                console.error(err); // Log error for debugging
+                console.error(err); 
                 setError('An error occurred');
             }
         };
@@ -34,10 +34,10 @@ function AlumniDetails() {
     }, [rollNo]);
 
     const handleBack = () => {
-        navigate('/alumni_list'); // Navigate back to alumni list
+        navigate('/alumni_list'); 
     };
 
-    // Get the first object in the social_media_links array, if it exists
+    
     const socialMediaLinks = profile.social_media_links[0] || {};
 
     if (error) {
@@ -53,7 +53,7 @@ function AlumniDetails() {
                 Explore the remarkable achievements and inspiring success stories of our alumni. Here you can find their milestones and contributions in their respective fields.
             </p>
 
-            {/* Achievements Card */}
+            
             <div className="achievements-container achievements-card">
                 <h3 className="card-title">Achievements</h3>
                 {Array.isArray(profile.achievements) && profile.achievements.length > 0 ? (
@@ -83,7 +83,7 @@ function AlumniDetails() {
                 )}
             </div>
 
-            {/* Success Stories Card */}
+
             <div className="success-stories-container success-stories-card">
                 <h3 className="card-title">Success Stories</h3>
                 {Array.isArray(profile.successStories) && profile.successStories.length > 0 ? (
@@ -108,7 +108,7 @@ function AlumniDetails() {
                 )}
             </div>
 
-            {/* Social Media Links Card */}
+            
             <div className="social-media-container">
                 <h3 className="card-title">Social Media Links</h3>
                 <ul className="social-media-list">

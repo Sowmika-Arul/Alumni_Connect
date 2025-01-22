@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from './Navbar.jsx';
-import '../styles/styles.css'; // Import CSS for styling
+import '../styles/styles.css'; 
 
 function Donate() {
     const [amount, setAmount] = useState('');
@@ -56,7 +56,7 @@ function Donate() {
         <div>
             <Navbar />
             <div className="container">
-                {/* Image Section */}
+          
                 <div className="image-section">
                     <img
                         src="/images/donation.webp"
@@ -65,7 +65,7 @@ function Donate() {
                     />
                 </div>
 
-                {/* Form Section */}
+               
                 <div className="form-section">
                     <h2><center>Make a Difference</center></h2>
                     <p><center>

@@ -1,7 +1,7 @@
-// src/AdminHome.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/AdminHome.css';
+import Projects from './ProjectUpload.jsx';
 
 function AdminHome() {
     const [events, setEvents] = useState([]);
@@ -111,11 +111,15 @@ function AdminHome() {
         setEditingEvent(null);
     };
 
+    const handleProjectsClick = () => {
+        navigate('/projects');
+    };
+
     return (
         <div className="admin-home">
+            <button className="projects-button" onClick={handleProjectsClick} style={{marginRight:'-1150px', marginTop: '-5px'}}>Projects</button>
             <button className="logout-button" onClick={handleLogout}>Logout</button>
             <h1>Upcoming Events</h1>
-            
             {/* Add Event Form */}
             <form onSubmit={editingEvent ? handleUpdateEvent : handleAddEvent} className="admin-form">
                 <h2>{editingEvent ? 'Edit Event' : 'Add Event'}</h2>

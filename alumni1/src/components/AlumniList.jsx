@@ -12,7 +12,7 @@ function AlumniList() {
         specializations: [],
         batches: [],
         locations: [],
-        industries: [] // New filter for industries
+        industries: [] 
     });
     const navigate = useNavigate();
 
@@ -89,7 +89,7 @@ function AlumniList() {
         applyFilters();
     }, [filters, profiles]);
 
-    // Extract unique values for checkbox filters
+   
     const uniqueDepartments = [...new Set(profiles.map(profile => profile.department))];
     const uniqueSpecializations = [...new Set(profiles.map(profile => profile.specialization))];
     const uniqueBatches = [...new Set(profiles.map(profile => profile.batch))];

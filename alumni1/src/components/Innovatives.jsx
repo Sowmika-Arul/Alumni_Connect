@@ -5,7 +5,7 @@ import Navbar from './Navbar.jsx';
 function ProjectsPage() {
     const [projects, setProjects] = useState([]);
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(true); // Add loading state
+    const [loading, setLoading] = useState(true); 
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -19,7 +19,7 @@ function ProjectsPage() {
             } catch (err) {
                 setError(err.message || 'An error occurred');
             } finally {
-                setLoading(false); // Stop loading once fetch is done
+                setLoading(false); 
             }
         };
 
@@ -31,8 +31,8 @@ function ProjectsPage() {
             <Navbar/>
             <h2>Innovative Projects</h2>
 
-            {loading && <p>Loading...</p>} {/* Display loading indicator */}
-            {error && <p className="error-message">{error}</p>} {/* Display error message */}
+            {loading && <p>Loading...</p>} 
+            {error && <p className="error-message">{error}</p>} 
 
             <div className="projects-list">
                 {projects.length > 0 ? (
@@ -44,12 +44,12 @@ function ProjectsPage() {
                             <p><strong>Percentage Completed:</strong> {project.percentageCompleted}%</p>
                             <p><strong>End User:</strong> {project.endUser}</p>
 
-                            {/* Team Lead Information */}
+                           
                             {project.teamLeaderName && <p><strong>Team Lead:</strong> {project.teamLeaderName}</p>}
                             {project.department && <p><strong>Department:</strong> {project.department}</p>}
                             {project.emailId && <p><strong>Email:</strong> <a href={`mailto:${project.emailId}`}>{project.emailId}</a></p>}
 
-                            {/* Image */}
+                      
                             {project.imageUrl && (
                                 <img
                                     src={`http://localhost:5050/${project.imageUrl}`} 
@@ -60,7 +60,7 @@ function ProjectsPage() {
                         </div>
                     ))
                 ) : (
-                    !loading && <p>No projects found</p> // Show "No projects found" only after loading
+                    !loading && <p>No projects found</p> 
                 )}
             </div>
         </div>

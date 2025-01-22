@@ -435,7 +435,7 @@ console.log('Success stories updated:', updatedData.successStories);
             style = {
                 {width : "95%"}
             }
-            value={socialLinks.linkedin} // Populate with existing value
+            value={socialLinks.linkedin} 
             onChange={(e) => setSocialLinks({ ...socialLinks, linkedin: e.target.value })}
             placeholder="LinkedIn URL"
         />
@@ -444,7 +444,7 @@ console.log('Success stories updated:', updatedData.successStories);
             style = {
                 {width : "95%"}
             }
-            value={socialLinks.github} // Populate with existing value
+            value={socialLinks.github} 
             onChange={(e) => setSocialLinks({ ...socialLinks, github: e.target.value })}
             placeholder="GitHub URL"
         />
@@ -471,7 +471,7 @@ console.log('Success stories updated:', updatedData.successStories);
             style = {
                 {width : "95%"}
             }
-            value={socialLinks.resume} // Populate with existing value
+            value={socialLinks.resume} 
             onChange={(e) => setSocialLinks({ ...socialLinks, resume: e.target.value })}
             placeholder="Resume URL"
         />
@@ -502,7 +502,7 @@ console.log('Success stories updated:', updatedData.successStories);
                         <button className={activeTab === "socialLinks" ? "active" : ""} onClick={() => setActiveTab("socialLinks")}>Social Media</button>
                     </div>
                     <div className="content">
-                        {renderContent()} {/* Render content based on active tab */}
+                        {renderContent()} 
                     </div>
                 </div>
             </div>

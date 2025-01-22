@@ -20,12 +20,12 @@ const JobApplication = () => {
     location: [],
     subLocation: []
   });
-  const [userBatch, setUserBatch] = useState(''); // New state for user's batch
-  const [isAlumni, setIsAlumni] = useState(false); // New state to check if user is an alumni
-
+  const [userBatch, setUserBatch] = useState(''); 
+  const [isAlumni, setIsAlumni] = useState(false); 
   useEffect(() => {
     const storedRollNo = localStorage.getItem('rollNo');
     const storedUserId = localStorage.getItem('userId');
+    console.log(userId);
     if (storedUserId) {
       setUserId(storedUserId);
     }

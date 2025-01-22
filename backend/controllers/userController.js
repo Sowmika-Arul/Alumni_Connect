@@ -2,7 +2,7 @@ const userService = require('../services/userService');
 
 const login = async (req, res) => {
     const { rollNo, password } = req.body;
-
+   console.log(req.body);
 
     try {
         const result = await userService.loginUser(rollNo, password);

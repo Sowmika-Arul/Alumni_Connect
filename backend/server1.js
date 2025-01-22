@@ -24,7 +24,15 @@ const app = express();
 const PORT = process.env.PORT || 5050;
 
 app.use(express.json());
-app.use(cors());
+
+// Allow requests from the frontend origin
+const corsOptions = {
+    origin: 'https://alumni-connect-1-deda.onrender.com', // Add your frontend origin here
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+};
+
+app.use(cors(corsOptions));
 
 // Middleware
 app.use(bodyParser.json());

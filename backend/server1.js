@@ -112,6 +112,30 @@ app.post('/upload', upload.single('video'), async (req, res) => {
     }
 });
 
+// Handle /login POST request
+app.post('/login', async (req, res) => {
+    try {
+        const { rollNo, password } = req.body;
+
+        if (!rollNo || !password) {
+            return res.status(400).json({ message: 'Roll number and password are required' });
+        }
+
+        // Call the loginUser function
+        const result = await loginUser(rollNo, password);
+
+        // Send success response
+        res.status(200).json(result);
+    } catch (err) {
+        console.error('Login error:', err.message);
+        if (err.message === 'Invalid roll number or password') {
+            res.status(401).json({ message: err.message });
+        } else {
+            res.status(500).json({ message: 'Internal Server Error', error: err.message });
+        }
+    }
+});
+
 // Video List Route
 app.get('/videos', async (req, res) => {
     try {

@@ -16,6 +16,7 @@ import VideoUpload from './components/VideoUpload';
 import Projects from './components/ProjectUpload';
 import Innovatives from './components/Innovatives';
 import VerifyEmail from "./components/VerifyEmail"; 
+import SetPassword from './components/SetPassword';
 
 function App() {
     return (
@@ -36,6 +37,7 @@ function App() {
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/innovatives" element={<Innovatives />} />
                 <Route path="/verify-email/:token" element={<VerifyEmail />} />
+                <Route path="/set-password" element={<SetPassword />} />
             </Routes>
         </Router>
     );

@@ -18,14 +18,14 @@ const SetPassword = () => {
     }
 
     try {
-      const response = await fetch("/set-password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
+        const response = await fetch("https://alumni-connect-1-deda.onrender.com/set-password", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+          });
+          
       const data = await response.json();
 
       if (response.ok) {

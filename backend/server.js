@@ -253,6 +253,10 @@ app.get("/verify-email/:token", async (req, res) => {
   }
 });
 
+app.get("/set-password", (req, res) => {
+    res.status(200).send("Set Password Page"); // Temporary placeholder
+  });
+  
 // Route: Set Password
 app.post("/set-password", async (req, res) => {
   try {

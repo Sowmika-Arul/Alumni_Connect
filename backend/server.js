@@ -246,7 +246,7 @@ app.get("/verify-email/:token", async (req, res) => {
     }
 
     // Redirect to the frontend password setting route
-    res.redirect(`https://alumni-connect-5ad6.onrender.com/set-password?email=${email}`);
+    res.redirect(`https://alumni-connect-1-deda.onrender.com/set-password`);
   } catch (error) {
     console.error("Error in /verify-email:", error);
     res.status(400).json({ message: "Invalid or expired token" });

@@ -9,7 +9,7 @@ const VerifyEmail = () => {
   useEffect(() => {
     const verifyToken = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/verify-email/${token}`);
+        const response = await fetch(`http://localhost:5050/verify-email/${token}`);
         const data = await response.json();
 
         if (response.ok) {

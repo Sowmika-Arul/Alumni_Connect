@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const multer = require('multer');
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
@@ -213,7 +213,7 @@ app.post("/signup", async (req, res) => {
 
     const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-    const verificationLink = `https://alumni-connect-5ad6.onrender.com/verify-email/${token}`;
+    const verificationLink = `http://localhost:5050/verify-email/${token}`;
     await transporter.sendMail({
       from: process.env.EMAIL,
       to: email,

@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./alumni1
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Maps the local port 3000 to the frontend's port
+    environment:
+      REACT_APP_API_URL: http://backend:5050 # URL to access the backend service
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5050:5050" # Maps the local port 5000 to the backend's port
+    environment:
+      DATABASE_URL: mongodb+srv://sowmikaa22cse:11-Apr-05@cluster0.pbbb7dj.mongodb.net/Alumni?retryWrites=true&w=majority&appName=Cluster0 # MongoDB Atlas connection string
+      CORS_ORIGIN: http://localhost:3000

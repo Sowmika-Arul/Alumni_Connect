@@ -156,7 +156,13 @@ const styles = {
         justifyContent: 'center',
         marginTop: '15px',
     },
+    // video: {
+    //     borderRadius: '10px',
+    //     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+    // },
     video: {
+        width: '600px',   // Set fixed width for the video
+        height: '350px',  // Set fixed height for the video
         borderRadius: '10px',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
     },

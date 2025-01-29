@@ -52,7 +52,7 @@ function ProjectsPage() {
                       
                             {project.imageUrl && (
                                 <img
-                                    src={`http://localhost:5050/${project.imageUrl}`} 
+                                    src={`https://alumni-connect-5ad6.onrender.com/${project.imageUrl}`} 
                                     alt={project.projectName} 
                                     className="project-image"
                                 />

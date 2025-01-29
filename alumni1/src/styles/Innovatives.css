@@ -1,85 +1,93 @@
-/* ProjectsPage.css */
+/* Updated ProjectsPage.css */
 .projects-container {
     width: 85%; /* More spacious container */
     margin: 0 auto;
-    padding: 40px;
+    padding: 40px 20px; /* Add some horizontal padding for smaller screens */
     text-align: center;
-    background-color: #f4f4f9; /* Light background color */
-    border-radius: 10px; /* Rounded corners for the whole container */
+    background-color: #f9fafb; /* Softer background color */
+    border-radius: 12px; /* Slightly more rounded corners for a modern look */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
 }
 
 .projects-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive grid with larger cards */
-    gap: 100px; /* Larger gap for breathing space */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Larger min-width for better spacing */
+    gap: 50px; /* Adjusted gap for a tighter layout */
     justify-items: center;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .project-card {
-    background-color: #fff;
-    padding: 25px;
-    border-radius: 12px; /* Rounded corners */
+    background-color: #ffffff; /* Ensure consistent white card color */
+    padding: 20px;
+    border-radius: 15px; /* Rounded corners for a smoother look */
     width: 100%;
-    max-width: 320px; /* Max width for cards */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Soft but prominent shadow */
+    max-width: 350px; /* Increase max-width for a more spacious card */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Softer shadow */
     text-align: left;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* Smooth hover effects */
-    overflow: hidden; /* To prevent image overflow */
-    border: 1px solid #ddd; /* Subtle border around each card */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
+    overflow: hidden; /* Prevent content overflow */
+    border: 1px solid #e0e0e0; /* Light gray border for separation */
 }
 
 .project-card:hover {
-    transform: translateY(-10px); /* Slight lift effect */
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); /* More prominent shadow */
-    background-color: #f0faff; /* Light blue background on hover */
+    transform: translateY(-12px); /* More pronounced lift effect */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+    background-color: #f7fcff; /* Slightly brighter hover background */
 }
 
 .project-card h3 {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-    color: #2c3e50; /* Darker text color */
-    font-weight: 700; /* Bold title */
+    font-size: 1.6rem; /* Slightly smaller for better balance */
+    margin-bottom: 12px;
+    color: #2c3e50; /* Darker text color for better readability */
+    font-weight: 600; /* Medium weight for a clean look */
 }
 
 .project-card p {
     font-size: 1rem;
-    margin-bottom: 20px;
-    color: #7f8c8d; /* Lighter text color for description */
+    margin-bottom: 15px;
+    color: #7a7d82; /* Softer gray for description */
+    line-height: 1.6; /* Increased line-height for readability */
 }
 
 .project-card img {
-    max-width: 100%;
-    height: 180px; /* Fixed height for images */
-    object-fit: cover; /* Ensure images cover area without distortion */
-    border-radius: 8px; /* Rounded corners on images */
-    margin-bottom: 15px; /* Space between image and text */
+    width: 100%; /* Full-width images */
+    height: 220px; /* Slightly taller for better proportions */
+    object-fit: cover; /* Maintain the aspect ratio and crop excess */
+    border-radius: 12px; /* Match card corners */
+    margin-bottom: 15px; /* Consistent spacing */
+    transition: transform 0.3s ease; /* Smooth hover effect on image */
+}
+
+.project-card img:hover {
+    transform: scale(1.05); /* Subtle zoom-in effect on hover */
 }
 
 .project-card .btn {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 12px 25px; /* Adjusted padding for balance */
     background-color: #3498db; /* Vibrant blue button */
-    color: #fff;
+    color: #ffffff;
     text-transform: uppercase;
-    font-weight: bold;
+    font-weight: 600; /* Medium weight for buttons */
     font-size: 1rem;
-    border-radius: 30px; /* Rounded button */
+    border-radius: 25px; /* Rounded button */
     text-decoration: none;
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth button hover effect */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth hover effect */
 }
 
 .project-card .btn:hover {
-    background-color: #2980b9; /* Darker blue on hover */
-    transform: translateY(-3px); /* Lift effect on hover */
+    background-color: #217dbb; /* Darker blue on hover */
+    transform: translateY(-3px) scale(1.02); /* Slight lift and scale */
 }
 
 .error-message {
     color: #e74c3c; /* Bright red for error */
     font-size: 1.5rem;
     font-weight: 700; /* Bold error message */
-    margin-top: 20px;
+    margin-top: 25px;
     text-align: center;
     text-transform: uppercase; /* Emphasize the error */
     letter-spacing: 1px; /* Slight letter spacing for emphasis */
+    line-height: 1.5; /* Better spacing for readability */
 }

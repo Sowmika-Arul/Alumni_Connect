@@ -18,6 +18,7 @@ const detailsRoutes = require('./routes/detailsRoutes');
 const updateProfileRoutes = require('./routes/Updateprofile');
 const Video = require('./models/Video');
 const Project = require('./models/projectModel'); 
+const path = require('path');
 
 
 const app = express();
@@ -76,7 +77,9 @@ app.use('/api', updateProfileRoutes);
 
 // Configure Multer for file uploads
 const storage = multer.diskStorage({
-    destination: './uploads/',
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, 'uploads'));
+    },
     filename: (req, file, cb) => {
         cb(null, `${Date.now()}-${file.originalname}`);
     }
@@ -167,6 +170,7 @@ app.post('/api/upload_project', upload.single('image'), async (req, res) => {
     try {
         const { projectName, domain, description, percentageCompleted, endUser, teamLeaderName, emailId, department } = req.body;
         const imageUrl = req.file ? req.file.path : '';
+        console.log(req.file); // Log the file details
 
         const newProject = new Project({
             projectName,

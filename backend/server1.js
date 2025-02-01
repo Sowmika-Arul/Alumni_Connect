@@ -127,7 +127,7 @@ app.post('/upload', upload.single('video'), async (req, res) => {
 app.post('/login', async (req, res) => {
     try {
         const { rollNo, password } = req.body;
-
+        console.log(req.body);
         if (!rollNo || !password) {
             return res.status(400).json({ message: 'Roll number and password are required' });
         }

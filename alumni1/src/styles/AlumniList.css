@@ -1,143 +1,196 @@
-/* AlumniList.css */
-
+/* General Container */
 .alumni-list-container {
     margin: 0;
     padding: 20px;
     font-family: 'Arial', sans-serif;
-    background: #FFFFFF; 
-    color: #1D2951; 
+    background: #FFFFFF;
+    color: #1D2951;
     min-height: 100vh;
 }
 
+/* Page Title */
 .alumni-list-container h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: #1D2951; 
-    font-size: 2.2rem; 
+    color: #1D2951;
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
     font-weight: bold;
-    border-bottom: 3px solid #1D2951; 
+    border-bottom: 3px solid #1D2951;
     padding-bottom: 10px;
 }
 
+/* Logout Button */
 .logout-button {
     display: block;
     margin: 0 auto 20px auto;
-    padding: 12px 24px; 
-    background-color: #1D2951; 
-    color: #FFFFFF; 
+    padding: 12px 24px;
+    background-color: #1D2951;
+    color: #FFFFFF;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 18px;
-    transition: background-color 0.3s, transform 0.3s; 
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 .logout-button:hover {
-    background-color: #152040; /* Darker blue on hover */
-    transform: translateY(-2px); /* Lift effect on hover */
+    background-color: #152040;
+    transform: translateY(-2px);
 }
 
-/* Error message styling */
+/* Error Message */
 .error-message {
-    color: #FF0000; /* Red for errors */
+    color: #FF0000;
     text-align: center;
     margin: 20px 0;
-    font-weight: bold; /* Make error messages stand out */
+    font-weight: bold;
 }
 
-/* Flex container for filters and table */
+/* Flex Container for Filters & Table */
 .alumni-list-content {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
 }
 
-/* Filters styling */
+/* Filters */
 .filters {
     display: flex;
-    flex-direction: column; /* Stack filters vertically */
-    gap: 20px; /* Space between filter groups */
-    width: 25%; /* Adjust width for filters */
-    margin-right: 20px; /* Space between filters and table */
+    flex-direction: column;
+    gap: 20px;
+    width: 25%;
+    margin-right: 20px;
 }
 
-/* Filter group styling */
+/* Filter Group */
 .filter-group {
-    margin-bottom: 15px; /* Space below each filter group */
+    margin-bottom: 15px;
 }
 
 .filter-group h4 {
-    margin-bottom: 5px; /* Space below the title */
+    margin-bottom: 5px;
 }
 
-/* Checkbox label styling */
+/* Checkbox Label */
 label {
     display: flex;
-    align-items: center; /* Center checkbox with label text */
-    margin: 5px 0; /* Space between checkbox items */
-    cursor: pointer; /* Change cursor on hover */
+    align-items: center;
+    margin: 5px 0;
+    cursor: pointer;
 }
 
-/* Table styling */
+/* Table Styling */
 .profile-grid {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px 0; /* Add margin above and below the table */
+    margin: 20px 0;
+    font-size: 16px;
 }
 
-/* Table header styling */
+/* Table Header */
 .profile-grid thead {
-    background-color: #1D2951; /* Dark blue background */
-    color: #FFFFFF; /* White text for header */
+    background-color: #1D2951;
+    color: #FFFFFF;
 }
 
+/* Table Cells */
 .profile-grid th, .profile-grid td {
-    padding: 12px; /* Cell padding */
-    text-align: left; /* Left align text */
-    border: 1px solid #ccc; /* Light grey border */
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ccc;
 }
 
-/* Table row styling */
+/* Alternating Row Colors */
 .profile-grid tbody tr:nth-child(even) {
-    background-color: #F0F8FF; /* Light blue for even rows */
+    background-color: #F0F8FF;
 }
 
 .profile-grid tbody tr:nth-child(odd) {
-    background-color: #FFFFFF; /* White for odd rows */
+    background-color: #FFFFFF;
 }
 
-/* Button styling within table */
+/* Table Buttons */
 .profile-grid button {
-    background-color: #1D2951; /* Dark blue background */
-    color: #FFFFFF; /* White text */
+    background-color: #1D2951;
+    color: #FFFFFF;
     border: none;
-    padding: 8px 12px; /* Padding for button */
+    padding: 8px 12px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease; /* Smooth transition */
+    transition: background-color 0.3s ease;
 }
 
 .profile-grid button:hover {
-    background-color: #152040; /* Darker blue on hover */
+    background-color: #152040;
 }
 
-/* Responsive styles */
-@media (max-width: 900px) {
+/* Table Responsiveness */
+.table-container {
+    width: 75%;
+    overflow-x: auto; /* Enables horizontal scrolling on small screens */
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
     .filters {
-        width: 40%; /* Adjust filter width on smaller screens */
+        width: 35%;
     }
     
     .profile-grid {
-        font-size: 14px; /* Adjust font size on smaller screens */
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .alumni-list-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .filters {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .table-container {
+        width: 100%;
+    }
+
+    .profile-grid {
+        font-size: 13px;
     }
 }
 
 @media (max-width: 600px) {
+    .profile-grid {
+        font-size: 12px;
+    }
+
+    .profile-grid th, .profile-grid td {
+        padding: 8px;
+    }
+
+    .logout-button {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 480px) {
     .filters {
-        width: 100%; /* Full width filters on small screens */
-        margin-right: 0; /* Remove right margin */
+        gap: 15px;
+    }
+
+    .filter-group h4 {
+        font-size: 14px;
     }
 
     .profile-grid {
-        font-size: 12px; /* Further adjust font size on very small screens */
+        font-size: 11px;
+    }
+
+    .profile-grid th, .profile-grid td {
+        padding: 6px;
     }
 }

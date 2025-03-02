@@ -75,10 +75,10 @@ function VideoList() {
                                 <strong>Uploaded by:</strong> {video.userName}
                             </p>
                             <div style={styles.videoWrapper}>
-                                <video controls width="600" style={styles.video}>
-                                    <source src={`https://alumni-connect-5ad6.onrender.com${video.videoUrl}`} type="video/mp4" />
-                                    Your browser does not support the video tag.
-                                </video>
+                            <video controls width="600" style={styles.video}>
+    <source src={video.videoUrl} type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
                             </div>
                         </div>
                     ))}

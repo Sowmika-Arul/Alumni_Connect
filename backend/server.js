@@ -37,7 +37,8 @@ app.use(cors(corsOptions));
 
 // Middleware
 app.use(bodyParser.json());
-app.use('/uploads', express.static('uploads')); 
+// app.use('/uploads', express.static('uploads')); 
+
 
 const dbURI = process.env.MONGODB_URI;
 
@@ -75,47 +76,32 @@ app.use('/api', socialLinksRoutes);
 app.use('/api', detailsRoutes);
 app.use('/api', updateProfileRoutes);
 
-// Configure Multer for file uploads
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, 'uploads'));
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    }
-});
-const upload = multer({ storage });
+const { upload } = require('./cloudinaryConfig');
 
-// Video Upload Route
 app.post('/upload', upload.single('video'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: 'No video file uploaded' });
     }
 
     try {
-        const { title, description, userName, domain } = req.body; // Extract domain from the request body
+        const { title, description, userName, domain } = req.body;
 
-        // Ensure domain is provided
         if (!domain) {
             return res.status(400).json({ error: 'Domain is required' });
         }
 
-        // Create a new video entry with the provided data
         const newVideo = new Video({
             title,
             description,
-            videoUrl: `/uploads/${req.file.filename}`,
-            userName, // Store the user's name
-            domain,   // Store the domain
+            videoUrl: req.file.path, // Cloudinary URL
+            userName,
+            domain,
         });
 
-        // Save the new video entry to the database
         await newVideo.save();
-
-        // Send the response back with a success message and video URL
         res.status(201).json({
             message: 'Video uploaded successfully!',
-            videoUrl: `/uploads/${req.file.filename}`,
+            videoUrl: req.file.path, // Cloudinary URL
         });
     } catch (error) {
         console.error(error);
@@ -165,18 +151,19 @@ app.get('/videos', async (req, res) => {
 });
 
 
-// Endpoint to upload a project
 app.post('/api/upload_project', upload.single('image'), async (req, res) => {
     try {
+        console.log("Received Body:", req.body);
+        console.log("Uploaded File:", req.file);
+
         const { projectName, domain, description, percentageCompleted, endUser, teamLeaderName, emailId, department } = req.body;
-        const imageUrl = req.file ? req.file.path : '';
-        console.log(req.file); // Log the file details
+        const imageUrl = req.file ? req.file.path : ''; // Cloudinary URL
 
         const newProject = new Project({
             projectName,
             domain,
             description,
-            imageUrl,
+            imageUrl, // Save Cloudinary URL
             percentageCompleted,
             endUser,
             teamLeaderName,
@@ -185,11 +172,12 @@ app.post('/api/upload_project', upload.single('image'), async (req, res) => {
         });
 
         await newProject.save();
-        res.status(200).json({ message: 'Project uploaded successfully!' });
+        res.status(200).json({ message: 'Project uploaded successfully!', imageUrl });
     } catch (err) {
         res.status(500).json({ message: 'Failed to upload project', error: err });
     }
 });
+
 
 // Get all projects
 app.get('/api/projects', async (req, res) => {

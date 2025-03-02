@@ -101,7 +101,7 @@ function VideoUpload() {
                     <div style={styles.videoContainer}>
                         <h3 style={styles.videoHeading}>Uploaded Video:</h3>
                         <video width="100%" controls style={styles.videoPlayer}>
-                            <source src={`https://alumni-connect-5ad6.onrender.com${videoUrl}`} type="video/mp4" />
+                        <source src={videoUrl} type="video/mp4" />
                             Your browser does not support the video tag.
                         </video>
                     </div>

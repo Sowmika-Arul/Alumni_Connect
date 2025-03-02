@@ -51,12 +51,12 @@ function ProjectsPage() {
 
                       
                             {project.imageUrl && (
-                                <img
-                                    src={`https://alumni-connect-5ad6.onrender.com/${project.imageUrl}`} 
-                                    alt={project.projectName} 
-                                    className="project-image"
-                                />
-                            )}
+    <img
+        src={project.imageUrl} // Use the direct Cloudinary URL
+        alt={project.projectName}
+        className="project-image"
+    />
+)}
                         </div>
                     ))
                 ) : (

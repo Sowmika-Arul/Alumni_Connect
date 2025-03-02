@@ -157,7 +157,8 @@ app.post('/api/upload_project', upload.single('image'), async (req, res) => {
         console.log("Uploaded File:", req.file);
 
         const { projectName, domain, description, percentageCompleted, endUser, teamLeaderName, emailId, department } = req.body;
-        const imageUrl = req.file ? req.file.path : ''; // Cloudinary URL
+        const imageUrl = req.file.path; // ✅ Now stores a Cloudinary URL
+        // Cloudinary URL
         console.log(imageUrl);
         const newProject = new Project({
             projectName,

@@ -80,6 +80,9 @@ app.use('/api', updateProfileRoutes);
 const { upload } = require('./cloudinaryConfig');
 
 app.post('/upload', upload.single('video'), async (req, res) => {
+    console.log('Received file:', req.file);
+    console.log('Received body:', req.body);
+    
     if (!req.file) {
         return res.status(400).json({ error: 'No video file uploaded' });
     }

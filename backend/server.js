@@ -91,8 +91,10 @@ app.post('/upload', upload.single('video'), async (req, res) => {
             return res.status(400).json({ error: 'Domain is required' });
         }
 
-           // Upload to Cloudinary
-           const result = await cloudinary.uploader.upload(req.file.path, { resource_type: 'video' });
+            // Upload to Cloudinary
+        const result = await cloudinary.uploader.upload(req.file.path, { 
+            resource_type: 'video' 
+        });
 
         const newVideo = new Video({
             title,

@@ -19,6 +19,7 @@ const updateProfileRoutes = require('./routes/Updateprofile');
 const Video = require('./models/Video');
 const Project = require('./models/projectModel'); 
 const path = require('path');
+const cloudinary = require('cloudinary').v2;
 
 
 const app = express();
@@ -90,15 +91,19 @@ app.post('/upload', upload.single('video'), async (req, res) => {
             return res.status(400).json({ error: 'Domain is required' });
         }
 
+           // Upload to Cloudinary
+           const result = await cloudinary.uploader.upload(req.file.path, { resource_type: 'video' });
+
         const newVideo = new Video({
             title,
             description,
-            videoUrl: req.file.path, // Cloudinary URL
+            videoUrl: result.secure_url, // Cloudinary URL
             userName,
             domain,
         });
 
         await newVideo.save();
+
         res.status(201).json({
             message: 'Video uploaded successfully!',
             videoUrl: req.file.path, // Cloudinary URL

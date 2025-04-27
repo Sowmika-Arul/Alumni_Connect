@@ -329,7 +329,7 @@ console.log('Success stories updated:', updatedData.successStories);
                             </div>
                             {story.imageUrl && (
                             <div className="image-content">
-                                <img src={`https://res.cloudinary.com/your-cloud-name/image/upload/${story.imageUrl}`} alt="Success Story" />
+                                <img src={`https://res.cloudinary.com/dvpdotfev/image/upload/${story.imageUrl}`} alt="Success Story" />
                             </div>
                             )}
                         </div>
@@ -376,7 +376,7 @@ console.log('Success stories updated:', updatedData.successStories);
                                 </div>
                         {achievement.imageUrl && (
                             <div className="image-content">
-                                <img src={`https://res.cloudinary.com/your-cloud-name/image/upload/${achievement.imageUrl}`} alt="Achievement" />
+                                <img src={`https://res.cloudinary.com/dvpdotfev/image/upload/${achievement.imageUrl}`} alt="Achievement" />
                             </div>
                             )}
                         </div>

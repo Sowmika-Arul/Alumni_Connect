@@ -327,7 +327,7 @@ console.log('Success stories updated:', updatedData.successStories);
                             </div>
                             {story.imageUrl && (
                                 <div className="image-content">
-                                    <img src={`https://alumni-connect-5ad6.onrender.com/${story.imageUrl}`} alt="Success Story" />
+                                    <img src={`https://alumni-connect-5ad6.onrender.com/${story.imageUrl.replace(/^uploads\//, '')}`} alt="Success Story" />
                                 </div>
                             )}
                         </div>
@@ -368,7 +368,8 @@ console.log('Success stories updated:', updatedData.successStories);
                             </div>
                             {achievement.imageUrl && (
                                 <div className="image-content">
-                                    <img src={`https://alumni-connect-5ad6.onrender.com/${achievement.imageUrl}`} alt="Achievement" />
+                                    <img src={`https://alumni-connect-5ad6.onrender.com/${achievement.imageUrl.replace(/^uploads\//, '')}`} alt="Success Story" />
+                                    {/* <img src={`https://alumni-connect-5ad6.onrender.com/${achievement.imageUrl}`} alt="Achievement" /> */}
                                 </div>
                             )}
                         </div>

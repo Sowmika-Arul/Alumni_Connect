@@ -1,4 +1,3 @@
-// src/controllers/achievementController.js
 const achievementService = require('../services/achievementService');
 
 const addAchievement = async (req, res) => {
@@ -8,17 +7,17 @@ const addAchievement = async (req, res) => {
 
     // Validate required fields
     if (!title || !description) {
-        return res.status(400).send('Title and description are required.');
+        return res.status(400).json({ error: 'Title and description are required.' });
     }
 
     try {
         // Call the service to add achievement with Cloudinary image URL
         const newAchievement = await achievementService.addAchievement(rollNo, title, description, date, imageFile);
         // Respond with the newly created achievement
-        res.status(201).json({ achievements: [newAchievement] });
+        res.status(201).json({ achievement: newAchievement });
     } catch (error) {
         console.error('Error saving achievement:', error);
-        res.status(500).send('Server error while saving achievement.');
+        res.status(500).json({ error: 'Server error while saving achievement.' });
     }
 };
 

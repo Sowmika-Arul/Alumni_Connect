@@ -13,9 +13,12 @@ cloudinary.config({
 // Cloudinary Storage for Multer
 const storage = new CloudinaryStorage({
     cloudinary,
-    params: {
-        folder: 'uploads', // ✅ Change if needed
-        allowed_formats: ['jpg', 'jpeg', 'png', 'mp4', 'avi'],
+    params: async (req, file) => {
+        return {
+            folder: 'uploads', // ✅ Change folder name if needed
+            format: file.mimetype.split('/')[1], // Auto-detect file format
+            resource_type: file.mimetype.startsWith('video') ? 'video' : 'image', // ✅ Ensure videos are treated as videos
+        };
     },
 });
 

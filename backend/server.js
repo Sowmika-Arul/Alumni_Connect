@@ -79,46 +79,62 @@ app.use('/api', updateProfileRoutes);
 
 const { upload } = require('./cloudinaryConfig');
 
+// Upload Endpoint
 app.post('/upload', upload.single('video'), async (req, res) => {
     console.log('Received file:', req.file);
     console.log('Received body:', req.body);
-    
+  
     if (!req.file) {
-        return res.status(400).json({ error: 'No video file uploaded' });
+      return res.status(400).json({ error: 'No video file uploaded' });
     }
-
+  
     try {
-        const { title, description, userName, domain } = req.body;
-
-        if (!domain) {
-            return res.status(400).json({ error: 'Domain is required' });
-        }
-
-            // Upload to Cloudinary
-        const result = await cloudinary.uploader.upload(req.file.path, { 
-            resource_type: 'video' 
-        });
-
-        const newVideo = new Video({
-            title,
-            description,
-            videoUrl: result.secure_url, // Cloudinary URL
-            userName,
-            domain,
-        });
-
-        await newVideo.save();
-
-        res.status(201).json({
-            message: 'Video uploaded successfully!',
-            videoUrl: req.file.path, // Cloudinary URL
-        });
+      const { title, description, userName, domain } = req.body;
+  
+      if (!domain) {
+        return res.status(400).json({ error: 'Domain is required' });
+      }
+  
+      // Upload to Cloudinary
+      const filePath = path.resolve(req.file.path);
+  
+      const result = await cloudinary.uploader.upload(filePath, {
+        resource_type: 'video',
+      });
+  
+      // Clean up local file after upload
+      fs.unlinkSync(filePath);
+  
+      // Save to MongoDB
+      const newVideo = new Video({
+        title,
+        description,
+        videoUrl: result.secure_url, // Cloudinary secure URL
+        userName,
+        domain,
+      });
+  
+      await newVideo.save();
+  
+      // Send response
+      res.status(201).json({
+        message: 'Video uploaded successfully!',
+        videoUrl: result.secure_url,
+      });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Failed to upload video' });
+      console.error('Error uploading video:', error);
+  
+      // Attempt to delete temp file if error happens
+      if (req.file && req.file.path) {
+        fs.unlink(req.file.path, (err) => {
+          if (err) console.error('Error deleting temp file:', err);
+        });
+      }
+  
+      res.status(500).json({ error: 'Failed to upload video' });
     }
-});
-
+  });
+  
 // Handle /login POST request
 app.post('/login', async (req, res) => {
     try {

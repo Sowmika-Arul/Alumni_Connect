@@ -65,7 +65,6 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
     cloudinary,
     params: async (req, file) => ({
-        folder: 'uploads',
         resource_type: file.mimetype.startsWith('video') ? 'video' : 'image',
         format: file.mimetype.split('/')[1],
     }),

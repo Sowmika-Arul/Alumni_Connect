@@ -1,10 +1,17 @@
+// Load environment variables
 require('dotenv').config();
+
+// Core imports
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('cloudinary').v2;
 const paypal = require('paypal-rest-sdk');
 const bodyParser = require('body-parser');
+
+// Models and Routes
 const userRoutes = require('./routes/userRoutes');
 const successStoryRoutes = require('./routes/successStoryRoutes');
 const alumniRoutes = require('./routes/alumniRoutes');
@@ -17,54 +24,55 @@ const socialLinksRoutes = require('./routes/socialLinksRoutes');
 const detailsRoutes = require('./routes/detailsRoutes');
 const updateProfileRoutes = require('./routes/Updateprofile');
 const Video = require('./models/Video');
-const Project = require('./models/projectModel'); 
-const path = require('path');
-const cloudinary = require('cloudinary').v2;
+const Project = require('./models/projectModel');
 
-
+// Initialize app
 const app = express();
 const PORT = process.env.PORT || 5050;
 
+// Middleware
 app.use(express.json());
+app.use(bodyParser.json());
 
-// Allow requests from the frontend origin
+// CORS configuration
 const corsOptions = {
-    origin: ['https://alumni-connect-1-deda.onrender.com', 'http://localhost:3000'], 
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+    origin: ['https://alumni-connect-1-deda.onrender.com', 'http://localhost:3000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
 };
-
 app.use(cors(corsOptions));
 
-// Middleware
-app.use(bodyParser.json());
-// app.use('/uploads', express.static('uploads')); 
+// MongoDB Connection
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('✅ Connected to MongoDB'))
+    .catch((err) => console.error('❌ MongoDB connection error:', err.message));
 
-
-const dbURI = process.env.MONGODB_URI;
-
-// PayPal configuration
+// PayPal Configuration
 paypal.configure({
     mode: 'sandbox',
     client_id: process.env.PAYPAL_CLIENT_ID,
     client_secret: process.env.PAYPAL_CLIENT_SECRET,
-    log: {
-        level: 'info',
-        filePath: 'paypal.log',
-        maxSize: 10 * 1024 * 1024, // 10 MB
-        maxFiles: 5
-    }
 });
 
-donationRoutes.get('/success', (req, res) => {
-    // Handle the request here
-    res.send('Success page loaded');
+// Cloudinary Configuration
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('Connected to MongoDB successfully.'))
-    .catch((err) => console.error('Error connecting to MongoDB:', err.message));
+// Multer Storage directly to Cloudinary
+const storage = new CloudinaryStorage({
+    cloudinary,
+    params: async (req, file) => ({
+        folder: 'uploads',
+        resource_type: file.mimetype.startsWith('video') ? 'video' : 'image',
+        format: file.mimetype.split('/')[1],
+    }),
+});
+const upload = multer({ storage });
 
+// Mount API routes
 app.use('/api', userRoutes);
 app.use('/api', alumniRoutes);
 app.use('/api', profileRoutes);
@@ -77,120 +85,51 @@ app.use('/api', socialLinksRoutes);
 app.use('/api', detailsRoutes);
 app.use('/api', updateProfileRoutes);
 
-const { upload } = require('./cloudinaryConfig');
-
-// Upload Endpoint
+// ==========================
+// Upload Video Endpoint
+// ==========================
 app.post('/upload', upload.single('video'), async (req, res) => {
-    console.log('Received file:', req.file);
-    console.log('Received body:', req.body);
-  
-    if (!req.file) {
-      return res.status(400).json({ error: 'No video file uploaded' });
-    }
-  
     try {
-      const { title, description, userName, domain } = req.body;
-  
-      if (!domain) {
-        return res.status(400).json({ error: 'Domain is required' });
-      }
-  
-      // Upload to Cloudinary
-      const filePath = path.resolve(req.file.path);
-  
-      const result = await cloudinary.uploader.upload(filePath, {
-        resource_type: 'video',
-      });
-  
-      // Clean up local file after upload
-      fs.unlinkSync(filePath);
-  
-      // Save to MongoDB
-      const newVideo = new Video({
-        title,
-        description,
-        videoUrl: result.secure_url, // Cloudinary secure URL
-        userName,
-        domain,
-      });
-  
-      await newVideo.save();
-  
-      // Send response
-      res.status(201).json({
-        message: 'Video uploaded successfully!',
-        videoUrl: result.secure_url,
-      });
-    } catch (error) {
-      console.error('Error uploading video:', error);
-  
-      // Attempt to delete temp file if error happens
-      if (req.file && req.file.path) {
-        fs.unlink(req.file.path, (err) => {
-          if (err) console.error('Error deleting temp file:', err);
+        console.log('📦 Received File:', req.file);
+        console.log('📝 Received Body:', req.body);
+
+        if (!req.file) return res.status(400).json({ error: 'No video file uploaded' });
+
+        const { title, description, userName, domain } = req.body;
+        if (!domain) return res.status(400).json({ error: 'Domain is required' });
+
+        const newVideo = new Video({
+            title,
+            description,
+            videoUrl: req.file.path, // 🚀 Direct Cloudinary URL
+            userName,
+            domain,
         });
-      }
-  
-      res.status(500).json({ error: 'Failed to upload video' });
-    }
-  });
-  
-// Handle /login POST request
-app.post('/login', async (req, res) => {
-    try {
-        const { rollNo, password } = req.body;
-        console.log(req.body);
-        if (!rollNo || !password) {
-            return res.status(400).json({ message: 'Roll number and password are required' });
-        }
 
-        // Call the loginUser function
-        const result = await loginUser(rollNo, password);
+        await newVideo.save();
 
-        // Send success response
-        res.status(200).json(result);
-    } catch (err) {
-        console.error('Login error:', err.message);
-        if (err.message === 'Invalid roll number or password') {
-            res.status(401).json({ message: err.message });
-        } else {
-            res.status(500).json({ message: 'Internal Server Error', error: err.message });
-        }
-    }
-});
-
-// Video List Route
-app.get('/videos', async (req, res) => {
-    try {
-        const { domain } = req.query; // Get the domain from the query params
-
-        let filter = {};
-        if (domain) {
-            filter.domain = domain; // Filter videos by domain if provided
-        }
-
-        const videos = await Video.find(filter); // Fetch filtered videos from the database
-        res.json(videos);
+        res.status(201).json({ message: 'Video uploaded successfully!', videoUrl: req.file.path });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch videos' });
+        console.error('❌ Error uploading video:', error);
+        res.status(500).json({ error: 'Failed to upload video' });
     }
 });
 
-
+// ==========================
+// Upload Project Endpoint
+// ==========================
 app.post('/api/upload_project', upload.single('image'), async (req, res) => {
     try {
-        console.log("Received Body:", req.body);
-        console.log("Uploaded File:", req.file);
+        console.log('📦 Received File:', req.file);
+        console.log('📝 Received Body:', req.body);
 
         const { projectName, domain, description, percentageCompleted, endUser, teamLeaderName, emailId, department } = req.body;
-        const imageUrl = req.file.path; // ✅ Now stores a Cloudinary URL
-        // Cloudinary URL
-        console.log(imageUrl);
+
         const newProject = new Project({
             projectName,
             domain,
             description,
-            imageUrl, // Save Cloudinary URL
+            imageUrl: req.file.path, // 🚀 Direct Cloudinary URL
             percentageCompleted,
             endUser,
             teamLeaderName,
@@ -199,34 +138,64 @@ app.post('/api/upload_project', upload.single('image'), async (req, res) => {
         });
 
         await newProject.save();
-        res.status(200).json({ message: 'Project uploaded successfully!', imageUrl });
-    } catch (err) {
-        res.status(500).json({ message: 'Failed to upload project', error: err });
+
+        res.status(201).json({ message: 'Project uploaded successfully!', imageUrl: req.file.path });
+    } catch (error) {
+        console.error('❌ Error uploading project:', error);
+        res.status(500).json({ error: 'Failed to upload project' });
     }
 });
 
+// ==========================
+// Fetch Videos
+// ==========================
+app.get('/videos', async (req, res) => {
+    try {
+        const { domain } = req.query;
+        let filter = {};
+        if (domain) filter.domain = domain;
 
-// Get all projects
+        const videos = await Video.find(filter);
+        res.status(200).json(videos);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch videos' });
+    }
+});
+
+// ==========================
+// Fetch Projects
+// ==========================
 app.get('/api/projects', async (req, res) => {
     try {
-        const projects = await Project.find(); // Fetch all projects from the database
+        const projects = await Project.find();
         res.status(200).json({ projects });
-    } catch (err) {
+    } catch (error) {
         res.status(500).json({ error: 'Failed to fetch projects' });
     }
 });
 
-// Endpoint to fetch unique domains
+// ==========================
+// Fetch Unique Domains
+// ==========================
 app.get('/domains', async (req, res) => {
     try {
-        const domains = await Video.distinct('domain'); // Get distinct domains
-        res.json(domains);
+        const domains = await Video.distinct('domain');
+        res.status(200).json(domains);
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch domains' });
     }
 });
 
+// ==========================
+// Health Check Endpoint
+// ==========================
+app.get('/health', (req, res) => {
+    res.status(200).send('✅ Server is healthy 🚀');
+});
 
+// ==========================
+// Start Server
+// ==========================
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
 });

@@ -1,3 +1,4 @@
+// src/cloudinaryConfig.js
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
@@ -15,9 +16,9 @@ const storage = new CloudinaryStorage({
     cloudinary,
     params: async (req, file) => {
         return {
-            folder: 'uploads', // ✅ Change folder name if needed
-            format: file.mimetype.split('/')[1], // Auto-detect file format
-            resource_type: file.mimetype.startsWith('video') ? 'video' : 'image', // ✅ Ensure videos are treated as videos
+            folder: 'uploads', // Folder name in Cloudinary
+            format: file.mimetype.split('/')[1], // Auto-detect file format (e.g., 'jpeg', 'png')
+            resource_type: file.mimetype.startsWith('video') ? 'video' : 'image', // Handle videos as videos
         };
     },
 });

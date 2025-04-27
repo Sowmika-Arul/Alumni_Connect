@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Profile.css';
 import Navbar from './Navbar.jsx';
+import { Widget } from 'react-cloudinary-upload-widget';
+
 
 const Profile = () => {
     const [profile, setProfile] = useState(null);
@@ -31,7 +33,7 @@ const Profile = () => {
     batch: profile?.batch || ''
 });
   
-
+  
     useEffect(() => {
         const rollNo = localStorage.getItem('rollNo');
         if (!rollNo) {
@@ -326,9 +328,9 @@ console.log('Success stories updated:', updatedData.successStories);
                                 <p>{story.story}</p>
                             </div>
                             {story.imageUrl && (
-                                <div className="image-content">
-                                    <img src={`https://alumni-connect-5ad6.onrender.com/${story.imageUrl.replace(/^uploads\//, '')}`} alt="Success Story" />
-                                </div>
+                            <div className="image-content">
+                                <img src={`https://res.cloudinary.com/your-cloud-name/image/upload/${story.imageUrl}`} alt="Success Story" />
+                            </div>
                             )}
                         </div>
                     </div>
@@ -347,10 +349,16 @@ console.log('Success stories updated:', updatedData.successStories);
                 onChange={(e) => setNewSuccessStory(e.target.value)}
                 placeholder="Add a new success story"
             />
-            <input
-                type="file"
-                onChange={(e) => setNewImage(e.target.files[0])}
-            />
+            {/* Cloudinary widget */}
+        <Widget
+            cloudName="dvpdotfev"   // Add your Cloudinary cloud name here
+            uploadPreset="ml_default"  // Add your Cloudinary upload preset here
+            onSuccess={(result) => setNewImage(result.info.secure_url)}   // Get the image URL from the response
+            onFailure={(error) => console.error(error)}
+        >
+            {({ open }) => <button type="button" onClick={open}>Upload Image</button>}
+        </Widget>
+
             <button onClick={handleAddSuccessStory}>Add Success Story</button>
         </div>
     );
@@ -365,12 +373,11 @@ console.log('Success stories updated:', updatedData.successStories);
                             <div className="text-content">
                                 <h4>{achievement.title}</h4>
                                 <p>{achievement.description}</p>
-                            </div>
-                            {achievement.imageUrl && (
-                                <div className="image-content">
-                                    <img src={`https://alumni-connect-5ad6.onrender.com/${achievement.imageUrl.replace(/^uploads\//, '')}`} alt="Success Story" />
-                                    {/* <img src={`https://alumni-connect-5ad6.onrender.com/${achievement.imageUrl}`} alt="Achievement" /> */}
                                 </div>
+                        {achievement.imageUrl && (
+                            <div className="image-content">
+                                <img src={`https://res.cloudinary.com/your-cloud-name/image/upload/${achievement.imageUrl}`} alt="Achievement" />
+                            </div>
                             )}
                         </div>
                     </div>
@@ -389,13 +396,17 @@ console.log('Success stories updated:', updatedData.successStories);
                 onChange={(e) => setNewAchievement(e.target.value)}
                 placeholder="Add a new achievement description"
             />
-            <input
-            style = {
-                {width : "98%"}
-            }
-                type="file"
-                onChange={(e) => setNewImage(e.target.files[0])}
-            />
+            
+        {/* Cloudinary widget */}
+        <Widget
+            cloudName="dvpdotfev"   // Add your Cloudinary cloud name here
+            uploadPreset="ml_default"  // Add your Cloudinary upload preset here
+            onSuccess={(result) => setNewImage(result.info.secure_url)}   // Get the image URL from the response
+            onFailure={(error) => console.error(error)}
+        >
+            {({ open }) => <button type="button" onClick={open}>Upload Image</button>}
+        </Widget>
+        
             <button onClick={handleAddAchievement}>Add Achievement</button>
         </div>
     );    

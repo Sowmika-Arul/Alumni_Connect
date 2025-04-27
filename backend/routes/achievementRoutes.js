@@ -1,7 +1,7 @@
 // src/routes/achievementRoutes.js
 const express = require('express');
 const router = express.Router();
-const { upload } = require('../cloudinaryConfig'); // Middleware to handle file uploads
+const { upload } = require('../cloudinaryConfig'); // Middleware to handle file uploads via Cloudinary
 const achievementController = require('../controllers/achievementController');
 
 // Route to add an achievement with image upload

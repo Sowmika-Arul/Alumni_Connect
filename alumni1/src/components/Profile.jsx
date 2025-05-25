@@ -206,7 +206,10 @@ const Profile = () => {
             const formData = new FormData();
             formData.append('title', newTitle); // Include title
             formData.append('description', newAchievement); // Description
-            if (newImage) formData.append('image', newImage); // Include image if exists
+            if (newImage) {
+  const imagePath = newImage.split('/upload/')[1]; // Get path after 'upload/'
+  formData.append('image', imagePath);
+}
             formData.append('date', new Date().toISOString()); // Set the date to now
 
             const response = await fetch(`https://alumni-connect-5ad6.onrender.com/api/add_achievement/${rollNo}`, {
@@ -233,7 +236,11 @@ const Profile = () => {
             formData.append('story', newSuccessStory);
             formData.append('author', profile.name);
             formData.append('date', new Date().toISOString());
-            if (newImage) formData.append('image', newImage);
+          if (newImage) {
+  const imagePath = newImage.split('/upload/')[1]; // Get path after 'upload/'
+  formData.append('image', imagePath);
+}
+
 
             const response = await fetch(`https://alumni-connect-5ad6.onrender.com/api/add_success_story/${rollNo}`, {
                 method: 'POST',
@@ -366,7 +373,7 @@ console.log('Success stories updated:', updatedData.successStories);
     const renderAchievements = () => (
         <div>
             <h3>Achievements</h3>
-            {achievements.length > 0 ? (
+            {(achievements && achievements.length > 0) ? (
                 achievements.map((achievement, index) => (
                     <div className="card" key={index}>
                         <div className="card-content">

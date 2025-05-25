@@ -206,10 +206,7 @@ const Profile = () => {
             const formData = new FormData();
             formData.append('title', newTitle); // Include title
             formData.append('description', newAchievement); // Description
-            if (newImage) {
-  const imagePath = newImage.split('/upload/')[1]; // Get path after 'upload/'
-  formData.append('image', imagePath);
-}
+            formData.append('image', newImage); // Store full URL directly
             formData.append('date', new Date().toISOString()); // Set the date to now
 
             const response = await fetch(`https://alumni-connect-5ad6.onrender.com/api/add_achievement/${rollNo}`, {
@@ -236,10 +233,8 @@ const Profile = () => {
             formData.append('story', newSuccessStory);
             formData.append('author', profile.name);
             formData.append('date', new Date().toISOString());
-          if (newImage) {
-  const imagePath = newImage.split('/upload/')[1]; // Get path after 'upload/'
-  formData.append('image', imagePath);
-}
+            formData.append('image', newImage); // Store full URL directly
+
 
 
             const response = await fetch(`https://alumni-connect-5ad6.onrender.com/api/add_success_story/${rollNo}`, {
@@ -336,7 +331,7 @@ console.log('Success stories updated:', updatedData.successStories);
                             </div>
                             {story.imageUrl && (
                             <div className="image-content">
-                                <img src={`https://res.cloudinary.com/dvpdotfev/image/upload/${story.imageUrl}`} alt="Success Story" />
+                               <img src={story.imageUrl} alt="Success Story" />
                             </div>
                             )}
                         </div>
@@ -383,7 +378,7 @@ console.log('Success stories updated:', updatedData.successStories);
                                 </div>
                         {achievement.imageUrl && (
                             <div className="image-content">
-                                <img src={`https://res.cloudinary.com/dvpdotfev/image/upload/${achievement.imageUrl}`} alt="Achievement" />
+                                <img src={achievement.imageUrl} alt="Achievement" />
                             </div>
                             )}
                         </div>

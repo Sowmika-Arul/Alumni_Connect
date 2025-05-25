@@ -69,7 +69,7 @@ function AlumniDetails() {
                                 <div className="author-name">{achievement.author}</div>
                                 <div className="achievement-title"><strong>{achievement.title}</strong></div>
                                 <center><img
-        src={`https://alumni-connect-5ad6.onrender.com/${achievement.imageUrl}`}
+       src={achievement.imageUrl}
         alt={achievement.title}
         className="achievement-image"
     /></center>
@@ -94,7 +94,7 @@ function AlumniDetails() {
                                 <div className="author-name">{story.author}</div>
                                 {story.imageUrl && (
     <center><img
-        src={`https://alumni-connect-5ad6.onrender.com/${story.imageUrl}`}
+       src={story.imageUrl}
         alt={story.title}
         className="story-image"
     /></center>

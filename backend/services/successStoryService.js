@@ -8,7 +8,7 @@ const addSuccessStory = async (rollNo, title, story, author, imagePath) => {
         story,
         author,
         date: new Date(), // Use current date
-        imageUrl: imagePath ? `uploads/${imagePath}` : null, // Save the image path if uploaded
+       imageUrl: imagePath || null, // Just store the full URL
     });
 
     // Save the success story to the database

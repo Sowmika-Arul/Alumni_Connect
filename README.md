@@ -13,3 +13,10 @@
 - **Job Portal**: Integrated job search and posting features accessible via web and mobile apps, enabling alumni to explore career opportunities, post job openings, and connect with potential employers within the alumni network. 
 
 
+**To check out the website - User Login**
+ROLLNO : 22CSR203
+PASSWORD : sowmi@cse
+
+**Admin Login**
+ROLLNO : 22CSR200
+PASSWORD : siva@admin
